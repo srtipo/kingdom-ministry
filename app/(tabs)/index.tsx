@@ -1,26 +1,12 @@
-import { StyleSheet } from "react-native";
-
-import { Link } from "expo-router";
+import VisitOrganizerScene from "@/modules/visit/scenes/visit-organizer.scene";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
-  return <Link href="/explore"></Link>;
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <VisitOrganizerScene />
+      </SafeAreaView>
+    </SafeAreaProvider>
+  );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
-});
