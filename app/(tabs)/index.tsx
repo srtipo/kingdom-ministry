@@ -1,12 +1,13 @@
+import { SafeArea } from "@/librerys/safe-area";
+import SafeAreaProvider from "@/librerys/safe-area-provider";
 import VisitOrganizerScene from "@/modules/visit/scenes/visit-organizer.scene";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeArea>
         <VisitOrganizerScene />
-      </SafeAreaView>
+      </SafeArea>
     </SafeAreaProvider>
   );
 }
