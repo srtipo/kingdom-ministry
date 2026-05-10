@@ -1,4 +1,4 @@
-import { generateUUID } from "@/libraries/cripto";
+import { generateUUID } from "@/libraries/crypto";
 import { SQLiteDatabase } from "expo-sqlite";
 import {
   ICreateVisit,
