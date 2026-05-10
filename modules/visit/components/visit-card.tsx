@@ -17,18 +17,18 @@ const visitTypeTranslation = {
 };
 
 export interface VisitCardProps {
-  id: number;
+  id: string;
   name: string;
-  adress: string;
-  phone?: string;
-  nextVisit?: string;
-  lastVisit?: string;
-  description?: string;
+  address: string;
+  phone?: string | null;
+  nextVisit?: string | null;
+  lastVisit?: string | null;
+  description?: string | null;
   type: VisitTypeEnum;
 }
 
 export default function VisitCard({ visit }: { visit: VisitCardProps }) {
-  const { name, adress, phone, lastVisit, type } = visit;
+  const { name, address, phone, lastVisit, type } = visit;
   const getColor = () => {
     switch (type) {
       case VisitTypeEnum.visit:
@@ -69,7 +69,7 @@ export default function VisitCard({ visit }: { visit: VisitCardProps }) {
       <View style={{ display: "flex", gap: 5, paddingBlock: 10 }}>
         <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
           <Icon type={"map-marker-outline"} size={20} />
-          <Text>{adress}</Text>
+          <Text>{address}</Text>
         </View>
         <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
           <Icon type={"phone-outline"} size={20} />
