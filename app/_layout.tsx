@@ -26,7 +26,7 @@ export default function RootLayout() {
     <Suspense fallback={<Text>Cargando Base de Datos...</Text>}>
       <QueryClientProvider client={queryClient}>
         <SQLiteProvider
-          databaseName="ministery.db"
+          databaseName={process.env.EXPO_PUBLIC_DB_NAME}
           onInit={migrateDbIfNeeded}
           useSuspense
         >

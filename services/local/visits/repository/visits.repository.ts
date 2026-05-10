@@ -1,4 +1,4 @@
-import * as Crypto from "expo-crypto";
+import { generateUUID } from "@/libraries/cripto";
 import { SQLiteDatabase } from "expo-sqlite";
 import {
   ICreateVisit,
@@ -17,7 +17,7 @@ export class VisitsRepository implements IVisitsRepository {
   }
 
   async create(visit: ICreateVisit) {
-    const uuid = Crypto.randomUUID();
+    const uuid = generateUUID();
     await this.db.runAsync(
       "INSERT INTO visits (id, name, address, phone, next_visit, last_visit, type) VALUES (?, ?, ?, ?, ?, ?, ?)",
       [
