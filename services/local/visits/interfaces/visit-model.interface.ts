@@ -1,23 +1,28 @@
-import { VisitTypeEnum } from "@/modules/visit/components/visit-card";
-
+enum VisitTypeEnum {
+  visit = "visit",
+  course = "course",
+}
 export interface IVisitModel {
   id: string;
   name: string;
   address: string;
   phone: string | null;
-  nextVisit: string | null;
+  nextVisit: string;
   lastVisit: string | null;
   type: VisitTypeEnum;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ICreateVisit {
-  id: string;
   name: string;
   address: string;
   phone: string | undefined;
-  nextVisit: string | undefined;
+  nextVisit: string;
   lastVisit: string | undefined;
   type: VisitTypeEnum;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface IVisitsRepository {

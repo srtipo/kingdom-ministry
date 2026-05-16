@@ -1,8 +1,8 @@
-import { Button } from "@/ui/buttons/ui-button";
 import { SearchBar } from "@/ui/search-bar/search-bar";
 import { HeadLine } from "@/ui/texts/head-line";
 import { Text } from "@/ui/texts/text";
 import { View } from "react-native";
+import CreateVisitModal from "../components/create-visit.modal";
 import VisitList from "../components/visit-list";
 import { useGetVisits } from "../hooks/use-get-visits";
 
@@ -16,9 +16,7 @@ export default function VisitOrganizerScene() {
       </HeadLine>
       <Text>Gestiona tus revisitas de forma sencilla</Text>
       <View style={{ marginTop: 10 }}>
-        <Button type={"contained"} icon={"plus"}>
-          Nueva Revisita/Curso
-        </Button>
+        <CreateVisitModal />
       </View>
       <View style={{ marginTop: 10 }}>
         <SearchBar placeholder={"Buscar por nombre o direccion"} />

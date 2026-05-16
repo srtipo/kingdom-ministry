@@ -5,11 +5,7 @@ import { Divider } from "@/ui/dividers/divider";
 import { Icon } from "@/ui/icons/icon";
 import { Text } from "@/ui/texts/text";
 import { View } from "react-native";
-
-export enum VisitTypeEnum {
-  visit = "visit",
-  course = "course",
-}
+import { VisitTypeEnum } from "../type/visit-type.enum";
 
 const visitTypeTranslation = {
   [VisitTypeEnum.visit]: "Revisita",
