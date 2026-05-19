@@ -1,13 +1,14 @@
 import useZodValidator from "@/hooks/use-zod-validator";
 import { SegmentedButton } from "@/ui/buttons/segmented-button";
 import { Button } from "@/ui/buttons/ui-button";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { PHONE_REGEX } from "@/constants/phoneRegex";
 import { z } from "@/libraries/zod";
 import { Icon } from "@/ui/icons/icon";
 import DatePicker from "@/ui/input/date-picker";
 import TextInput from "@/ui/input/text-input";
+import { SnackBarContext } from "@/ui/snackbars/snackbar";
 import { Surface, useTheme } from "react-native-paper";
 import useCreateVisit, { ICreateVisit } from "../hooks/use-create-visit";
 import { VisitTypeEnum } from "../type/visit-type.enum";
@@ -36,12 +37,17 @@ export default function CreateVisitForm({
 }: {
   onSuccess?: () => void;
 }) {
+  const { showSnackbar } = useContext(SnackBarContext);
   const { createVisit } = useCreateVisit({
     onSuccess: () => {
+      showSnackbar.success(
+        `${form.type === VisitTypeEnum.visit ? "Revisita creada" : "Curso creado"} correctamente`,
+      );
       onSuccess?.();
     },
   });
   const theme = useTheme();
+
   const [form, setForm] = useState({
     name: null,
     type: VisitTypeEnum.visit,
