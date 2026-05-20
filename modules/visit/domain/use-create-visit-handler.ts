@@ -2,7 +2,7 @@ import { CreateVisitsHandler } from "@/services/local/visits/handlers/create-vis
 import { useMemo } from "react";
 import { useVisitRepository } from "./use-visit-repository";
 
-export function useCreateVisits() {
+export function useCreateVisitHandler() {
   const repository = useVisitRepository();
   return useMemo(() => new CreateVisitsHandler(repository), [repository]);
 }

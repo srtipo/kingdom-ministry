@@ -13,6 +13,7 @@ import { Text } from "@/ui/texts/text";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SQLiteProvider } from "expo-sqlite";
 import { Suspense } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PaperProvider } from "react-native-paper";
 
 export const unstable_settings = {
@@ -23,27 +24,34 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const queryClient = new QueryClient();
   return (
-    <Suspense fallback={<Text>Cargando Base de Datos...</Text>}>
-      <QueryClientProvider client={queryClient}>
-        <SQLiteProvider
-          databaseName={process.env.EXPO_PUBLIC_DB_NAME}
-          onInit={migrateDbIfNeeded}
-          useSuspense
-        >
-          <PaperProvider
-            theme={colorScheme === "dark" ? customDarkTheme : customLightTheme}
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Suspense fallback={<Text>Cargando Base de Datos...</Text>}>
+        <QueryClientProvider client={queryClient}>
+          <SQLiteProvider
+            databaseName={process.env.EXPO_PUBLIC_DB_NAME}
+            onInit={migrateDbIfNeeded}
+            useSuspense
           >
-            <ThemeProvider
-              value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+            <PaperProvider
+              theme={
+                colorScheme === "dark" ? customDarkTheme : customLightTheme
+              }
             >
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              </Stack>
-              <StatusBar style="auto" />
-            </ThemeProvider>
-          </PaperProvider>
-        </SQLiteProvider>
-      </QueryClientProvider>
-    </Suspense>
+              <ThemeProvider
+                value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+              >
+                <Stack>
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                </Stack>
+                <StatusBar style="auto" />
+              </ThemeProvider>
+            </PaperProvider>
+          </SQLiteProvider>
+        </QueryClientProvider>
+      </Suspense>
+    </GestureHandlerRootView>
   );
 }

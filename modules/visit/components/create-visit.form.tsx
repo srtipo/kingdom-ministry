@@ -1,0 +1,135 @@
+import useZodValidator from "@/hooks/use-zod-validator";
+import { SegmentedButton } from "@/ui/buttons/segmented-button";
+import { Button } from "@/ui/buttons/ui-button";
+import { useContext, useState } from "react";
+
+import { PHONE_REGEX } from "@/constants/phoneRegex";
+import { z } from "@/libraries/zod";
+import { Icon } from "@/ui/icons/icon";
+import DatePicker from "@/ui/input/date-picker";
+import TextInput from "@/ui/input/text-input";
+import { SnackBarContext } from "@/ui/snackbars/snackbar";
+import { Surface, useTheme } from "react-native-paper";
+import useCreateVisit, { ICreateVisit } from "../hooks/use-create-visit";
+import { VisitTypeEnum } from "../type/visit-type.enum";
+
+const userSchema = z.object({
+  name: z
+    .string()
+    .max(50, "Máximo 50 caracteres")
+    .min(1, "El nombre es obligatorio"),
+  address: z
+    .string()
+    .max(100, "Máximo 100 caracteres")
+    .min(1, "La dirección es obligatoria"),
+  phone: z
+    .string()
+    .regex(PHONE_REGEX, "El formato del número de teléfono es incorrecto")
+    .nullable()
+    .optional(),
+  notes: z.string().optional().nullable(),
+  type: z.enum([VisitTypeEnum.visit, VisitTypeEnum.course]),
+  nextVisit: z.string().min(1, "Indica la fecha de la próxima visita"),
+});
+
+export default function CreateVisitForm({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+}) {
+  const { showSnackbar } = useContext(SnackBarContext);
+  const { createVisit } = useCreateVisit({
+    onSuccess: () => {
+      showSnackbar.success(
+        `${form.type === VisitTypeEnum.visit ? "Revisita creada" : "Curso creado"} correctamente`,
+      );
+      onSuccess?.();
+    },
+  });
+  const theme = useTheme();
+
+  const [form, setForm] = useState({
+    name: null,
+    type: VisitTypeEnum.visit,
+    address: null,
+    phone: null,
+    nextVisit: null,
+    notes: null,
+  });
+  const { validate, errors, validateField } = useZodValidator(userSchema);
+  const handleSave = () => {
+    const result = validate(form);
+    const lastVisit = new Date().toISOString();
+    if (result.success && result.data) {
+      createVisit({ ...result.data, lastVisit } as ICreateVisit);
+    }
+  };
+
+  const handleChangeText = (path: string, value: unknown) => {
+    setForm({ ...form, [path]: value });
+    validateField(path, value);
+  };
+  return (
+    <Surface style={{ padding: 16, borderRadius: 8, elevation: 2 }}>
+      <SegmentedButton
+        buttons={[
+          {
+            value: VisitTypeEnum.visit,
+            label: "Revisita",
+            icon: () => <Icon type="book-open" size={25} />,
+            style: { borderTopLeftRadius: 10, borderBottomLeftRadius: 10 },
+            uncheckedColor: theme.colors.onSurfaceVariant,
+          },
+          {
+            value: VisitTypeEnum.course,
+            label: "Curso",
+            icon: () => <Icon type="home-map-marker" size={25} />,
+            style: { borderTopRightRadius: 10, borderBottomRightRadius: 10 },
+            uncheckedColor: theme.colors.onSurfaceVariant,
+          },
+        ]}
+        value={form.type}
+        onValueChange={(v: string) => handleChangeText("type", v)}
+        style={{ marginBottom: 12 }}
+      />
+      <TextInput
+        label="Nombre"
+        onChangeText={(name) => handleChangeText("name", name)}
+        error={errors?.name?.at(0)}
+        leftIconProps={{ icon: "account-circle" }}
+        borderRadius={10}
+        keyboardType="name-phone-pad"
+      />
+      <TextInput
+        label="Dirección"
+        onChangeText={(address) => handleChangeText("address", address)}
+        error={errors?.address?.at(0)}
+        leftIconProps={{ icon: "map-marker" }}
+      />
+      <TextInput
+        label="Teléfono"
+        onChangeText={(phone) => handleChangeText("phone", phone)}
+        error={errors?.phone?.at(0)}
+        keyboardType="phone-pad"
+        leftIconProps={{ icon: "phone" }}
+      />
+      <DatePicker
+        label="Próxima visita"
+        value={form.nextVisit}
+        error={errors?.nextVisit?.at(0)}
+        onChange={(val) => handleChangeText("nextVisit", val)}
+      />
+      <TextInput
+        label="Notas"
+        onChangeText={(notes) => handleChangeText("notes", notes)}
+        error={errors?.notes?.at(0)}
+        multiline
+        leftIconProps={{ icon: "note" }}
+      />
+
+      <Button mode="contained" onPress={handleSave} style={{ marginTop: 10 }}>
+        Crear
+      </Button>
+    </Surface>
+  );
+}
