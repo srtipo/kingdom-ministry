@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import { Modal as M, StyleSheet, View } from "react-native";
+import { useEffect, useState } from "react";
+import { LayoutChangeEvent, Modal as M, StyleSheet, View } from "react-native";
 import {
   Gesture,
   GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import { useTheme } from "react-native-paper";
+import { Surface, useTheme } from "react-native-paper";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -27,7 +27,12 @@ export function Modal({
   title?: string;
 }) {
   const theme = useTheme();
+  const [totalHeight, setTotalHeight] = useState(0);
   const translateY = useSharedValue(0);
+  const getTotalHeight = (event: LayoutChangeEvent) => {
+    const { height } = event.nativeEvent.layout;
+    setTotalHeight(height);
+  };
   const panGesture = Gesture.Pan()
     .onUpdate((event) => {
       if (event.translationY > 0) {
@@ -35,7 +40,7 @@ export function Modal({
       }
     })
     .onEnd((event) => {
-      if (event.translationY > 100) {
+      if (event.translationY > totalHeight / 3) {
         runOnJS(onClose)();
       } else {
         translateY.value = withSpring(0);
@@ -59,44 +64,45 @@ export function Modal({
         <GestureHandlerRootView style={{ flex: 1 }}>
           <GestureDetector gesture={panGesture}>
             <Animated.View style={[styles.modalContent, animatedStyle]}>
-              <View
-                style={[
-                  styles.titleContainer,
-                  { backgroundColor: theme.colors.secondaryContainer },
-                ]}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    height: 15,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Divider
-                    height={3}
-                    borderRadius={10}
-                    width={40}
-                    backgroundColor={theme.colors.onSecondaryContainer}
-                  />
-                </View>
-                <View>
-                  <Text
-                    color={theme.colors.onSecondaryContainer}
-                    fontWeight={900}
-                  >
-                    {title}
-                  </Text>
-                </View>
-              </View>
-              <View
+              <Surface
                 style={{
-                  backgroundColor: theme.colors.surface,
-                  height: "100%",
+                  paddingInline: 12,
+                  paddingBottom: 12,
+                  borderRadius: 8,
+                  elevation: 2,
                 }}
+                onLayout={getTotalHeight}
               >
-                {children}
-              </View>
+                <View style={styles.titleContainer}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      height: 15,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      paddingBlock: 12,
+                    }}
+                  >
+                    <Divider
+                      height={3}
+                      borderRadius={10}
+                      width={40}
+                      backgroundColor={theme.colors.onSecondaryContainer}
+                    />
+                  </View>
+                  {title && (
+                    <View style={{ paddingBottom: 5 }}>
+                      <Text
+                        color={theme.colors.onSecondaryContainer}
+                        fontWeight={900}
+                      >
+                        {title}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+                <View>{children}</View>
+              </Surface>
             </Animated.View>
           </GestureDetector>
         </GestureHandlerRootView>
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   titleContainer: {
-    height: 40,
+    flex: 1,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     paddingHorizontal: 20,

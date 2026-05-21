@@ -9,7 +9,7 @@ import { Icon } from "@/ui/icons/icon";
 import DatePicker from "@/ui/input/date-picker";
 import TextInput from "@/ui/input/text-input";
 import { SnackBarContext } from "@/ui/snackbars/snackbar";
-import { Surface, useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 import useCreateVisit, { ICreateVisit } from "../hooks/use-create-visit";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 
@@ -70,7 +70,7 @@ export default function CreateVisitForm({
     validateField(path, value);
   };
   return (
-    <Surface style={{ padding: 16, borderRadius: 8, elevation: 2 }}>
+    <>
       <SegmentedButton
         buttons={[
           {
@@ -130,6 +130,6 @@ export default function CreateVisitForm({
       <Button mode="contained" onPress={handleSave} style={{ marginTop: 10 }}>
         Crear
       </Button>
-    </Surface>
+    </>
   );
 }
