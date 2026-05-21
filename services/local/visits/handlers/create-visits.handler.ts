@@ -9,7 +9,9 @@ export class CreateVisitsHandler {
     this.repository = db;
   }
 
-  async execute(visit: ICreateVisit) {
-    return this.repository.create(visit);
+  async execute(visit: Omit<ICreateVisit, "created_at" | "updated_at">) {
+    const created_at = new Date().toISOString();
+    const updated_at = new Date().toISOString();
+    return this.repository.create({ ...visit, created_at, updated_at });
   }
 }
