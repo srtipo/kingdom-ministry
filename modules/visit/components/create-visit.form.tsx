@@ -42,12 +42,17 @@ export default function CreateVisitForm({
   onSuccess?: () => void;
 }) {
   const { showSnackbar } = useContext(SnackBarContext);
-  const { createVisit } = useCreateVisit({
+  const { createVisit, isPending } = useCreateVisit({
     onSuccess: () => {
       showSnackbar.success(
         `${form.type === VisitTypeEnum.visit ? "Revisita creada" : "Curso creado"} correctamente`,
       );
       onSuccess?.();
+    },
+    onError: () => {
+      showSnackbar.error(
+        `Error al crear ${form.type === VisitTypeEnum.visit ? "la Revisita" : "el Curso"}`,
+      );
     },
   });
   const theme = useTheme();
@@ -138,7 +143,12 @@ export default function CreateVisitForm({
         leftIconProps={{ icon: "note" }}
       />
 
-      <Button mode="contained" onPress={handleSave} style={{ marginTop: 10 }}>
+      <Button
+        mode="contained"
+        onPress={handleSave}
+        style={{ marginTop: 10 }}
+        isloanding={isPending}
+      >
         Crear
       </Button>
     </>

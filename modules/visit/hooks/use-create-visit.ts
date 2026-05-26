@@ -5,8 +5,10 @@ import { IVisit } from "../type/visit.interface";
 export type ICreateVisit = Omit<IVisit, "id">;
 export default function useCreateVisit({
   onSuccess,
+  onError,
 }: {
   onSuccess?: () => void;
+  onError?: () => void;
 }) {
   const queryClient = useQueryClient();
   const createVisitHandler = useCreateVisitHandler();
@@ -22,8 +24,9 @@ export default function useCreateVisit({
       queryClient.invalidateQueries({ queryKey: ["visits"] });
       onSuccess?.();
     },
-    onError: (error) => {
-      console.log("error", error);
+    onError: () => {
+      onError?.();
+      console.log("Error al crear visita");
     },
   });
   return { createVisit, ...rest };
