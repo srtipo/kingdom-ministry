@@ -32,7 +32,7 @@ const userSchema = z.object({
   notes: z.string().optional().nullable(),
   type: z.enum([VisitTypeEnum.visit, VisitTypeEnum.course]),
   nextVisit: z
-    .string("Indica la fecha de la próxima visita")
+    .date("Indica la fecha de la próxima visita")
     .min(1, "Indica la fecha de la próxima visita"),
 });
 
