@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useMemo, useState } from "react";
 import { Text, View } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { Icon } from "../icons/icon";
@@ -28,16 +28,17 @@ export function SnackBarProvider({ children }: { children: ReactNode }) {
     setMessage(message);
     setVisible(true);
   };
-  const showSnackbar = {
-    success,
-    error,
-  };
+  const showSnackbar = useMemo(() => ({ success, error }), []);
+
   return (
     <SnackBarContext.Provider value={{ showSnackbar }}>
+      {children}
       <Snackbar
         visible={visible}
         duration={3000}
         elevation={5}
+        onDismiss={() => setVisible(false)}
+        wrapperStyle={{ top: 50, zIndex: 1000 }}
         theme={{
           colors: {
             inverseOnSurface: "black",
@@ -47,13 +48,11 @@ export function SnackBarProvider({ children }: { children: ReactNode }) {
         style={{
           backgroundColor: color,
           borderRadius: 10,
-          zIndex: 100,
           borderColor: borderColor,
           borderWidth: 1,
           borderBottomWidth: 2,
           height: 52,
         }}
-        onDismiss={() => setVisible(false)}
       >
         <View
           style={{
@@ -64,7 +63,7 @@ export function SnackBarProvider({ children }: { children: ReactNode }) {
           <View
             style={{
               backgroundColor: borderColor,
-              borderRadius: "100%",
+              borderRadius: 20,
               padding: 2,
             }}
           >
@@ -73,7 +72,6 @@ export function SnackBarProvider({ children }: { children: ReactNode }) {
           <Text style={{ marginLeft: 10, color: "#333333" }}>{message}</Text>
         </View>
       </Snackbar>
-      {children}
     </SnackBarContext.Provider>
   );
 }
