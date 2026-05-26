@@ -26,7 +26,6 @@ export default function useCreateVisit({
     },
     onError: () => {
       onError?.();
-      console.log("Error al crear visita");
     },
   });
   return { createVisit, ...rest };
