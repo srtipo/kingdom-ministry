@@ -19,7 +19,7 @@ export default function VisitOrganizerScene() {
         <CreateVisitModal />
       </View>
       <View style={{ marginTop: 10 }}>
-        <SearchBar placeholder={"Buscar por nombre o direccion"} />
+        <SearchBar placeholder={"Buscar por nombre o dirección"} />
       </View>
 
       <View style={{ marginTop: 10, flex: 1 }}>

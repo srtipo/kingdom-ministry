@@ -24,7 +24,7 @@ export interface VisitCardProps {
 }
 
 export default function VisitCard({ visit }: { visit: VisitCardProps }) {
-  const { name, address, phone, lastVisit, type } = visit;
+  const { name, address, phone, lastVisit, nextVisit, type } = visit;
   const getColor = () => {
     switch (type) {
       case VisitTypeEnum.visit:
@@ -74,8 +74,8 @@ export default function VisitCard({ visit }: { visit: VisitCardProps }) {
         <Divider height={1} />
 
         <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
-          <Text fontWeight={"bold"}>{"Fecha de proximo visita: "}</Text>
-          <Text>{lastVisit}</Text>
+          <Text fontWeight={"bold"}>{"Fecha de próxima visita: "}</Text>
+          <Text>{nextVisit}</Text>
         </View>
         <Divider height={1} />
       </View>
