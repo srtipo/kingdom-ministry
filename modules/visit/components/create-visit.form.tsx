@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { PHONE_REGEX } from "@/constants/phoneRegex";
 import { z } from "@/libraries/zod";
 import { Icon } from "@/ui/icons/icon";
-import DatePicker from "@/ui/input/date-picker";
+import NativeDateTime from "@/ui/input/date-hour-picker";
 import TextInput from "@/ui/input/text-input";
 import { SnackBarContext } from "@/ui/snackbars/snackbar";
 import { useTheme } from "react-native-paper";
@@ -15,13 +15,15 @@ import { VisitTypeEnum } from "../type/visit-type.enum";
 
 const userSchema = z.object({
   name: z
-    .string()
+    .string("Debe elegir un nombre")
     .max(50, "Máximo 50 caracteres")
-    .min(1, "El nombre es obligatorio"),
+    .trim()
+    .min(1, "EL nombre no pueder estar vacio"),
   address: z
-    .string()
+    .string("Debe elegir una dirección")
     .max(100, "Máximo 100 caracteres")
-    .min(1, "La dirección es obligatoria"),
+    .trim()
+    .min(1, "La dirección no puede estar vacía"),
   phone: z
     .string()
     .regex(PHONE_REGEX, "El formato del número de teléfono es incorrecto")
@@ -29,7 +31,9 @@ const userSchema = z.object({
     .optional(),
   notes: z.string().optional().nullable(),
   type: z.enum([VisitTypeEnum.visit, VisitTypeEnum.course]),
-  nextVisit: z.string().min(1, "Indica la fecha de la próxima visita"),
+  nextVisit: z
+    .date("Indica la fecha de la próxima visita")
+    .min(1, "Indica la fecha de la próxima visita"),
 });
 
 export default function CreateVisitForm({
@@ -48,7 +52,14 @@ export default function CreateVisitForm({
   });
   const theme = useTheme();
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    name: string | null;
+    type: VisitTypeEnum;
+    address: string | null;
+    phone: string | null;
+    nextVisit: string | null;
+    notes: string | null;
+  }>({
     name: null,
     type: VisitTypeEnum.visit,
     address: null,
@@ -113,9 +124,9 @@ export default function CreateVisitForm({
         keyboardType="phone-pad"
         leftIconProps={{ icon: "phone" }}
       />
-      <DatePicker
+      <NativeDateTime
         label="Próxima visita"
-        value={form.nextVisit}
+        value={form.nextVisit ? new Date(form.nextVisit) : undefined}
         error={errors?.nextVisit?.at(0)}
         onChange={(val) => handleChangeText("nextVisit", val)}
       />
