@@ -1,18 +1,11 @@
+import { formatDate } from "@/helpers/format-date";
 import DateTimePicker, {
   DateTimePickerChangeEvent,
 } from "@react-native-community/datetimepicker";
 import React, { useMemo, useState } from "react";
 import TextInput from "./text-input";
 
-import dayjs from "dayjs";
-import "dayjs/locale/es";
-dayjs.locale("es");
-
 type Mode = "date" | "time";
-
-const formatDate = (date: Date | undefined | number): string => {
-  return dayjs(date).format("dddd, DD/MM/YY, hh:mm A");
-};
 
 export default function NativeDateTime({
   label,
