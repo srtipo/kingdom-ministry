@@ -8,8 +8,8 @@ export const migrations = {
       created_at TEXT NOT NULL,
       type TEXT NOT NULL,
       phone TEXT,
-      next_visit TEXT,
-      last_visit TEXT,
+      next_visit DATETIME NOT NULL,
+      last_visit DATETIME,
       description TEXT,
       updated_at TEXT NOT NULL
     );

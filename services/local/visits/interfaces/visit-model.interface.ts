@@ -18,8 +18,8 @@ export interface ICreateVisit {
   name: string;
   address: string;
   phone: string | undefined;
-  nextVisit: string;
-  lastVisit: string | undefined;
+  next_visit: Date;
+  last_visit: Date | undefined;
   type: VisitTypeEnum;
   created_at: string;
   updated_at: string;

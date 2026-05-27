@@ -7,6 +7,6 @@ export interface IVisit {
   phone: string;
   notes: string;
   type: VisitTypeEnum;
-  lastVisit: string;
-  nextVisit: string;
+  last_visit: Date | string | undefined;
+  next_visit: Date | string;
 }
