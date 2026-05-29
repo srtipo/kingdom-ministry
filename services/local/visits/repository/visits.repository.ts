@@ -16,6 +16,13 @@ export class VisitsRepository implements IVisitsRepository {
     return this.db.getAllAsync<IVisitModel>("SELECT * FROM visits");
   }
 
+  async getAllOrderedByNextVisit(term?: string) {
+    const searchPattern = `%${term ?? ""}%`;
+    return this.db.getAllAsync<IVisitModel>(
+      "SELECT * FROM visits WHERE name LIKE ? OR address LIKE ? ORDER BY next_visit ASC",
+      [searchPattern, searchPattern],
+    );
+  }
   async create(visit: ICreateVisit) {
     const uuid = generateUUID();
     await this.db.runAsync(

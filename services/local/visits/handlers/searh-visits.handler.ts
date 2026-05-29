@@ -6,8 +6,8 @@ export class SearchVisitsHandler {
     this.repository = repository;
   }
 
-  async execute(search: string) {
-    const visits = await this.repository.getAll();
+  async execute(search?: string) {
+    const visits = await this.repository.getAllOrderedByNextVisit(search);
     return visits;
   }
 }

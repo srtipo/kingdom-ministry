@@ -12,6 +12,9 @@ export interface IVisitModel {
   type: VisitTypeEnum;
   created_at: string;
   updated_at: string;
+  notes: string | null;
+  last_visit: Date | string | undefined;
+  next_visit: Date | string;
 }
 
 export interface ICreateVisit {
@@ -28,4 +31,5 @@ export interface ICreateVisit {
 export interface IVisitsRepository {
   getAll: () => Promise<IVisitModel[]>;
   create: (visit: ICreateVisit) => Promise<void>;
+  getAllOrderedByNextVisit: (term?: string) => Promise<IVisitModel[]>;
 }

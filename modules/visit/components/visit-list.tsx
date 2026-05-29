@@ -1,11 +1,24 @@
 import { FlatList, View } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
+import { IVisit } from "../type/visit.interface";
 import { NoVisitCard } from "./no-visit-card";
-import VisitCard, { VisitCardProps } from "./visit-card";
+import VisitCard from "./visit-card";
 
-export default function VisitList({ visits }: { visits: VisitCardProps[] }) {
-  if (visits.length === 0) {
-    return <NoVisitCard />;
+export default function VisitList({
+  visits,
+  isLoanding = false,
+}: {
+  visits?: IVisit[];
+  isLoanding?: boolean;
+}) {
+  if (isLoanding) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size={50} />
+      </View>
+    );
   }
+
   return (
     <FlatList
       data={visits}
@@ -13,6 +26,8 @@ export default function VisitList({ visits }: { visits: VisitCardProps[] }) {
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={{ flexGrow: 1 }}
       ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+      ListEmptyComponent={<NoVisitCard />}
+      refreshing={isLoanding}
     />
   );
 }
