@@ -8,6 +8,7 @@ import { Divider } from "@/ui/dividers/divider";
 import { Icon } from "@/ui/icons/icon";
 import { Text } from "@/ui/texts/text";
 import { View } from "react-native";
+import { useTheme } from "react-native-paper";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 import { IVisit } from "../type/visit.interface";
 
@@ -18,6 +19,7 @@ const visitTypeTranslation = {
 
 export default function VisitCard({ visit }: { visit: IVisit }) {
   const { name, address, phone, next_visit, type } = visit;
+  const { colors } = useTheme();
   const getVisitColor = () => {
     switch (type) {
       case VisitTypeEnum.visit:
@@ -77,7 +79,10 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
           }}
         >
           <Text fontWeight={"bold"}>{"Visitar el: "}</Text>
-          <Chip color={getDateStatusColor(next_visit)}>
+          <Chip
+            color={getDateStatusColor(next_visit)}
+            selectedColor={colors.scrim}
+          >
             {formatDate(next_visit)}
           </Chip>
         </View>
