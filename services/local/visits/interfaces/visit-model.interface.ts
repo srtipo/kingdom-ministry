@@ -6,13 +6,13 @@ export interface IVisitModel {
   id: string;
   name: string;
   address: string;
-  phone: string | null;
+  phone?: string | undefined;
   nextVisit: string;
-  lastVisit: string | null;
+  lastVisit?: string | undefined;
   type: VisitTypeEnum;
   created_at: string;
   updated_at: string;
-  notes: string | null;
+  notes?: string | undefined;
   last_visit: Date | string | undefined;
   next_visit: Date | string;
 }
@@ -20,9 +20,9 @@ export interface IVisitModel {
 export interface ICreateVisit {
   name: string;
   address: string;
-  phone: string | undefined;
+  phone?: string | undefined;
   next_visit: Date;
-  last_visit: Date | undefined;
+  last_visit?: Date | undefined;
   type: VisitTypeEnum;
   created_at: string;
   updated_at: string;

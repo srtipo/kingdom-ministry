@@ -132,7 +132,7 @@ export default function CreateVisitForm({
       <NativeDateTime
         label="Próxima visita"
         value={form.next_visit ? new Date(form.next_visit) : undefined}
-        error={errors?.nextVisit?.at(0)}
+        error={errors?.next_visit?.at(0)}
         onChange={(val) => handleChangeText("next_visit", val)}
       />
       <TextInput
