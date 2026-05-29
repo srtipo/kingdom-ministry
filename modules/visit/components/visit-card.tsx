@@ -1,5 +1,6 @@
 import { formatDate } from "@/helpers/format-date";
-import { getDateStatusColor } from "@/modules/visit/helpers/get-date-color";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { useGetDateStatusColor } from "@/modules/visit/helpers/get-date-color";
 import { IconButton } from "@/ui/buttons/icon-button";
 import { Button } from "@/ui/buttons/ui-button";
 import { Card } from "@/ui/cards/card";
@@ -7,8 +8,8 @@ import { Chip } from "@/ui/chips/chip";
 import { Divider } from "@/ui/dividers/divider";
 import { Icon } from "@/ui/icons/icon";
 import { Text } from "@/ui/texts/text";
+import dayjs from "dayjs";
 import { View } from "react-native";
-import { useTheme } from "react-native-paper";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 import { IVisit } from "../type/visit.interface";
 
@@ -19,7 +20,8 @@ const visitTypeTranslation = {
 
 export default function VisitCard({ visit }: { visit: IVisit }) {
   const { name, address, phone, next_visit, type } = visit;
-  const { colors } = useTheme();
+  const colors = useThemeColor();
+  const visitChipColor = useGetDateStatusColor(next_visit);
   const getVisitColor = () => {
     switch (type) {
       case VisitTypeEnum.visit:
@@ -28,8 +30,28 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
         return "#8207DB";
     }
   };
+  const adaptiveDateFormat = (date?: Date | string) => {
+    const now = dayjs();
+    const time = dayjs(date).format("hh:mm A");
+    const targetDate = dayjs(date);
+    if (now.isSame(targetDate, "day")) {
+      return `Hoy a las ${time}`;
+    }
+    if (targetDate.isSame(now.add(1, "day"), "day")) {
+      return `Mañana a las ${time}`;
+    }
+
+    return formatDate(date);
+  };
   return (
-    <Card p={15} borderRadius={10}>
+    <Card
+      p={15}
+      borderRadius={10}
+      style={{
+        borderColor: visitChipColor,
+        borderWidth: visitChipColor === colors.chips.bad ? 1 : 0,
+      }}
+    >
       <View
         style={{
           display: "flex",
@@ -80,10 +102,13 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
         >
           <Text fontWeight={"bold"}>{"Visitar el: "}</Text>
           <Chip
-            color={getDateStatusColor(next_visit)}
-            selectedColor={colors.scrim}
+            color={visitChipColor}
+            selectedColor={"black"}
+            style={{
+              opacity: 0.7,
+            }}
           >
-            {formatDate(next_visit)}
+            {adaptiveDateFormat(next_visit)}
           </Chip>
         </View>
         <Divider height={1} />

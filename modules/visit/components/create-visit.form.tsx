@@ -4,12 +4,12 @@ import { Button } from "@/ui/buttons/ui-button";
 import { useContext, useState } from "react";
 
 import { PHONE_REGEX } from "@/constants/phoneRegex";
+import { useThemeColor } from "@/hooks/use-theme-color";
 import { z } from "@/libraries/zod";
 import { Icon } from "@/ui/icons/icon";
 import NativeDateTime from "@/ui/input/date-hour-picker";
 import TextInput from "@/ui/input/text-input";
 import { SnackBarContext } from "@/ui/snackbars/snackbar";
-import { useTheme } from "react-native-paper";
 import useCreateVisit, { ICreateVisit } from "../hooks/use-create-visit";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 
@@ -55,7 +55,7 @@ export default function CreateVisitForm({
       );
     },
   });
-  const theme = useTheme();
+  const color = useThemeColor();
 
   const [form, setForm] = useState<{
     name: string | null;
@@ -94,14 +94,14 @@ export default function CreateVisitForm({
             label: "Revisita",
             icon: () => <Icon type="book-open" size={25} />,
             style: { borderTopLeftRadius: 10, borderBottomLeftRadius: 10 },
-            uncheckedColor: theme.colors.onSurfaceVariant,
+            uncheckedColor: color.onSurfaceVariant,
           },
           {
             value: VisitTypeEnum.course,
             label: "Curso",
             icon: () => <Icon type="home-map-marker" size={25} />,
             style: { borderTopRightRadius: 10, borderBottomRightRadius: 10 },
-            uncheckedColor: theme.colors.onSurfaceVariant,
+            uncheckedColor: color.onSurfaceVariant,
           },
         ]}
         value={form.type}
