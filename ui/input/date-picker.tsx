@@ -68,9 +68,6 @@ export function DatePicker({ onChange, isVisible, onDismiss }: Props) {
       startDate={range.startDate}
       endDate={range.endDate}
       onConfirm={onConfirm}
-      onChange={() => {
-        console.log("asdas");
-      }}
     />
   );
 }

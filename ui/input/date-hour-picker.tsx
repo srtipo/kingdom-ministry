@@ -48,7 +48,6 @@ export default function NativeDateTime({
       const realUtcDate = dayjs(selectedDate)
         .subtract(offsetInMinutes, "minute")
         .utc();
-
       setDateUtc(realUtcDate);
       setDate(selectedDate);
       onChange?.(selectedDate);
@@ -72,7 +71,6 @@ export default function NativeDateTime({
     }
     return "";
   }, [date, value]);
-  console.log(error);
 
   return (
     <>
