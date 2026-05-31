@@ -26,7 +26,7 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Suspense fallback={<Text>Cargando Base de Datos...</Text>}>
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient} key={colorScheme}>
           <SQLiteProvider
             databaseName={process.env.EXPO_PUBLIC_DB_NAME}
             onInit={migrateDbIfNeeded}

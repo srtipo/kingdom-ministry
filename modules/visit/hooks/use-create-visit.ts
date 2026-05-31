@@ -2,7 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCreateVisitHandler } from "../domain/use-create-visit-handler";
 import { IVisit } from "../type/visit.interface";
 
-export type ICreateVisit = Omit<IVisit, "id">;
+export type ICreateVisit = Omit<IVisit, "id" | "next_visit" | "last_visit"> & {
+  next_visit: Date;
+  last_visit: Date;
+};
 export default function useCreateVisit({
   onSuccess,
   onError,

@@ -1,3 +1,4 @@
+import { useThemeColor } from "@/hooks/use-theme-color";
 import { useEffect, useState } from "react";
 import { LayoutChangeEvent, Modal as M, StyleSheet, View } from "react-native";
 import {
@@ -5,7 +6,7 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import { Surface, useTheme } from "react-native-paper";
+import { Surface } from "react-native-paper";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -26,7 +27,7 @@ export function Modal({
   isVisible: boolean;
   title?: string;
 }) {
-  const theme = useTheme();
+  const colors = useThemeColor();
   const [totalHeight, setTotalHeight] = useState(0);
   const translateY = useSharedValue(0);
   const getTotalHeight = (event: LayoutChangeEvent) => {
@@ -87,13 +88,13 @@ export function Modal({
                       height={3}
                       borderRadius={10}
                       width={40}
-                      backgroundColor={theme.colors.onSecondaryContainer}
+                      backgroundColor={colors.onSecondaryContainer}
                     />
                   </View>
                   {title && (
                     <View style={{ paddingBottom: 5 }}>
                       <Text
-                        color={theme.colors.onSecondaryContainer}
+                        color={colors.onSecondaryContainer}
                         fontWeight={900}
                       >
                         {title}

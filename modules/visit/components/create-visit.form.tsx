@@ -4,16 +4,16 @@ import { Button } from "@/ui/buttons/ui-button";
 import { useContext, useState } from "react";
 
 import { PHONE_REGEX } from "@/constants/phoneRegex";
+import { useThemeColor } from "@/hooks/use-theme-color";
 import { z } from "@/libraries/zod";
 import { Icon } from "@/ui/icons/icon";
 import NativeDateTime from "@/ui/input/date-hour-picker";
 import TextInput from "@/ui/input/text-input";
 import { SnackBarContext } from "@/ui/snackbars/snackbar";
-import { useTheme } from "react-native-paper";
 import useCreateVisit, { ICreateVisit } from "../hooks/use-create-visit";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 
-const userSchema = z.object({
+const visitSchema = z.object({
   name: z
     .string("Debe elegir un nombre")
     .max(50, "Máximo 50 caracteres")
@@ -31,7 +31,7 @@ const userSchema = z.object({
     .optional(),
   notes: z.string().optional().nullable(),
   type: z.enum([VisitTypeEnum.visit, VisitTypeEnum.course]),
-  nextVisit: z
+  next_visit: z
     .date("Indica la fecha de la próxima visita")
     .min(1, "Indica la fecha de la próxima visita"),
 });
@@ -55,29 +55,29 @@ export default function CreateVisitForm({
       );
     },
   });
-  const theme = useTheme();
+  const color = useThemeColor();
 
   const [form, setForm] = useState<{
     name: string | null;
     type: VisitTypeEnum;
     address: string | null;
     phone: string | null;
-    nextVisit: string | null;
+    next_visit: string | null;
     notes: string | null;
   }>({
     name: null,
     type: VisitTypeEnum.visit,
     address: null,
     phone: null,
-    nextVisit: null,
+    next_visit: null,
     notes: null,
   });
-  const { validate, errors, validateField } = useZodValidator(userSchema);
+  const { validate, errors, validateField } = useZodValidator(visitSchema);
   const handleSave = () => {
     const result = validate(form);
-    const lastVisit = new Date().toISOString();
+    const last_visit = new Date();
     if (result.success && result.data) {
-      createVisit({ ...result.data, lastVisit } as ICreateVisit);
+      createVisit({ ...result.data, last_visit } as ICreateVisit);
     }
   };
 
@@ -94,14 +94,14 @@ export default function CreateVisitForm({
             label: "Revisita",
             icon: () => <Icon type="book-open" size={25} />,
             style: { borderTopLeftRadius: 10, borderBottomLeftRadius: 10 },
-            uncheckedColor: theme.colors.onSurfaceVariant,
+            uncheckedColor: color.onSurfaceVariant,
           },
           {
             value: VisitTypeEnum.course,
             label: "Curso",
             icon: () => <Icon type="home-map-marker" size={25} />,
             style: { borderTopRightRadius: 10, borderBottomRightRadius: 10 },
-            uncheckedColor: theme.colors.onSurfaceVariant,
+            uncheckedColor: color.onSurfaceVariant,
           },
         ]}
         value={form.type}
@@ -131,9 +131,9 @@ export default function CreateVisitForm({
       />
       <NativeDateTime
         label="Próxima visita"
-        value={form.nextVisit ? new Date(form.nextVisit) : undefined}
-        error={errors?.nextVisit?.at(0)}
-        onChange={(val) => handleChangeText("nextVisit", val)}
+        value={form.next_visit ? new Date(form.next_visit) : undefined}
+        error={errors?.next_visit?.at(0)}
+        onChange={(val) => handleChangeText("next_visit", val)}
       />
       <TextInput
         label="Notas"

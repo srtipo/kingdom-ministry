@@ -1,12 +1,12 @@
 import { VisitTypeEnum } from "./visit-type.enum";
 
 export interface IVisit {
-  id: number;
+  id: string;
   name: string;
   address: string;
-  phone: string;
-  notes: string;
+  phone?: string | undefined;
+  notes?: string | undefined;
   type: VisitTypeEnum;
-  lastVisit: string;
-  nextVisit: string;
+  last_visit?: Date | string | undefined;
+  next_visit: Date | string;
 }

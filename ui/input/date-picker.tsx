@@ -1,6 +1,6 @@
-import TextInput from "@/ui/input/text-input";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { DatePickerModal, registerTranslation } from "react-native-paper-dates";
+import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 
 registerTranslation("es", {
   selectSingle: "Seleccionar fecha",
@@ -24,64 +24,50 @@ registerTranslation("es", {
 });
 
 type Props = {
-  label?: string;
-  value?: string | undefined | null;
-  onChange: (value?: string) => void;
-  locale?: string;
-  error?: string;
+  onChange: ({
+    startDate,
+    endDate,
+  }: {
+    startDate: Date | undefined;
+    endDate: Date | undefined;
+  }) => void;
+  isVisible: boolean;
+
+  onDismiss?: () => void;
 };
 
-export default function DatePicker({
-  label,
-  value,
-  error,
-  onChange,
-  locale = "es",
-}: Props) {
-  const [visible, setVisible] = useState(false);
+export function DatePicker({ onChange, isVisible, onDismiss }: Props) {
+  const [range, setRange] = useState<{
+    startDate: Date | undefined;
+    endDate: Date | undefined;
+  }>({
+    startDate: undefined,
+    endDate: undefined,
+  });
 
-  const selectedDate = value ? new Date(value) : undefined;
-
-  const handleConfirm = (params: any) => {
-    let dateObj: Date | undefined;
-    if (params && params.date instanceof Date) {
-      dateObj = params.date;
-    } else if (params && params.startDate) {
-      const sd = params.startDate as any;
-      if (
-        typeof sd.year === "number" &&
-        typeof sd.month === "number" &&
-        typeof sd.day === "number"
-      ) {
-        dateObj = new Date(sd.year, sd.month - 1, sd.day);
-      }
-    }
-
-    if (dateObj) {
-      onChange(dateObj.toISOString());
-    }
-    setVisible(false);
-  };
+  const onConfirm = useCallback(
+    ({
+      startDate,
+      endDate,
+    }: {
+      startDate: CalendarDate;
+      endDate: CalendarDate;
+    }) => {
+      setRange({ startDate, endDate });
+      onChange({ startDate, endDate });
+    },
+    [setRange, onChange],
+  );
 
   return (
-    <>
-      <TextInput
-        label={label}
-        value={selectedDate ? selectedDate.toLocaleDateString(locale) : ""}
-        onChangeText={() => {}}
-        leftIconProps={{ icon: "calendar" }}
-        showSoftInputOnFocus={false}
-        onFocus={() => setVisible(true)}
-        error={error}
-      />
-      <DatePickerModal
-        locale={locale}
-        mode="single"
-        visible={visible}
-        onDismiss={() => setVisible(false)}
-        date={selectedDate}
-        onConfirm={handleConfirm}
-      />
-    </>
+    <DatePickerModal
+      locale="es"
+      mode="range"
+      visible={isVisible}
+      onDismiss={() => onDismiss?.()}
+      startDate={range.startDate}
+      endDate={range.endDate}
+      onConfirm={onConfirm}
+    />
   );
 }
