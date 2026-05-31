@@ -16,13 +16,31 @@ export class VisitsRepository implements IVisitsRepository {
     return this.db.getAllAsync<IVisitModel>("SELECT * FROM visits");
   }
 
-  async getAllOrderedByNextVisit(term?: string) {
+  async getAllOrderedByNextVisit(
+    term?: string,
+    startDate?: Date,
+    endDate?: Date,
+  ) {
+    const startDateString = startDate ? startDate.toISOString() : null;
+    const endDateString = endDate ? endDate.toISOString() : null;
+    const startDateQuery = startDateString ? "AND next_visit >= ?" : "";
+    const endDateQuery = endDateString ? "AND next_visit <= ?" : "";
     const searchPattern = `%${term ?? ""}%`;
-    return this.db.getAllAsync<IVisitModel>(
-      "SELECT * FROM visits WHERE name LIKE ? OR address LIKE ? ORDER BY next_visit ASC",
-      [searchPattern, searchPattern],
+    const query = this.db.getAllAsync<IVisitModel>(
+      "SELECT * FROM visits WHERE (name LIKE ? OR address LIKE ?) " +
+        startDateQuery +
+        endDateQuery +
+        " ORDER BY next_visit ASC",
+      [
+        searchPattern,
+        searchPattern,
+        ...(startDateString ? [startDateString] : []),
+        ...(endDateString ? [endDateString] : []),
+      ],
     );
+    return query;
   }
+
   async create(visit: ICreateVisit) {
     const uuid = generateUUID();
     await this.db.runAsync(

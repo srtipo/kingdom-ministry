@@ -31,5 +31,9 @@ export interface ICreateVisit {
 export interface IVisitsRepository {
   getAll: () => Promise<IVisitModel[]>;
   create: (visit: ICreateVisit) => Promise<void>;
-  getAllOrderedByNextVisit: (term?: string) => Promise<IVisitModel[]>;
+  getAllOrderedByNextVisit: (
+    term?: string,
+    startDate?: Date,
+    endDate?: Date,
+  ) => Promise<IVisitModel[]>;
 }
