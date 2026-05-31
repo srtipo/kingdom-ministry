@@ -5,7 +5,12 @@ import DateTimePicker, {
 import React, { useMemo, useState } from "react";
 import TextInput from "./text-input";
 
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
 type Mode = "date" | "time";
+
+dayjs.extend(utc);
 
 export default function NativeDateTime({
   label,
@@ -21,6 +26,12 @@ export default function NativeDateTime({
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [mode, setMode] = useState<Mode>("date");
   const [show, setShow] = useState(false);
+  const [dateUtc, setDateUtc] = useState(dayjs.utc());
+
+  const getPickerDate = () => {
+    const offsetInMinutes = dayjs().utcOffset();
+    return dateUtc.add(offsetInMinutes, "minute").toDate();
+  };
 
   const onValueChange = (
     event: DateTimePickerChangeEvent,
@@ -32,8 +43,16 @@ export default function NativeDateTime({
       setShow(false);
       setMode("date");
     }
-    setDate(selectedDate);
-    onChange?.(selectedDate);
+    if (selectedDate) {
+      const offsetInMinutes = dayjs().utcOffset();
+      const realUtcDate = dayjs(selectedDate)
+        .subtract(offsetInMinutes, "minute")
+        .utc();
+
+      setDateUtc(realUtcDate);
+      setDate(selectedDate);
+      onChange?.(selectedDate);
+    }
   };
 
   const openDatePicker = () => {
@@ -53,6 +72,7 @@ export default function NativeDateTime({
     }
     return "";
   }, [date, value]);
+  console.log(error);
 
   return (
     <>
@@ -68,7 +88,7 @@ export default function NativeDateTime({
       {show && (
         <DateTimePicker
           locale="es"
-          value={value ?? (date ? date : new Date())}
+          value={getPickerDate()}
           mode={mode}
           onDismiss={closeDatePicker}
           onValueChange={onValueChange}
