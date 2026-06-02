@@ -44,7 +44,7 @@ export class VisitsRepository implements IVisitsRepository {
   async create(visit: ICreateVisit) {
     const uuid = generateUUID();
     await this.db.runAsync(
-      "INSERT INTO visits (id, name, address, phone, next_visit, last_visit, type, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO visits (id, name, address, phone, next_visit, last_visit, type, created_at, updated_at, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         uuid,
         visit.name,
@@ -55,6 +55,7 @@ export class VisitsRepository implements IVisitsRepository {
         visit.type,
         visit.created_at,
         visit.updated_at,
+        visit.notes ?? null,
       ],
     );
   }

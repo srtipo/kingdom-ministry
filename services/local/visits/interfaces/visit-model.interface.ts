@@ -26,6 +26,7 @@ export interface ICreateVisit {
   type: VisitTypeEnum;
   created_at: string;
   updated_at: string;
+  notes?: string | undefined;
 }
 
 export interface IVisitsRepository {
