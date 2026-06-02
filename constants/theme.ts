@@ -47,6 +47,7 @@ export const Colors = {
     surfaceDisabled: "rgba(27, 27, 31, 0.12)",
     onSurfaceDisabled: "rgba(27, 27, 31, 0.38)",
     backdrop: "rgba(46, 48, 56, 0.4)",
+    danger: "#fd5448",
     chips: {
       good: "#3d89fa",
       bad: "#ff4335",
@@ -89,6 +90,7 @@ export const Colors = {
     inverseSurface: "rgb(227, 226, 230)",
     inverseOnSurface: "rgb(48, 48, 51)",
     inversePrimary: "rgb(15, 91, 188)",
+    danger: "#fd5448",
     elevation: {
       level0: "transparent",
       level1: "rgb(34, 36, 42)",
