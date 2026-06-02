@@ -1,6 +1,6 @@
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { IconButton as IB } from 'react-native-paper';
-import styled from 'styled-components/native';
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { IconButton as IB } from "react-native-paper";
+import styled from "styled-components/native";
 
 import {
   border,
@@ -19,13 +19,14 @@ import {
   SpaceProps,
   width,
   WidthProps,
-} from 'styled-system';
+} from "styled-system";
 interface IconButtonProps {
   iconSize: number;
   color?: string;
-  icon: (typeof MaterialCommunityIcons)['name'];
-  type: 'outlined' | 'contained' | 'contained-tonal' | undefined;
+  icon: (typeof MaterialCommunityIcons)["name"];
+  type: "outlined" | "contained" | "contained-tonal" | undefined;
   style?: any;
+  borderRadius?: number;
   [key: string]: any;
 }
 
@@ -49,17 +50,41 @@ const StyledButton = styled(IconButtonWrapper).attrs<
   ${width}
 `;
 
-function IconButtonWrapper({ iconSize, icon, color, type, style, ...props }: IconButtonProps) {
-  return <IB {...props} size={iconSize} icon={icon} iconColor={color} mode={type} style={style} />;
+function IconButtonWrapper({
+  iconSize,
+  icon,
+  color,
+  type,
+  style,
+  ...props
+}: IconButtonProps) {
+  return (
+    <IB
+      {...props}
+      size={iconSize}
+      icon={icon}
+      iconColor={color}
+      mode={type}
+      style={style}
+    />
+  );
 }
-export function IconButton({ size, iconSize, icon, color, type, ...props }: IconButtonProps) {
+export function IconButton({
+  size,
+  iconSize,
+  icon,
+  color,
+  type,
+  borderRadius,
+  ...props
+}: IconButtonProps) {
   return (
     <StyledButton
       icon={icon}
       color={color}
       type={type}
       {...props}
-      borderRadius={10}
+      borderRadius={borderRadius ?? 10}
       iconSize={iconSize}
     />
   );

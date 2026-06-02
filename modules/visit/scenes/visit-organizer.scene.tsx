@@ -5,13 +5,19 @@ import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { View } from "react-native";
 import CreateVisitModal from "../components/create-visit.modal";
-import { VisitDateSelection } from "../components/visit-date-selection";
+import {
+  DateSelectionEnum,
+  VisitDateSelection,
+} from "../components/visit-date-selection";
 import VisitList from "../components/visit-list";
 import { useGetVisits } from "../hooks/use-get-visits";
 
 export default function VisitOrganizerScene() {
   const [inputValue, setInputValue] = useState<string | undefined>(undefined);
   const [isTyping, setIsTyping] = useState(false);
+  const [dateSelection, setDateSelection] = useState<DateSelectionEnum>(
+    DateSelectionEnum.Today,
+  );
   const [dates, setDates] = useState<{
     startDate: Date | undefined;
     endDate: Date | undefined;
@@ -48,13 +54,29 @@ export default function VisitOrganizerScene() {
     [isFetching, isTyping],
   );
   const personalizedLabel = useMemo(() => {
-    if (dates.startDate && dates.endDate) {
+    if (
+      dates.startDate &&
+      dates.endDate &&
+      dateSelection === DateSelectionEnum.Personalized
+    ) {
       return `${dayjs(dates.startDate).format(
         "DD/MM/YYYY",
       )} - ${dayjs(dates.endDate).format("DD/MM/YYYY")}`;
     }
     return "Personalizado";
-  }, [dates]);
+  }, [dates, dateSelection]);
+  const onDateSelectionChange = ({
+    startDate,
+    endDate,
+    value,
+  }: {
+    startDate: Date | undefined;
+    endDate: Date | undefined;
+    value: DateSelectionEnum;
+  }) => {
+    setDates({ startDate, endDate });
+    setDateSelection(value);
+  };
 
   return (
     <View style={{ padding: 10, flex: 1 }}>
@@ -62,10 +84,10 @@ export default function VisitOrganizerScene() {
         Organizador de Revisitas
       </HeadLine>
       <Text>Gestiona tus revisitas de forma sencilla</Text>
-      <View style={{ marginTop: 10 }}>
+      <View style={{ marginBlock: 5 }}>
         <CreateVisitModal />
       </View>
-      <View style={{ marginTop: 10 }}>
+      <View style={{ marginBlock: 5 }}>
         <SearchBar
           placeholder={"Buscar por nombre o dirección"}
           value={inputValue}
@@ -74,7 +96,8 @@ export default function VisitOrganizerScene() {
       </View>
       <View style={{ display: "flex", height: 40, marginBlock: 5 }}>
         <VisitDateSelection
-          onChange={setDates}
+          onChange={onDateSelectionChange}
+          value={dateSelection}
           dafaultValue={"Today"}
           personalizedLabel={personalizedLabel}
         />

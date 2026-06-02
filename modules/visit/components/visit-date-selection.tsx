@@ -4,7 +4,7 @@ import { DatePicker } from "@/ui/input/date-picker";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { ScrollView } from "react-native";
-enum DateSelectionEnum {
+export enum DateSelectionEnum {
   Past = "past",
   Today = "hoy",
   Tomorrow = "mañana",
@@ -22,6 +22,7 @@ export function VisitDateSelection({
   onChange?: (dates: {
     startDate: Date | undefined;
     endDate: Date | undefined;
+    value: DateSelectionEnum;
   }) => void;
   dafaultValue?: keyof typeof DateSelectionEnum;
   value?: DateSelectionEnum;
@@ -40,6 +41,7 @@ export function VisitDateSelection({
         onChange?.({
           startDate: undefined,
           endDate: now.subtract(1, "day").endOf("day").toDate(),
+          value,
         });
         break;
       case DateSelectionEnum.Today:
@@ -47,6 +49,7 @@ export function VisitDateSelection({
         onChange?.({
           startDate: now.startOf("day").toDate(),
           endDate: now.endOf("day").toDate(),
+          value,
         });
         break;
       case DateSelectionEnum.Tomorrow:
@@ -54,6 +57,7 @@ export function VisitDateSelection({
         onChange?.({
           startDate: now.add(1, "day").startOf("day").toDate(),
           endDate: now.add(1, "day").endOf("day").toDate(),
+          value,
         });
         break;
       case DateSelectionEnum.NextWeek:
@@ -61,6 +65,7 @@ export function VisitDateSelection({
         onChange?.({
           startDate: now.add(1, "week").startOf("week").toDate(),
           endDate: now.add(1, "week").endOf("week").toDate(),
+          value,
         });
         break;
       case DateSelectionEnum.All:
@@ -68,6 +73,7 @@ export function VisitDateSelection({
         onChange?.({
           startDate: undefined,
           endDate: undefined,
+          value,
         });
         break;
       case DateSelectionEnum.Personalized:
@@ -121,7 +127,10 @@ export function VisitDateSelection({
 
       <DatePicker
         onChange={(data) => {
-          onChange?.(data);
+          onChange?.({
+            ...data,
+            value: dateSelection,
+          });
           setIsModalVisible(false);
         }}
         isVisible={isModalVisible}

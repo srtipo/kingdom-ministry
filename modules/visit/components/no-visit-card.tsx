@@ -23,7 +23,7 @@ export function NoVisitCard() {
         }}
       >
         <Icon type={"account-multiple"} size={40} />
-        <Text>No tienes revisitas registradas</Text>
+        <Text>No tienes revisitas para esta fecha</Text>
         <CreateVisitModal />
       </View>
     </Card>
