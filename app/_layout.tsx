@@ -6,10 +6,13 @@ import {
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
-import { customDarkTheme, customLightTheme } from "@/constants/theme";
-import { migrateDbIfNeeded } from "@/database/db";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { Text } from "@/ui/texts/text";
+import { migrateDbIfNeeded } from "@/src/data/database/db";
+import {
+  customDarkTheme,
+  customLightTheme,
+} from "@/src/presentation/constants/theme";
+import { useColorScheme } from "@/src/presentation/hooks/use-color-scheme.web";
+import { Text } from "@/src/presentation/ui/texts/text";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SQLiteProvider } from "expo-sqlite";
 import { Suspense } from "react";

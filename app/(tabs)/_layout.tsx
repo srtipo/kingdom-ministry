@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import React from "react";
 
-import { useThemeColor } from "@/hooks/use-theme-color";
+import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
