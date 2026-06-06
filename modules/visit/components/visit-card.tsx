@@ -2,12 +2,16 @@ import { formatDate } from "@/helpers/format-date";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useGetDateStatusColor } from "@/modules/visit/helpers/get-date-color";
 import { IconButton } from "@/ui/buttons/icon-button";
+import { PhoneNumberButton } from "@/ui/buttons/phone-number-button";
 import { Button } from "@/ui/buttons/ui-button";
+import { WhatsAppButton } from "@/ui/buttons/whats-app-button";
 import { Card } from "@/ui/cards/card";
 import { Chip } from "@/ui/chips/chip";
 import { Icon } from "@/ui/icons/icon";
+import { SnackBarContext } from "@/ui/snackbars/snackbar";
 import { Text } from "@/ui/texts/text";
 import dayjs from "dayjs";
+import { useContext } from "react";
 import { View } from "react-native";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 import { IVisit } from "../type/visit.interface";
@@ -20,6 +24,7 @@ const visitTypeTranslation = {
 export default function VisitCard({ visit }: { visit: IVisit }) {
   const { name, address, phone, next_visit, type, notes } = visit;
   const colors = useThemeColor();
+  const { showSnackbar } = useContext(SnackBarContext);
   const visitChipColor = useGetDateStatusColor(next_visit);
   const getVisitColor = () => {
     switch (type) {
@@ -41,6 +46,10 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
     }
 
     return formatDate(date);
+  };
+
+  const onFail = (error: string) => {
+    showSnackbar.error(error);
   };
   return (
     <Card
@@ -150,22 +159,8 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
               <Text selectable={true}>{phone}</Text>
             </View>
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton
-                type={"contained-tonal"}
-                icon={"phone-outline"}
-                iconSize={15}
-                borderRadius={10}
-                color={colors.card}
-                style={{ backgroundColor: "#019BF2" }}
-              ></IconButton>
-              <IconButton
-                type={"contained-tonal"}
-                icon={"message-outline"}
-                iconSize={15}
-                borderRadius={10}
-                color={colors.card}
-                style={{ backgroundColor: "#1daa61" }}
-              ></IconButton>
+              <PhoneNumberButton phone={phone} onfail={onFail} />
+              <WhatsAppButton phone={phone} onFail={onFail} />
             </View>
           </View>
         )}
