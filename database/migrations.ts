@@ -10,8 +10,9 @@ export const migrations = {
       phone TEXT,
       next_visit DATETIME NOT NULL,
       last_visit DATETIME,
-      description TEXT,
+      notes TEXT,
       updated_at TEXT NOT NULL
+
     );
   `,
   3: `

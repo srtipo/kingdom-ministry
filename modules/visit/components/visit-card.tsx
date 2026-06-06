@@ -2,13 +2,16 @@ import { formatDate } from "@/helpers/format-date";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { useGetDateStatusColor } from "@/modules/visit/helpers/get-date-color";
 import { IconButton } from "@/ui/buttons/icon-button";
+import { PhoneNumberButton } from "@/ui/buttons/phone-number-button";
 import { Button } from "@/ui/buttons/ui-button";
+import { WhatsAppButton } from "@/ui/buttons/whats-app-button";
 import { Card } from "@/ui/cards/card";
 import { Chip } from "@/ui/chips/chip";
-import { Divider } from "@/ui/dividers/divider";
 import { Icon } from "@/ui/icons/icon";
+import { SnackBarContext } from "@/ui/snackbars/snackbar";
 import { Text } from "@/ui/texts/text";
 import dayjs from "dayjs";
+import { useContext } from "react";
 import { View } from "react-native";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 import { IVisit } from "../type/visit.interface";
@@ -19,8 +22,9 @@ const visitTypeTranslation = {
 };
 
 export default function VisitCard({ visit }: { visit: IVisit }) {
-  const { name, address, phone, next_visit, type } = visit;
+  const { name, address, phone, next_visit, type, notes } = visit;
   const colors = useThemeColor();
+  const { showSnackbar } = useContext(SnackBarContext);
   const visitChipColor = useGetDateStatusColor(next_visit);
   const getVisitColor = () => {
     switch (type) {
@@ -43,6 +47,10 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
 
     return formatDate(date);
   };
+
+  const onFail = (error: string) => {
+    showSnackbar.error(error);
+  };
   return (
     <Card
       p={15}
@@ -52,6 +60,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
         borderWidth: visitChipColor === colors.chips.bad ? 1 : 0,
       }}
     >
+      <View style={{ display: "flex", justifyContent: "center" }}></View>
       <View
         style={{
           display: "flex",
@@ -59,10 +68,24 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
           justifyContent: "space-between",
         }}
       >
-        <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-          <Text type={"large"} fontWeight={"bold"}>
-            {name}
-          </Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 10,
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              maxWidth: 200,
+            }}
+          >
+            <Text type={"large"} fontWeight={"bold"}>
+              {name}
+            </Text>
+          </View>
+
           <Text type={"large"} fontWeight={"bold"} color={getVisitColor()}>
             {visitTypeTranslation[type]}
           </Text>
@@ -75,49 +98,103 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
             alignItems: "center",
           }}
         >
-          <Icon type={"clipboard-edit-outline"} size={20} />
-          <Icon type={"delete-outline"} size={20} />
+          <Icon type={"pencil-outline"} size={22} />
+          <Icon type={"delete-outline"} size={22} color={colors.danger} />
         </View>
       </View>
       <View style={{ display: "flex", gap: 5, paddingBlock: 10 }}>
-        <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
-          <Icon type={"map-marker-outline"} size={20} />
-          <Text>{address}</Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Chip
+            color={visitChipColor}
+            selectedColor={"black"}
+            style={{
+              opacity: 0.8,
+            }}
+          >
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 5,
+                alignItems: "center",
+              }}
+            >
+              <Icon type={"clock-outline"} size={20} color={colors.scrim} />
+              <Text fontWeith={"bold"} color={colors.scrim}>
+                {adaptiveDateFormat(next_visit)}
+              </Text>
+            </View>
+          </Chip>
         </View>
-        {phone && (
-          <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
-            <Icon type={"phone-outline"} size={20} />
-            <Text>{phone}</Text>
-          </View>
-        )}
-        <Divider height={1} />
-
         <View
           style={{
             display: "flex",
             flexDirection: "row",
             gap: 5,
             alignItems: "center",
+            height: 30,
           }}
         >
-          <Text fontWeight={"bold"}>{"Visitar el: "}</Text>
-          <Chip
-            color={visitChipColor}
-            selectedColor={"black"}
+          <Icon type={"map-marker"} size={22} />
+          <Text>{address}</Text>
+        </View>
+        {phone && (
+          <View
             style={{
-              opacity: 0.7,
+              display: "flex",
+              flexDirection: "row",
+              gap: 5,
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            {adaptiveDateFormat(next_visit)}
-          </Chip>
-        </View>
-        <Divider height={1} />
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Icon type={"phone"} size={22} />
+              <Text selectable={true}>{phone}</Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <PhoneNumberButton phone={phone} onfail={onFail} />
+              <WhatsAppButton phone={phone} onFail={onFail} />
+            </View>
+          </View>
+        )}
+        {notes && (
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 5,
+              paddingBlock: 10,
+              backgroundColor: colors.elevation.level2,
+              paddingRight: 10,
+              paddingLeft: 5,
+              width: "100%",
+              flex: 1,
+              overflow: "hidden",
+            }}
+          >
+            <Icon type={"file-document"} size={20} />
+            <Text
+              style={{ flexShrink: 1, flex: 1 }}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+            >
+              {notes}
+            </Text>
+          </View>
+        )}
       </View>
       <View
         style={{
           display: "flex",
           flexDirection: "row",
-          marginTop: 10,
+          marginTop: 5,
           width: "100%",
           justifyContent: "space-between",
           alignItems: "center",

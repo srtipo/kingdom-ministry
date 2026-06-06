@@ -1,5 +1,5 @@
-import { Text as T } from 'react-native-paper';
-import styled from 'styled-components/native';
+import { Text as T } from "react-native-paper";
+import styled from "styled-components/native";
 import {
   border,
   BorderProps,
@@ -15,7 +15,7 @@ import {
   SpaceProps,
   typography,
   TypographyProps,
-} from 'styled-system';
+} from "styled-system";
 
 interface HeadLineStyledProps
   extends
@@ -28,25 +28,28 @@ interface HeadLineStyledProps
     TypographyProps {
   children: React.ReactNode;
   type?: keyof typeof text;
+  selectable?: boolean;
 }
 
 const text = {
-  large: 'bodyLarge',
-  medium: 'bodyMedium',
-  small: 'bodySmall',
+  large: "bodyLarge",
+  medium: "bodyMedium",
+  small: "bodySmall",
 } as const;
 
 const TextWrapper = ({
   children,
-  type = 'medium',
+  type = "medium",
   style,
+  ...props
 }: {
   children: React.ReactNode;
   type?: keyof typeof text;
   style?: any;
+  [key: string]: any;
 }) => {
   return (
-    <T variant={text[type]} style={style}>
+    <T variant={text[type]} style={style} {...props}>
       {children}
     </T>
   );

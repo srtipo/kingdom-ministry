@@ -1,5 +1,5 @@
+import { Loading } from "@/ui/loaders/loading";
 import { FlatList, View } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
 import { IVisit } from "../type/visit.interface";
 import { NoVisitCard } from "./no-visit-card";
 import VisitCard from "./visit-card";
@@ -14,7 +14,7 @@ export default function VisitList({
   if (isLoanding) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size={50} />
+        <Loading size={50} />
       </View>
     );
   }
