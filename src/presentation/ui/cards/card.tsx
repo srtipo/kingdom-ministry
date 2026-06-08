@@ -33,13 +33,14 @@ function CardWapper({
   children,
   style,
   type,
+  ...props
 }: {
   children: React.ReactNode;
   style?: any;
   type?: "elevated" | "outlined" | "contained";
 }) {
   return (
-    <C mode={type} style={style}>
+    <C mode={type} style={style} {...props}>
       {children}
     </C>
   );

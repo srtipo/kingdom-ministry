@@ -11,12 +11,12 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: color.onBackground,
-        headerShown: false,
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="visit"
         options={{
+          headerShown: false,
           title: "Revisitas",
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="people" size={26} color={color} />

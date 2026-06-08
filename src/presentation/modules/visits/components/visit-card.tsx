@@ -1,6 +1,5 @@
 import { formatDate } from "@/src/presentation/helpers/format-date";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
-import { IconButton } from "@/src/presentation/ui/buttons/icon-button";
 import { PhoneNumberButton } from "@/src/presentation/ui/buttons/phone-number-button";
 import { Button } from "@/src/presentation/ui/buttons/ui-button";
 import { WhatsAppButton } from "@/src/presentation/ui/buttons/whats-app-button";
@@ -10,6 +9,7 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
 import { Text } from "@/src/presentation/ui/texts/text";
 import dayjs from "dayjs";
+import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { View } from "react-native";
 import { useGetDateStatusColor } from "../helpers/get-date-color";
@@ -22,6 +22,14 @@ const visitTypeTranslation = {
 };
 
 export default function VisitCard({ visit }: { visit: IVisit }) {
+  const router = useRouter();
+  const goToDetail = () => {
+    router.push({
+      pathname: "/visit/[id]",
+      params: { id: visit.id.toString() },
+    });
+  };
+
   const { name, address, phone, next_visit, type, notes } = visit;
   const colors = useThemeColor();
   const { showSnackbar } = useContext(SnackBarContext);
@@ -53,6 +61,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
   };
   return (
     <Card
+      onPress={goToDetail}
       p={15}
       borderRadius={10}
       style={{
@@ -98,8 +107,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
             alignItems: "center",
           }}
         >
-          <Icon type={"pencil-outline"} size={22} />
-          <Icon type={"delete-outline"} size={22} color={colors.danger} />
+          <Icon type={"chevron-right"} size={25} />
         </View>
       </View>
       <View style={{ display: "flex", gap: 5, paddingBlock: 10 }}>
@@ -190,25 +198,14 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
           </View>
         )}
       </View>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          marginTop: 5,
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
+      <Button
+        type={"contained"}
+        height={40}
+        onClick={() => console.log("click")}
+        onPress={() => console.log("click")}
       >
-        <Button type={"contained"} width={"80%"} height={40}>
-          {`Registrar ${visitTypeTranslation[type]}`}
-        </Button>
-        <IconButton
-          icon={"clipboard-text-outline"}
-          type={"outlined"}
-          iconSize={20}
-        />
-      </View>
+        {`Registrar ${visitTypeTranslation[type]}`}
+      </Button>
     </Card>
   );
 }
