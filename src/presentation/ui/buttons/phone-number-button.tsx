@@ -1,17 +1,24 @@
 import { useState } from "react";
-import { ActivityIndicator, Linking, View } from "react-native";
+import { Linking, View } from "react-native";
 import { useThemeColor } from "../../hooks/use-theme-color";
-import { Portal } from "../portal/portal";
+import { Icon } from "../icons/icon";
+import { ScreenLoading } from "../loaders/screen-loading";
+import { Text } from "../texts/text";
 import { IconButton } from "./icon-button";
+import { Button } from "./ui-button";
 export function PhoneNumberButton({
   phone,
   onfail,
+  type = "compact",
+  style,
 }: {
   phone: string;
   onfail?: (error: string) => void;
+  type?: "compact" | "large";
+  style?: any;
 }) {
   const colors = useThemeColor();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const makeCall = async () => {
     setIsLoading(true);
     const url = `tel:${phone}`;
@@ -31,58 +38,40 @@ export function PhoneNumberButton({
   };
 
   return (
-    <>
-      <IconButton
-        type={"contained-tonal"}
-        icon={"phone-outline"}
-        iconSize={15}
-        borderRadius={10}
-        color={colors.card}
-        style={{ backgroundColor: "#019BF2" }}
-        onPress={makeCall}
-      ></IconButton>
-      <Portal>
-        {isLoading && (
+    <View style={style}>
+      {type === "compact" ? (
+        <IconButton
+          type={"contained-tonal"}
+          icon={"phone-outline"}
+          iconSize={15}
+          borderRadius={10}
+          color={colors.card}
+          style={{ backgroundColor: "#019BF2" }}
+          onPress={makeCall}
+        ></IconButton>
+      ) : (
+        <Button
+          type={"contained-tonal"}
+          borderRadius={10}
+          style={{ backgroundColor: "#019BF2" }}
+          onPress={makeCall}
+        >
           <View
             style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: "rgba(0,0,0,0.5)",
               display: "flex",
-              justifyContent: "center",
+              flexDirection: "row",
+              gap: 5,
               alignItems: "center",
-              flex: 1,
             }}
           >
-            <View
-              style={{
-                backgroundColor: "transparent",
-                padding: 10,
-                borderRadius: 10,
-                display: "flex",
-                flexDirection: "column",
-                flex: 1,
-                gap: 10,
-              }}
-            >
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  height: "100%",
-                }}
-              >
-                <ActivityIndicator size={"large"} color={colors.primary} />
-              </View>
-            </View>
+            <Icon type={"phone-outline"} size={15} color={colors.card} />
+            <Text fontWeight={"bold"} color={colors.card}>
+              {"Llamar"}
+            </Text>
           </View>
-        )}
-      </Portal>
-    </>
+        </Button>
+      )}
+      <ScreenLoading visible={isLoading} />
+    </View>
   );
 }

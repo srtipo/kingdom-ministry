@@ -2,6 +2,7 @@ import { generateUUID } from "@/src/presentation/libraries/crypto";
 import { SQLiteDatabase } from "expo-sqlite";
 import {
   ICreateVisit,
+  IVisitDetail,
   IVisitModel,
   IVisitsRepository,
 } from "../../../../core/modules/visits/interfaces/visit-model.interface";
@@ -58,5 +59,13 @@ export class VisitsRepository implements IVisitsRepository {
         visit.notes ?? null,
       ],
     );
+  }
+
+  async getById(id: string) {
+    const query = this.db.getFirstAsync<IVisitDetail>(
+      "SELECT id, name, address, phone, next_visit, last_visit, type, notes FROM visits WHERE id = ?",
+      [id],
+    );
+    return query;
   }
 }

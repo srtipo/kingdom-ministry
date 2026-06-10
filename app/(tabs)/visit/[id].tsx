@@ -11,7 +11,7 @@ export default function VisitDetailScreen() {
     <SafeAreaProvider>
       <SafeArea>
         <SnackBarProvider>
-          <VisitDetailScene id={Number(id)} />
+          <VisitDetailScene id={id} />
         </SnackBarProvider>
       </SafeArea>
     </SafeAreaProvider>
