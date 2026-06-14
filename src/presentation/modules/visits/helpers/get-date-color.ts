@@ -1,9 +1,7 @@
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import dayjs from "dayjs";
 
-export const useGetDateStatusColor = (
-  date: string | Date,
-): string | undefined => {
+export const useGetDateStatusColor = (date: string | Date): string => {
   const { chips } = useThemeColor();
 
   const now = dayjs();

@@ -19,9 +19,9 @@ export default function VisitDetailScene({ id }: { id: string }) {
   }
   return (
     <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
-      <View style={{ padding: 10 }}>
+      <View style={{ padding: 10, display: "flex", gap: 10 }}>
         <GeneralInfo visit={data} />
-        <ImportantDates />
+        <ImportantDates visit={data} />
         <VisitHistory />
       </View>
     </ScrollView>
