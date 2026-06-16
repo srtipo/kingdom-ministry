@@ -5,7 +5,7 @@ import { Text } from "@/src/presentation/ui/texts/text";
 import { ScrollView, View } from "react-native";
 import { GeneralInfo } from "../details/components/general-info";
 import { ImportantDates } from "../details/components/important-dates";
-import { VisitHistory } from "../details/components/visit-history";
+import { VisitHistoryCard } from "../details/components/visit-history-card";
 import { useGetVisitDetail } from "../details/hooks/get-visit-datail";
 
 export default function VisitDetailScene({ id }: { id: string }) {
@@ -22,7 +22,7 @@ export default function VisitDetailScene({ id }: { id: string }) {
       <View style={{ padding: 10, display: "flex", gap: 10 }}>
         <GeneralInfo visit={data} />
         <ImportantDates visit={data} />
-        <VisitHistory />
+        <VisitHistoryCard visit={data} />
       </View>
     </ScrollView>
   );

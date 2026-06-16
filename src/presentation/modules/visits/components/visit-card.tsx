@@ -1,7 +1,6 @@
 import { formatDate } from "@/src/presentation/helpers/format-date";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { PhoneNumberButton } from "@/src/presentation/ui/buttons/phone-number-button";
-import { Button } from "@/src/presentation/ui/buttons/ui-button";
 import { WhatsAppButton } from "@/src/presentation/ui/buttons/whats-app-button";
 import { Card } from "@/src/presentation/ui/cards/card";
 import { Chip } from "@/src/presentation/ui/chips/chip";
@@ -15,6 +14,7 @@ import { View } from "react-native";
 import { useGetDateStatusColor } from "../helpers/get-date-color";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 import { IVisit } from "../type/visit.interface";
+import { RegisterVisitButton } from "./register-visit-button";
 
 const visitTypeTranslation = {
   [VisitTypeEnum.visit]: "Revisita",
@@ -198,14 +198,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
           </View>
         )}
       </View>
-      <Button
-        type={"contained"}
-        height={40}
-        onClick={() => console.log("click")}
-        onPress={() => console.log("click")}
-      >
-        {`Registrar ${visitTypeTranslation[type]}`}
-      </Button>
+      <RegisterVisitButton type={type} />
     </Card>
   );
 }

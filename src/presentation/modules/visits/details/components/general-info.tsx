@@ -7,12 +7,8 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import { HeadLine } from "@/src/presentation/ui/texts/head-line";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { View } from "react-native";
-import { VisitTypeEnum } from "../../type/visit-type.enum";
+import { visitTypeTranslation } from "../../constants/visit-type-translation";
 import { IVisitDetail } from "../types/visit-detail.interface";
-const visitTypeTranslation = {
-  [VisitTypeEnum.visit]: "Revisita",
-  [VisitTypeEnum.course]: "Curso",
-};
 
 export function GeneralInfo({ visit }: { visit: IVisitDetail }) {
   const colors = useThemeColor();

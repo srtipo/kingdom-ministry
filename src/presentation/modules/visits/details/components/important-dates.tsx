@@ -2,7 +2,7 @@ import { formatDate } from "@/src/presentation/helpers/format-date";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { Card } from "@/src/presentation/ui/cards/card";
 import { Icon } from "@/src/presentation/ui/icons/icon";
-import { Text } from "@/src/presentation/ui/texts/text";
+import { Title } from "@/src/presentation/ui/texts/title";
 import { View } from "react-native";
 import { useGetDateStatusColor } from "../../helpers/get-date-color";
 import { IVisitDetail } from "../types/visit-detail.interface";
@@ -28,10 +28,10 @@ export function ImportantDates({ visit }: { visit: IVisitDetail }) {
           gap: 10,
         }}
       >
-        <Icon type={"calendar-outline"} size={20} color={colors.primary} />
-        <Text type={"large"} color={colors.onSurface} fontWeight={"bold"}>
-          {"Fecha Importantes"}
-        </Text>
+        <Icon type={"calendar-outline"} size={25} color={colors.primary} />
+        <Title type={"large"} color={colors.onSurface} fontWeight={"bold"}>
+          {"Fechas Importantes"}
+        </Title>
       </View>
       <View
         style={{
