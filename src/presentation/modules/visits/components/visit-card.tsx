@@ -1,4 +1,5 @@
 import { formatDate } from "@/src/presentation/helpers/format-date";
+import { getContextColors } from "@/src/presentation/helpers/get-context-color";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { PhoneNumberButton } from "@/src/presentation/ui/buttons/phone-number-button";
 import { WhatsAppButton } from "@/src/presentation/ui/buttons/whats-app-button";
@@ -34,6 +35,8 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
   const { showSnackbar } = useContext(SnackBarContext);
   const visitChipColor = useGetDateStatusColor(next_visit);
+
+  const { backgroundColor, textColor } = getContextColors(visitChipColor);
   const getVisitColor = () => {
     switch (type) {
       case VisitTypeEnum.visit:
@@ -65,7 +68,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
       p={15}
       borderRadius={10}
       style={{
-        borderColor: visitChipColor,
+        borderColor: "#ff5d48",
         borderWidth: visitChipColor === colors.chips.bad ? 1 : 0,
       }}
     >
@@ -118,13 +121,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
             alignItems: "center",
           }}
         >
-          <Chip
-            color={visitChipColor}
-            selectedColor={"black"}
-            style={{
-              opacity: 0.8,
-            }}
-          >
+          <Chip color={backgroundColor}>
             <View
               style={{
                 display: "flex",
@@ -133,8 +130,8 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
                 alignItems: "center",
               }}
             >
-              <Icon type={"clock-outline"} size={20} color={colors.scrim} />
-              <Text fontWeith={"bold"} color={colors.scrim}>
+              <Icon type={"clock-outline"} size={20} color={textColor} />
+              <Text fontWeith={"bold"} color={textColor}>
                 {adaptiveDateFormat(next_visit)}
               </Text>
             </View>
