@@ -1,34 +1,54 @@
-# Welcome to Kingdom ministry 👋
+# Kingdom ministry
 
-This is a app to help jehovah witnesses to take control of their daily tasks on their ministry.
+Mobile app built with **React Native (Expo)** for Jehovah's Witnesses to manage return visits and Bible study courses in their ministry.
 
-## Get started
+## Tech Stack
 
-1. Install dependencies
+- **Framework:** React Native 0.81 + Expo SDK 54
+- **Routing:** Expo Router (file-based, tabs + stack)
+- **State:** TanStack React Query
+- **DB:** expo-sqlite (local, with migrations)
+- **UI:** React Native Paper + styled-components + styled-system
+- **Validation:** Zod 4
+- **Testing:** Jest + Testing Library React Native + alasql (SQLite mock)
 
-   ```bash
-   npm install
-   ```
+## Architecture
 
-2. Start the app
+Clean Architecture with 3 layers:
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+src/
+  core/            -- Entities, repository interfaces, use cases
+  data/            -- Implementations (SQLite), migrations
+  presentation/    -- Components, hooks, screens, design system
+  di/              -- Dependency injection container (manual)
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Features
+
+- CRUD for return visits and Bible study courses
+- Search by name/address with debounce
+- Date filters: Today, Tomorrow, Next Week, Past, Custom
+- Color-coded next visit date (red overdue, yellow soon, green future)
+- Phone call and WhatsApp contact from the app
+- Bottom sheet modal with swipe gesture for create/edit
+- Light/dark theme
+
+## Scripts
+
+```bash
+pnpm start          # Start Expo dev server
+pnpm android        # Start on Android
+pnpm ios            # Start on iOS
+pnpm web            # Start on web
+pnpm test           # Run tests with Jest
+pnpm lint           # ESLint
+```
+
+## Environment variables
+
+Copy `.env.example` to `.env`:
+
+```
+EXPO_PUBLIC_DB_NAME=ministery.db
+```
