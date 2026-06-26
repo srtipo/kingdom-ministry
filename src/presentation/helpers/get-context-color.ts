@@ -5,7 +5,10 @@ interface ComponentColors {
 }
 
 function hexToHsl(hex: string): { h: number; s: number; l: number } | null {
-  const cleanHex = hex.replace("#", "");
+  let cleanHex = hex.replace("#", "");
+  if (cleanHex.length === 8) {
+    cleanHex = cleanHex.slice(0, 6);
+  }
   if (cleanHex.length !== 3 && cleanHex.length !== 6) return null;
 
   let num = parseInt(cleanHex, 16);

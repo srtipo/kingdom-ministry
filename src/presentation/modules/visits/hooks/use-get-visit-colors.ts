@@ -9,11 +9,15 @@ export function useGetVisitColor(visitType: VisitTypeEnum) {
         backgroundColor: colors.visitType.visit,
         textColor: colors.visitType.onVisit,
       };
-
     case VisitTypeEnum.course:
       return {
         backgroundColor: colors.visitType.course,
         textColor: colors.visitType.onCourse,
+      };
+    default:
+      return {
+        backgroundColor: colors.visitType.visit,
+        textColor: colors.visitType.onVisit,
       };
   }
 }

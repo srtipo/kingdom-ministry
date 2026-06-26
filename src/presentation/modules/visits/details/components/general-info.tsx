@@ -33,7 +33,7 @@ export function GeneralInfo({ visit }: { visit: IVisitDetail }) {
         <View
           style={{ display: "flex", flexDirection: "row", marginBlock: 10 }}
         >
-          <Chip borderRadius={20} color={"rgba(255, 255, 255, 0.32)"}>
+          <Chip borderRadius={20} color={"rgba(128, 128, 128, 0.1)"}>
             <View
               style={{
                 display: "flex",

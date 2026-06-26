@@ -12,7 +12,11 @@ import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { View } from "react-native";
-import { useGetDateStatusColor } from "../helpers/get-date-color";
+import {
+  DateStatus,
+  getDateStatus,
+  useGetDateStatusColor,
+} from "../helpers/get-date-color";
 import { useGetVisitColor } from "../hooks/use-get-visit-colors";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 import { IVisit } from "../type/visit.interface";
@@ -64,10 +68,9 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
       borderRadius={10}
       style={{
         borderColor: "#ff5d48",
-        borderWidth: visitChipColor === colors.chips.bad ? 1 : 0,
+        borderWidth: getDateStatus(next_visit) === DateStatus.bad ? 1 : 0,
       }}
     >
-      <View style={{ display: "flex", justifyContent: "center" }}></View>
       <View
         style={{
           display: "flex",
@@ -125,7 +128,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
               }}
             >
               <Icon type={"clock-outline"} size={20} color={textColor} />
-              <Text fontWeith={"bold"} color={textColor}>
+              <Text fontWeight={"bold"} color={textColor}>
                 {adaptiveDateFormat(next_visit)}
               </Text>
             </View>
@@ -137,11 +140,17 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
             flexDirection: "row",
             gap: 5,
             alignItems: "center",
-            height: 30,
+            minHeight: 30,
           }}
         >
           <Icon type={"map-marker"} size={22} />
-          <Text>{address}</Text>
+          <Text
+            style={{ flexShrink: 1, flex: 1 }}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
+            {address}
+          </Text>
         </View>
         {phone && (
           <View
