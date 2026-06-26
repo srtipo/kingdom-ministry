@@ -1,4 +1,4 @@
-# Revisitas
+# Kingdom ministry
 
 Mobile app built with **React Native (Expo)** for Jehovah's Witnesses to manage return visits and Bible study courses in their ministry.
 
