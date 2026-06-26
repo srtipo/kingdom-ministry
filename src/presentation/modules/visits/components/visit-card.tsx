@@ -1,4 +1,5 @@
 import { formatDate } from "@/src/presentation/helpers/format-date";
+import { getContextColors } from "@/src/presentation/helpers/get-context-color";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { PhoneNumberButton } from "@/src/presentation/ui/buttons/phone-number-button";
 import { WhatsAppButton } from "@/src/presentation/ui/buttons/whats-app-button";
@@ -11,7 +12,12 @@ import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { View } from "react-native";
-import { useGetDateStatusColor } from "../helpers/get-date-color";
+import {
+  DateStatus,
+  getDateStatus,
+  useGetDateStatusColor,
+} from "../helpers/get-date-color";
+import { useGetVisitColor } from "../hooks/use-get-visit-colors";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 import { IVisit } from "../type/visit.interface";
 import { RegisterVisitButton } from "./register-visit-button";
@@ -31,17 +37,13 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
   };
 
   const { name, address, phone, next_visit, type, notes } = visit;
+  const { backgroundColor: backgroundTypeColor, textColor: textTypeColor } =
+    useGetVisitColor(type);
   const colors = useThemeColor();
   const { showSnackbar } = useContext(SnackBarContext);
   const visitChipColor = useGetDateStatusColor(next_visit);
-  const getVisitColor = () => {
-    switch (type) {
-      case VisitTypeEnum.visit:
-        return "#E1712B";
-      case VisitTypeEnum.course:
-        return "#8207DB";
-    }
-  };
+
+  const { backgroundColor, textColor } = getContextColors(visitChipColor);
   const adaptiveDateFormat = (date?: Date | string) => {
     const now = dayjs();
     const time = dayjs(date).format("hh:mm A");
@@ -65,11 +67,10 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
       p={15}
       borderRadius={10}
       style={{
-        borderColor: visitChipColor,
-        borderWidth: visitChipColor === colors.chips.bad ? 1 : 0,
+        borderColor: "#ff5d48",
+        borderWidth: getDateStatus(next_visit) === DateStatus.bad ? 1 : 0,
       }}
     >
-      <View style={{ display: "flex", justifyContent: "center" }}></View>
       <View
         style={{
           display: "flex",
@@ -94,10 +95,9 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
               {name}
             </Text>
           </View>
-
-          <Text type={"large"} fontWeight={"bold"} color={getVisitColor()}>
-            {visitTypeTranslation[type]}
-          </Text>
+          <Chip color={backgroundTypeColor}>
+            <Text color={textTypeColor}>{visitTypeTranslation[type]}</Text>
+          </Chip>
         </View>
         <View
           style={{
@@ -118,13 +118,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
             alignItems: "center",
           }}
         >
-          <Chip
-            color={visitChipColor}
-            selectedColor={"black"}
-            style={{
-              opacity: 0.8,
-            }}
-          >
+          <Chip color={backgroundColor}>
             <View
               style={{
                 display: "flex",
@@ -133,8 +127,8 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
                 alignItems: "center",
               }}
             >
-              <Icon type={"clock-outline"} size={20} color={colors.scrim} />
-              <Text fontWeith={"bold"} color={colors.scrim}>
+              <Icon type={"clock-outline"} size={20} color={textColor} />
+              <Text fontWeight={"bold"} color={textColor}>
                 {adaptiveDateFormat(next_visit)}
               </Text>
             </View>
@@ -146,11 +140,17 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
             flexDirection: "row",
             gap: 5,
             alignItems: "center",
-            height: 30,
+            minHeight: 30,
           }}
         >
           <Icon type={"map-marker"} size={22} />
-          <Text>{address}</Text>
+          <Text
+            style={{ flexShrink: 1, flex: 1 }}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
+            {address}
+          </Text>
         </View>
         {phone && (
           <View

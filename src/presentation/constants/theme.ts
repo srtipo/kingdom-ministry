@@ -7,7 +7,7 @@ import { Platform } from "react-native";
 
 export const Colors = {
   light: {
-    primary: "rgb(15, 91, 188)",
+    primary: "#0f5abd",
     onPrimary: "rgb(255, 255, 255)",
     primaryContainer: "rgb(216, 226, 255)",
     onPrimaryContainer: "rgb(0, 26, 65)",
@@ -52,6 +52,13 @@ export const Colors = {
       good: "#cfeaff",
       bad: "#ffdbcf",
       warning: "#ffffcf",
+    },
+
+    visitType: {
+      visit: "#0596691a",
+      onVisit: "#065f46",
+      course: "#7c3aed1a",
+      onCourse: "#6d28d9",
     },
     // review colors
     card: "rgb(255, 255, 255)",
@@ -106,6 +113,12 @@ export const Colors = {
       good: "#cfeaff",
       bad: "#ffdbcf",
       warning: "#ffffcf",
+    },
+    visitType: {
+      visit: "#34d3991f",
+      onVisit: "#34d399",
+      course: "#a78bfa1f",
+      onCourse: "#a78bfa",
     },
 
     // review colors
