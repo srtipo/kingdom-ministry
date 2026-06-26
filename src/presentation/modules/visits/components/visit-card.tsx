@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { View } from "react-native";
 import { useGetDateStatusColor } from "../helpers/get-date-color";
+import { useGetVisitColor } from "../hooks/use-get-visit-colors";
 import { VisitTypeEnum } from "../type/visit-type.enum";
 import { IVisit } from "../type/visit.interface";
 import { RegisterVisitButton } from "./register-visit-button";
@@ -32,19 +33,13 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
   };
 
   const { name, address, phone, next_visit, type, notes } = visit;
+  const { backgroundColor: backgroundTypeColor, textColor: textTypeColor } =
+    useGetVisitColor(type);
   const colors = useThemeColor();
   const { showSnackbar } = useContext(SnackBarContext);
   const visitChipColor = useGetDateStatusColor(next_visit);
 
   const { backgroundColor, textColor } = getContextColors(visitChipColor);
-  const getVisitColor = () => {
-    switch (type) {
-      case VisitTypeEnum.visit:
-        return "#E1712B";
-      case VisitTypeEnum.course:
-        return "#8207DB";
-    }
-  };
   const adaptiveDateFormat = (date?: Date | string) => {
     const now = dayjs();
     const time = dayjs(date).format("hh:mm A");
@@ -97,10 +92,9 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
               {name}
             </Text>
           </View>
-
-          <Text type={"large"} fontWeight={"bold"} color={getVisitColor()}>
-            {visitTypeTranslation[type]}
-          </Text>
+          <Chip color={backgroundTypeColor}>
+            <Text color={textTypeColor}>{visitTypeTranslation[type]}</Text>
+          </Chip>
         </View>
         <View
           style={{

@@ -8,10 +8,13 @@ import { HeadLine } from "@/src/presentation/ui/texts/head-line";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { View } from "react-native";
 import { visitTypeTranslation } from "../../constants/visit-type-translation";
+import { useGetVisitColor } from "../../hooks/use-get-visit-colors";
 import { IVisitDetail } from "../types/visit-detail.interface";
 
 export function GeneralInfo({ visit }: { visit: IVisitDetail }) {
   const colors = useThemeColor();
+  const { backgroundColor: backgroundTypeColor, textColor: textTypeColor } =
+    useGetVisitColor(visit.type);
 
   return (
     <Card
@@ -22,15 +25,15 @@ export function GeneralInfo({ visit }: { visit: IVisitDetail }) {
     >
       <View
         style={{
-          backgroundColor: colors.primary,
+          backgroundColor: backgroundTypeColor,
           padding: 20,
         }}
       >
-        <HeadLine color={colors.onPrimary}>{visit.name}</HeadLine>
+        <HeadLine color={textTypeColor}>{visit.name}</HeadLine>
         <View
           style={{ display: "flex", flexDirection: "row", marginBlock: 10 }}
         >
-          <Chip borderRadius={20} color={"rgba(255, 255, 255, 0.2)"}>
+          <Chip borderRadius={20} color={"rgba(255, 255, 255, 0.32)"}>
             <View
               style={{
                 display: "flex",
@@ -40,8 +43,8 @@ export function GeneralInfo({ visit }: { visit: IVisitDetail }) {
                 width: 100,
               }}
             >
-              <Icon type={"tag-outline"} size={16} color={colors.onPrimary} />
-              <Text color={colors.onPrimary} fontWeight={"bold"}>
+              <Icon type={"tag-outline"} size={16} color={textTypeColor} />
+              <Text color={textTypeColor}>
                 {visitTypeTranslation[visit.type]}
               </Text>
             </View>

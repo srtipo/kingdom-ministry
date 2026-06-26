@@ -75,13 +75,13 @@ export function getContextColors(
 
   if (l > 50) {
     return {
-      backgroundColor: `hsl(${h}, ${s}%, ${l}%)`,
-      textColor: `hsl(${h}, ${Math.max(500, s - 50)}%, ${Math.max(15, l - 68)}%)`,
+      backgroundColor: bgColor,
+      textColor: `hsl(${h}, ${Math.max(50, s - 50)}%, ${Math.max(15, l - 68)}%)`,
       borderColor: `hsl(${h}, ${Math.max(50, s - 50)}%, ${Math.max(20, l - 18)}%)`,
     };
   } else {
     return {
-      backgroundColor: `hsl(${h}, ${s}%, ${l}%)`,
+      backgroundColor: bgColor,
       textColor: `hsl(${h}, ${Math.min(20, s)}%, 95%)`,
       borderColor: `hsl(${h}, ${s}%, ${Math.min(20, l + 10)}%)`,
     };
