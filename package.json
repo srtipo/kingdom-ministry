@@ -64,6 +64,7 @@
     "@types/react": "~19.1.0",
     "@types/react-test-renderer": "^19.1.0",
     "@types/styled-system": "^5.1.25",
+    "alasql": "^4.17.3",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "typescript": "~5.9.2"
