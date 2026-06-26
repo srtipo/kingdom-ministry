@@ -1,6 +1,7 @@
 import SegmentedButton from "@/src/presentation/ui/buttons/segmented-button";
 import { Icon } from "@/src/presentation/ui/icons/icon";
 import { DatePicker } from "@/src/presentation/ui/input/date-picker";
+import { ScrollMask } from "@/src/presentation/ui/mask";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { ScrollView } from "react-native";
@@ -115,15 +116,17 @@ export function VisitDateSelection({
   ];
   return (
     <>
-      <ScrollView horizontal={true}>
-        <SegmentedButton
-          value={value ?? dateSelection}
-          buttons={segmentedButtons}
-          onValueChange={(value: string) => {
-            onDateSelectionChange(value as DateSelectionEnum);
-          }}
-        />
-      </ScrollView>
+      <ScrollMask left right>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <SegmentedButton
+            value={value ?? dateSelection}
+            buttons={segmentedButtons}
+            onValueChange={(value: string) => {
+              onDateSelectionChange(value as DateSelectionEnum);
+            }}
+          />
+        </ScrollView>
+      </ScrollMask>
 
       <DatePicker
         onChange={(data) => {
