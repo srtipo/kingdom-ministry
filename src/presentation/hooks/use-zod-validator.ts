@@ -14,8 +14,7 @@ export type ValidationResult<T> =
     };
 
 type ValidateFieldResult = { valid: true } | { valid: false; errors: string[] };
-export default function useZodValidator<S extends z.ZodType>(schema: S) {
-  type T = z.output<S>;
+export default function useZodValidator<T>(schema: z.ZodType<T, any, any>) {
   const [errorsState, setErrorsState] = useState<Record<
     string,
     string[]

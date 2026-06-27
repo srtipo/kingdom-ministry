@@ -14,6 +14,7 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import NativeDateTime from "@/src/presentation/ui/input/date-hour-picker";
 import TextInput from "@/src/presentation/ui/input/text-input";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
+import { Text } from "@/src/presentation/ui/texts/text";
 import useCreateVisit from "../hooks/use-create-visit";
 
 const visitSchema = z.object({
@@ -64,14 +65,14 @@ export default function CreateVisitForm({
     name: string | null;
     type: VisitTypeEnum;
     address: string | null;
-    phone?: string | undefined;
+    phone: string | null;
     next_visit: string | null;
     notes: string | null;
   }>({
     name: null,
     type: VisitTypeEnum.visit,
     address: null,
-    phone: undefined,
+    phone: null,
     next_visit: null,
     notes: null,
   });
@@ -79,14 +80,13 @@ export default function CreateVisitForm({
   const handleSave = () => {
     const result = validate(form);
     if (result.success && result.data) {
-      const { next_visit, ...rest } = result.data;
       createVisit({
-        ...rest,
-        nextVisit: next_visit,
+        ...result.data,
+        nextVisit: result.data.next_visit,
         lastVisit: new Date(),
-      } 
-    );
-
+      } as Omit<ICreateVisit, "createdAt" | "updatedAt">);
+    }
+  };
 
   const handleChangeText = (path: string, value: unknown) => {
     setForm({ ...form, [path]: value });
@@ -156,7 +156,7 @@ export default function CreateVisitForm({
         style={{ marginTop: 10 }}
         isloanding={isPending}
       >
-        Crear
+        <Text>Crear </Text>
       </Button>
     </>
   );
