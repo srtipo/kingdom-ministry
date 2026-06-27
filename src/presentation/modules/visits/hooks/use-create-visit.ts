@@ -1,11 +1,7 @@
 import { createVisitsHandler } from "@/src/di/visits/container";
+import { ICreateVisit } from "@/src/core/modules/visits/interfaces/visit-model.interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { IVisit } from "../type/visit.interface";
 
-export type ICreateVisit = Omit<IVisit, "id" | "next_visit" | "last_visit"> & {
-  next_visit: Date;
-  last_visit: Date;
-};
 export default function useCreateVisit({
   onSuccess,
   onError,
@@ -17,9 +13,11 @@ export default function useCreateVisit({
   const { mutate: createVisit, ...rest } = useMutation<
     void,
     Error,
-    ICreateVisit
+    Omit<ICreateVisit, "created_at" | "updated_at">
   >({
-    mutationFn: async (visit: ICreateVisit) => {
+    mutationFn: async (
+      visit: Omit<ICreateVisit, "created_at" | "updated_at">,
+    ) => {
       return await createVisitsHandler.execute(visit);
     },
     onSuccess: () => {

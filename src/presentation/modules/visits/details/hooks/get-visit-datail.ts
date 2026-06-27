@@ -1,9 +1,9 @@
 import { getVisitDetailsHandler } from "@/src/di/visits/container";
 import { useQuery } from "@tanstack/react-query";
-import { IVisitDetail } from "../types/visit-detail.interface";
+import { IVisitModel } from "@/src/core/modules/visits/interfaces/visit-model.interface";
 
 export function useGetVisitDetail(id: string) {
-  return useQuery<IVisitDetail, Error>({
+  return useQuery<IVisitModel, Error>({
     queryKey: ["visit-detail", id],
     queryFn: async () => await getVisitDetailsHandler.execute(id),
   });

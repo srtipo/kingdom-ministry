@@ -10,12 +10,23 @@ jest.mock("@/src/presentation/hooks/use-theme-color", () => ({
     chips: { bad: "red", warning: "orange", good: "green" },
     scrim: "#000",
     elevation: { level2: "#eee" },
+    visitType: {
+      visit: "#FFD700",
+      onVisit: "#FFF",
+      course: "#4CAF50",
+      onCourse: "#FFF",
+    },
   }),
 }));
 
-jest.mock("@/src/presentation/modules/visits/helpers/get-date-color", () => ({
-  useGetDateStatusColor: () => "orange",
-}));
+jest.mock("@/src/presentation/modules/visits/helpers/get-date-color", () => {
+  const DateStatus = { bad: "bad", warning: "warning", good: "good" };
+  return {
+    DateStatus,
+    getDateStatus: jest.fn(() => DateStatus.good),
+    useGetDateStatusColor: () => "orange",
+  };
+});
 
 jest.mock("@/src/presentation/ui/buttons/phone-number-button", () => ({
   PhoneNumberButton: () => null,
@@ -27,7 +38,7 @@ jest.mock("@/src/presentation/ui/buttons/whats-app-button", () => ({
 
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
 import VisitCardFixture from "../visit-card";
-import { VisitTypeEnum } from "../../type/visit-type.enum";
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit-model.interface";
 
 const mockShowSnackbar = { error: jest.fn(), success: jest.fn() };
 
@@ -48,6 +59,9 @@ describe("VisitCard", () => {
     notes: "Some notes",
     type: VisitTypeEnum.visit,
     next_visit: new Date(),
+    last_visit: undefined,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   };
 
   it("renders visit name and address", async () => {

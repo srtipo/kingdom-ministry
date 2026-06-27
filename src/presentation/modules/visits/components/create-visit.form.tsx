@@ -2,6 +2,10 @@ import { SegmentedButton } from "@/src/presentation/ui/buttons/segmented-button"
 import { Button } from "@/src/presentation/ui/buttons/ui-button";
 import { useContext, useState } from "react";
 
+import {
+  ICreateVisit,
+  VisitTypeEnum,
+} from "@/src/core/modules/visits/interfaces/visit-model.interface";
 import { PHONE_REGEX } from "@/src/presentation/constants/phoneRegex";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import useZodValidator from "@/src/presentation/hooks/use-zod-validator";
@@ -10,8 +14,7 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import NativeDateTime from "@/src/presentation/ui/input/date-hour-picker";
 import TextInput from "@/src/presentation/ui/input/text-input";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
-import useCreateVisit, { ICreateVisit } from "../hooks/use-create-visit";
-import { VisitTypeEnum } from "../type/visit-type.enum";
+import useCreateVisit from "../hooks/use-create-visit";
 
 const visitSchema = z.object({
   name: z
@@ -77,7 +80,10 @@ export default function CreateVisitForm({
     const result = validate(form);
     const last_visit = new Date();
     if (result.success && result.data) {
-      createVisit({ ...result.data, last_visit } as ICreateVisit);
+      createVisit({
+        ...result.data,
+        last_visit,
+      } as Omit<ICreateVisit, "created_at" | "updated_at">);
     }
   };
 

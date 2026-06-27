@@ -6,10 +6,10 @@ import { Text } from "@/src/presentation/ui/texts/text";
 import { Title } from "@/src/presentation/ui/texts/title";
 import { View } from "react-native";
 import { RegisterVisitButton } from "../../components/register-visit-button";
-import { IVisitDetail } from "../types/visit-detail.interface";
+import { IVisitModel } from "@/src/core/modules/visits/interfaces/visit-model.interface";
 import { VisitHistory } from "./visit-history";
 
-export function VisitHistoryCard({ visit }: { visit: IVisitDetail }) {
+export function VisitHistoryCard({ visit }: { visit: IVisitModel }) {
   const colors = useThemeColor();
   const visitHistory = [];
   return (

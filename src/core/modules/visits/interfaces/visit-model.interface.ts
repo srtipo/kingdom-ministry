@@ -7,8 +7,6 @@ export interface IVisitModel {
   name: string;
   address: string;
   phone?: string | undefined;
-  nextVisit: string;
-  lastVisit?: string | undefined;
   type: VisitTypeEnum;
   created_at: string;
   updated_at: string;
@@ -26,17 +24,6 @@ export interface ICreateVisit {
   type: VisitTypeEnum;
   created_at: string;
   updated_at: string;
-  notes?: string | undefined;
-}
-
-export interface IVisitDetail {
-  id: string;
-  name: string;
-  address: string;
-  phone?: string | undefined;
-  last_visit: string;
-  next_visit: string;
-  type: VisitTypeEnum;
   notes?: string | undefined;
 }
 

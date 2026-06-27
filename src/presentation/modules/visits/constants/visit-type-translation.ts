@@ -1,4 +1,4 @@
-import { VisitTypeEnum } from "../type/visit-type.enum";
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit-model.interface";
 
 export const visitTypeTranslation = {
   [VisitTypeEnum.visit]: "Revisita",

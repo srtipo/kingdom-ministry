@@ -7,8 +7,8 @@ import {
 import {
   createVisitToSqlParams,
   VisitSqlRow,
-  visitSqlRowsToDomain,
   visitSqlRowToDomain,
+  visitSqlRowsToDomain,
 } from "../mappers/visits.mapper";
 
 export class VisitsRepository implements IVisitsRepository {
@@ -71,7 +71,7 @@ export class VisitsRepository implements IVisitsRepository {
 
   async getById(id: string) {
     const query = await this.db.getFirstAsync<VisitSqlRow>(
-      "SELECT id, name, address, phone, next_visit, last_visit, type, notes FROM visits WHERE id = ?",
+      "SELECT id, name, address, phone, next_visit, last_visit, type, created_at, updated_at, notes FROM visits WHERE id = ?",
       [id],
     );
 

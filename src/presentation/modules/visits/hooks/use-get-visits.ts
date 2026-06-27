@@ -1,6 +1,6 @@
 import { getVisitsHandler } from "@/src/di/visits/container";
+import { IVisitModel } from "@/src/core/modules/visits/interfaces/visit-model.interface";
 import { useQuery } from "@tanstack/react-query";
-import { IVisit } from "../type/visit.interface";
 export function useGetVisits(
   searchTerm: string | undefined,
   {
@@ -11,7 +11,7 @@ export function useGetVisits(
     endDate: Date | undefined;
   },
 ) {
-  return useQuery<IVisit[], Error>({
+  return useQuery<IVisitModel[], Error>({
     queryKey: ["visits", searchTerm, startDate, endDate],
     queryFn: async () =>
       await getVisitsHandler.execute(searchTerm, startDate, endDate),

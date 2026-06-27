@@ -1,7 +1,7 @@
 import { Loading } from "@/src/presentation/ui/loaders/loading";
 import { ScrollMask } from "@/src/presentation/ui/mask";
 import { FlatList, View } from "react-native";
-import { IVisit } from "../type/visit.interface";
+import { IVisitModel } from "@/src/core/modules/visits/interfaces/visit-model.interface";
 import { NoVisitCard } from "./no-visit-card";
 import VisitCard from "./visit-card";
 
@@ -9,7 +9,7 @@ export default function VisitList({
   visits,
   isLoanding = false,
 }: {
-  visits?: IVisit[];
+  visits?: IVisitModel[];
   isLoanding?: boolean;
 }) {
   if (isLoanding) {

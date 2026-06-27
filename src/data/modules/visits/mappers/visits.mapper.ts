@@ -1,6 +1,5 @@
 import {
   ICreateVisit,
-  IVisitDetail,
   IVisitModel,
   VisitTypeEnum,
 } from "@/src/core/modules/visits/interfaces/visit-model.interface";
@@ -29,8 +28,6 @@ export function visitSqlRowToDomain(
     name: row.name,
     address: row.address,
     phone: row.phone ?? undefined,
-    nextVisit: row.next_visit,
-    lastVisit: row.last_visit ?? undefined,
     type: row.type as VisitTypeEnum,
     created_at: row.created_at,
     updated_at: row.updated_at,
@@ -46,19 +43,6 @@ export function visitSqlRowsToDomain(
   return rows
     .map(visitSqlRowToDomain)
     .filter((row): row is IVisitModel => row !== null);
-}
-
-export function visitSqlRowToDetail(row: VisitSqlRow): IVisitDetail {
-  return {
-    id: row.id,
-    name: row.name,
-    address: row.address,
-    phone: row.phone ?? undefined,
-    type: row.type as VisitTypeEnum,
-    last_visit: row.last_visit ?? "",
-    next_visit: row.next_visit,
-    notes: row.notes ?? undefined,
-  };
 }
 
 export interface CreateVisitSqlParams {

@@ -34,7 +34,7 @@ jest.mock("expo-linear-gradient", () => ({
 }));
 
 import VisitList from "../visit-list";
-import { VisitTypeEnum } from "../../type/visit-type.enum";
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit-model.interface";
 
 describe("VisitList", () => {
   const visits = [
@@ -44,6 +44,9 @@ describe("VisitList", () => {
       address: "123 Main St",
       type: VisitTypeEnum.visit,
       next_visit: new Date(),
+      last_visit: undefined,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
     {
       id: "2",
@@ -51,6 +54,9 @@ describe("VisitList", () => {
       address: "456 Oak Ave",
       type: VisitTypeEnum.course,
       next_visit: new Date(),
+      last_visit: undefined,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
   ];
 
