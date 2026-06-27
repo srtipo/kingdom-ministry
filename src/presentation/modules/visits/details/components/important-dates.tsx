@@ -5,10 +5,10 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import { Title } from "@/src/presentation/ui/texts/title";
 import { View } from "react-native";
 import { useGetDateStatusColor } from "../../helpers/get-date-color";
-import { IVisitModel } from "@/src/core/modules/visits/interfaces/visit-model.interface";
+import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { VisitDateCard } from "./visit-date-card";
 
-export function ImportantDates({ visit }: { visit: IVisitModel }) {
+export function ImportantDates({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
   const visitChipColor = useGetDateStatusColor(visit.nextVisit);
 

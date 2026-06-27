@@ -1,7 +1,7 @@
 import {
   ICreateVisit,
   IVisitsRepository,
-} from "../interfaces/visit-model.interface";
+} from "../interfaces/visit.interface";
 
 export class CreateVisitsHandler {
   private repository: IVisitsRepository;

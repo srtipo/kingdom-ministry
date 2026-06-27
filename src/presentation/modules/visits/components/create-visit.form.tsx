@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import {
   ICreateVisit,
   VisitTypeEnum,
-} from "@/src/core/modules/visits/interfaces/visit-model.interface";
+} from "@/src/core/modules/visits/interfaces/visit.interface";
 import { PHONE_REGEX } from "@/src/presentation/constants/phoneRegex";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import useZodValidator from "@/src/presentation/hooks/use-zod-validator";

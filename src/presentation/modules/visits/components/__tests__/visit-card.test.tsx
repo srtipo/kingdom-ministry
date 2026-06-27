@@ -38,7 +38,7 @@ jest.mock("@/src/presentation/ui/buttons/whats-app-button", () => ({
 
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
 import VisitCardFixture from "../visit-card";
-import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit-model.interface";
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interface";
 
 const mockShowSnackbar = { error: jest.fn(), success: jest.fn() };
 

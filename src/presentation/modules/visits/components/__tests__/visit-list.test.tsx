@@ -34,7 +34,7 @@ jest.mock("expo-linear-gradient", () => ({
 }));
 
 import VisitList from "../visit-list";
-import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit-model.interface";
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interface";
 
 describe("VisitList", () => {
   const visits = [

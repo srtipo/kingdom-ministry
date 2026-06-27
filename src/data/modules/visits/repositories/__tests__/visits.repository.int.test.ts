@@ -8,7 +8,7 @@ jest.mock("@/src/presentation/libraries/crypto", () => ({
 
 import { createTestDb } from "@/src/data/database/sqlite-test-adapter";
 import { VisitsRepository } from "../visits.repository";
-import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit-model.interface";
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { CreateVisitsHandler } from "@/src/core/modules/visits/handlers/create-visits.handler";
 import { GetVisitDetailsHandler } from "@/src/core/modules/visits/handlers/get-visit-details.handler";
 import { SearchVisitsHandler } from "@/src/core/modules/visits/handlers/search-visits.handler";

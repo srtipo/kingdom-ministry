@@ -3,7 +3,7 @@ import { SQLiteDatabase } from "expo-sqlite";
 import {
   ICreateVisit,
   IVisitsRepository,
-} from "../../../../core/modules/visits/interfaces/visit-model.interface";
+} from "../../../../core/modules/visits/interfaces/visit.interface";
 import {
   createVisitToSqlParams,
   VisitSqlRow,

@@ -1,8 +1,8 @@
 import {
   ICreateVisit,
-  IVisitModel,
+  IVisit,
   VisitTypeEnum,
-} from "@/src/core/modules/visits/interfaces/visit-model.interface";
+} from "@/src/core/modules/visits/interfaces/visit.interface";
 
 export interface VisitSqlRow {
   id: string;
@@ -19,7 +19,7 @@ export interface VisitSqlRow {
 
 export function visitSqlRowToDomain(
   row: VisitSqlRow | null,
-): IVisitModel | null {
+): IVisit | null {
   if (!row) {
     return null;
   }
@@ -39,10 +39,10 @@ export function visitSqlRowToDomain(
 
 export function visitSqlRowsToDomain(
   rows: (VisitSqlRow | null)[],
-): IVisitModel[] {
+): IVisit[] {
   return rows
     .map(visitSqlRowToDomain)
-    .filter((row): row is IVisitModel => row !== null);
+    .filter((row): row is IVisit => row !== null);
 }
 
 export interface CreateVisitSqlParams {

@@ -1,4 +1,4 @@
-import { IVisitsRepository } from "../interfaces/visit-model.interface";
+import { IVisitsRepository } from "../interfaces/visit.interface";
 
 export class GetVisitDetailsHandler {
   private repository: IVisitsRepository;

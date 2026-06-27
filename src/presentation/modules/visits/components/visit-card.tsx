@@ -18,7 +18,7 @@ import {
   useGetDateStatusColor,
 } from "../helpers/get-date-color";
 import { useGetVisitColor } from "../hooks/use-get-visit-colors";
-import { VisitTypeEnum, IVisitModel } from "@/src/core/modules/visits/interfaces/visit-model.interface";
+import { VisitTypeEnum, IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { RegisterVisitButton } from "./register-visit-button";
 
 const visitTypeTranslation = {
@@ -26,7 +26,7 @@ const visitTypeTranslation = {
   [VisitTypeEnum.course]: "Curso",
 };
 
-export default function VisitCard({ visit }: { visit: IVisitModel }) {
+export default function VisitCard({ visit }: { visit: IVisit }) {
   const router = useRouter();
   const goToDetail = () => {
     router.push({
