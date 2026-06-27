@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react-native";
+import { fireEvent, render } from "@testing-library/react-native";
 import React from "react";
 
 jest.mock("@/src/presentation/hooks/use-theme-color", () => ({
@@ -9,20 +9,12 @@ jest.mock("@/src/presentation/hooks/use-theme-color", () => ({
 
 jest.mock("@/src/presentation/hooks/use-zod-validator", () => ({
   __esModule: true,
-  default: () => ({
-    validate: jest.fn(() => ({ success: true, data: { name: "Test" } })),
-    errors: null,
-    validateField: jest.fn(() => ({ valid: true })),
-    clearErrors: jest.fn(),
-  }),
+  default: jest.fn(),
 }));
 
 jest.mock("@/src/presentation/modules/visits/hooks/use-create-visit", () => ({
   __esModule: true,
-  default: () => ({
-    createVisit: jest.fn(),
-    isPending: false,
-  }),
+  default: jest.fn(),
 }));
 
 jest.mock("@/src/presentation/ui/input/text-input", () => ({
@@ -51,10 +43,14 @@ jest.mock("@/src/presentation/ui/input/date-hour-picker", () => ({
 }));
 
 jest.mock("@/src/presentation/ui/buttons/ui-button", () => ({
-  Button: ({ children, onPress, ...props }: any) => {
+  Button: ({ children, onPress, isloanding, ...props }: any) => {
     const { TouchableOpacity, Text: RNText } = require("react-native");
     return (
-      <TouchableOpacity onPress={onPress} testID="submit-button">
+      <TouchableOpacity
+        onPress={isloanding ? undefined : onPress}
+        disabled={isloanding}
+        testID="submit-button"
+      >
         <RNText>{children}</RNText>
       </TouchableOpacity>
     );
@@ -81,6 +77,8 @@ jest.mock("@/src/presentation/ui/buttons/segmented-button", () => ({
 }));
 
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
+import useZodValidator from "@/src/presentation/hooks/use-zod-validator";
+import useCreateVisit from "@/src/presentation/modules/visits/hooks/use-create-visit";
 import CreateVisitForm from "../create-visit.form";
 
 const mockShowSnackbar = { error: jest.fn(), success: jest.fn() };
@@ -93,6 +91,19 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 }
 
 describe("CreateVisitForm", () => {
+  beforeEach(() => {
+    (useZodValidator as jest.Mock).mockReturnValue({
+      validate: jest.fn(() => ({ success: true, data: { name: "Test" } })),
+      errors: null,
+      validateField: jest.fn(() => ({ valid: true })),
+      clearErrors: jest.fn(),
+    });
+    (useCreateVisit as jest.Mock).mockReturnValue({
+      createVisit: jest.fn(),
+      isPending: false,
+    });
+  });
+
   it("renders form fields", async () => {
     const { getByText } = await render(<CreateVisitForm />, { wrapper: Wrapper });
     expect(getByText("Nombre")).toBeTruthy();
@@ -111,5 +122,78 @@ describe("CreateVisitForm", () => {
   it("renders submit button", async () => {
     const { getByText } = await render(<CreateVisitForm />, { wrapper: Wrapper });
     expect(getByText("Crear")).toBeTruthy();
+  });
+
+  it("shows validation errors when present", async () => {
+    (useZodValidator as jest.Mock).mockReturnValue({
+      validate: jest.fn(() => ({
+        success: false,
+        errors: {
+          name: ["EL nombre no pueder estar vacio"],
+          address: ["La dirección no puede estar vacía"],
+        },
+      })),
+      errors: {
+        name: ["EL nombre no pueder estar vacio"],
+        address: ["La dirección no puede estar vacía"],
+      },
+      validateField: jest.fn(() => ({ valid: true })),
+      clearErrors: jest.fn(),
+    });
+
+    const { getByText } = await render(<CreateVisitForm />, { wrapper: Wrapper });
+    expect(getByText("EL nombre no pueder estar vacio")).toBeTruthy();
+    expect(getByText("La dirección no puede estar vacía")).toBeTruthy();
+  });
+
+  it("calls createVisit when validation succeeds", async () => {
+    const mockCreateVisit = jest.fn();
+    (useCreateVisit as jest.Mock).mockReturnValue({
+      createVisit: mockCreateVisit,
+      isPending: false,
+    });
+
+    const { getByText } = await render(<CreateVisitForm />, { wrapper: Wrapper });
+    fireEvent.press(getByText("Crear"));
+    expect(mockCreateVisit).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not call createVisit when validation fails", async () => {
+    const mockCreateVisit = jest.fn();
+    (useCreateVisit as jest.Mock).mockReturnValue({
+      createVisit: mockCreateVisit,
+      isPending: false,
+    });
+    (useZodValidator as jest.Mock).mockReturnValue({
+      validate: jest.fn(() => ({
+        success: false,
+        errors: { name: ["EL nombre no pueder estar vacio"] },
+      })),
+      errors: { name: ["EL nombre no pueder estar vacio"] },
+      validateField: jest.fn(() => ({ valid: true })),
+      clearErrors: jest.fn(),
+    });
+
+    const { getByText } = await render(<CreateVisitForm />, { wrapper: Wrapper });
+    fireEvent.press(getByText("Crear"));
+    expect(mockCreateVisit).not.toHaveBeenCalled();
+  });
+
+  it("does not call createVisit when request is pending", async () => {
+    const mockCreateVisit = jest.fn();
+    (useCreateVisit as jest.Mock).mockReturnValue({
+      createVisit: mockCreateVisit,
+      isPending: true,
+    });
+    (useZodValidator as jest.Mock).mockReturnValue({
+      validate: jest.fn(() => ({ success: true, data: { name: "Test" } })),
+      errors: null,
+      validateField: jest.fn(() => ({ valid: true })),
+      clearErrors: jest.fn(),
+    });
+
+    const { getByText } = await render(<CreateVisitForm />, { wrapper: Wrapper });
+    fireEvent.press(getByText("Crear"));
+    expect(mockCreateVisit).not.toHaveBeenCalled();
   });
 });
