@@ -80,10 +80,9 @@ export default function CreateVisitForm({
   const handleSave = () => {
     const result = validate(form);
     if (result.success && result.data) {
-      const { next_visit, ...rest } = result.data as Record<string, unknown>;
       createVisit({
-        ...rest,
-        nextVisit: next_visit,
+        ...result.data,
+        nextVisit: result.data.next_visit,
         lastVisit: new Date(),
       } as Omit<ICreateVisit, "createdAt" | "updatedAt">);
     }
