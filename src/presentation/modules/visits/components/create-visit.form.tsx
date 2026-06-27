@@ -66,24 +66,23 @@ export default function CreateVisitForm({
     type: VisitTypeEnum;
     address: string | null;
     phone: string | null;
-    nextVisit: string | null;
+    next_visit: string | null;
     notes: string | null;
   }>({
     name: null,
     type: VisitTypeEnum.visit,
     address: null,
     phone: null,
-    nextVisit: null,
+    next_visit: null,
     notes: null,
   });
   const { validate, errors, validateField } = useZodValidator(visitSchema);
   const handleSave = () => {
     const result = validate(form);
     if (result.success && result.data) {
-      const { next_visit, ...rest } = result.data as Record<string, unknown>;
       createVisit({
-        ...rest,
-        nextVisit: next_visit as Date,
+        ...result.data,
+        nextVisit: result.data.next_visit,
         lastVisit: new Date(),
       } as Omit<ICreateVisit, "createdAt" | "updatedAt">);
     }
@@ -139,9 +138,9 @@ export default function CreateVisitForm({
       />
       <NativeDateTime
         label="Próxima visita"
-        value={form.nextVisit ? new Date(form.nextVisit) : undefined}
-        error={errors?.nextVisit?.at(0)}
-        onChange={(val) => handleChangeText("nextVisit", val)}
+        value={form.next_visit ? new Date(form.next_visit) : undefined}
+        error={errors?.next_visit?.at(0)}
+        onChange={(val) => handleChangeText("next_visit", val)}
       />
       <TextInput
         label="Notas"
