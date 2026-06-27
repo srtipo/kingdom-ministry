@@ -48,5 +48,5 @@ export interface IVisitsRepository {
     startDate?: Date,
     endDate?: Date,
   ) => Promise<IVisitModel[]>;
-  getById: (id: string) => Promise<IVisitDetail | null>;
+  getById: (id: string) => Promise<IVisitModel | null>;
 }

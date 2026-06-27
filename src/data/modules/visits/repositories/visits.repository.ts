@@ -2,10 +2,14 @@ import { generateUUID } from "@/src/presentation/libraries/crypto";
 import { SQLiteDatabase } from "expo-sqlite";
 import {
   ICreateVisit,
-  IVisitDetail,
-  IVisitModel,
   IVisitsRepository,
 } from "../../../../core/modules/visits/interfaces/visit-model.interface";
+import {
+  createVisitToSqlParams,
+  VisitSqlRow,
+  visitSqlRowsToDomain,
+  visitSqlRowToDomain,
+} from "../mappers/visits.mapper";
 
 export class VisitsRepository implements IVisitsRepository {
   private db: SQLiteDatabase;
@@ -14,7 +18,10 @@ export class VisitsRepository implements IVisitsRepository {
   }
 
   async getAll() {
-    return this.db.getAllAsync<IVisitModel>("SELECT * FROM visits");
+    const query = await this.db.getAllAsync<VisitSqlRow>(
+      "SELECT * FROM visits",
+    );
+    return visitSqlRowsToDomain(query);
   }
 
   async getAllOrderedByNextVisit(
@@ -27,7 +34,7 @@ export class VisitsRepository implements IVisitsRepository {
     const startDateQuery = startDateString ? "AND next_visit >= ?" : "";
     const endDateQuery = endDateString ? "AND next_visit <= ?" : "";
     const searchPattern = `%${term ?? ""}%`;
-    const query = this.db.getAllAsync<IVisitModel>(
+    const query = await this.db.getAllAsync<VisitSqlRow>(
       "SELECT * FROM visits WHERE (name LIKE ? OR address LIKE ?) " +
         startDateQuery +
         endDateQuery +
@@ -39,11 +46,12 @@ export class VisitsRepository implements IVisitsRepository {
         ...(endDateString ? [endDateString] : []),
       ],
     );
-    return query;
+    return visitSqlRowsToDomain(query);
   }
 
-  async create(visit: ICreateVisit) {
+  async create(data: ICreateVisit) {
     const uuid = generateUUID();
+    const visit = createVisitToSqlParams(data, uuid);
     await this.db.runAsync(
       "INSERT INTO visits (id, name, address, phone, next_visit, last_visit, type, created_at, updated_at, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
@@ -51,8 +59,8 @@ export class VisitsRepository implements IVisitsRepository {
         visit.name,
         visit.address,
         visit.phone ?? null,
-        visit.next_visit.toISOString(),
-        visit.last_visit ? visit.last_visit.toISOString() : null,
+        visit.next_visit,
+        visit.last_visit ? visit.last_visit : null,
         visit.type,
         visit.created_at,
         visit.updated_at,
@@ -62,10 +70,11 @@ export class VisitsRepository implements IVisitsRepository {
   }
 
   async getById(id: string) {
-    const query = this.db.getFirstAsync<IVisitDetail>(
+    const query = await this.db.getFirstAsync<VisitSqlRow>(
       "SELECT id, name, address, phone, next_visit, last_visit, type, notes FROM visits WHERE id = ?",
       [id],
     );
-    return query;
+
+    return visitSqlRowToDomain(query);
   }
 }
