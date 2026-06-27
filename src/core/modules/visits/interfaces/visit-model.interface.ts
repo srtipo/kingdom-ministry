@@ -8,22 +8,22 @@ export interface IVisitModel {
   address: string;
   phone?: string | undefined;
   type: VisitTypeEnum;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
   notes?: string | undefined;
-  last_visit: Date | string | undefined;
-  next_visit: Date | string;
+  lastVisit: Date | string | undefined;
+  nextVisit: Date | string;
 }
 
 export interface ICreateVisit {
   name: string;
   address: string;
   phone?: string | undefined;
-  next_visit: Date;
-  last_visit?: Date | undefined;
+  nextVisit: Date;
+  lastVisit?: Date | undefined;
   type: VisitTypeEnum;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
   notes?: string | undefined;
 }
 

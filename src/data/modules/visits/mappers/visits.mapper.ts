@@ -29,11 +29,11 @@ export function visitSqlRowToDomain(
     address: row.address,
     phone: row.phone ?? undefined,
     type: row.type as VisitTypeEnum,
-    created_at: row.created_at,
-    updated_at: row.updated_at,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
     notes: row.notes ?? undefined,
-    next_visit: row.next_visit,
-    last_visit: row.last_visit ?? undefined,
+    nextVisit: row.next_visit,
+    lastVisit: row.last_visit ?? undefined,
   };
 }
 
@@ -67,11 +67,11 @@ export function createVisitToSqlParams(
     name: visit.name,
     address: visit.address,
     phone: visit.phone ?? null,
-    next_visit: visit.next_visit.toISOString(),
-    last_visit: visit.last_visit ? visit.last_visit.toISOString() : null,
+    next_visit: visit.nextVisit.toISOString(),
+    last_visit: visit.lastVisit ? visit.lastVisit.toISOString() : null,
     type: visit.type,
-    created_at: visit.created_at,
-    updated_at: visit.updated_at,
+    created_at: visit.createdAt,
+    updated_at: visit.updatedAt,
     notes: visit.notes ?? null,
   };
 }

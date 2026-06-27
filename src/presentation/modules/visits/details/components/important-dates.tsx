@@ -10,7 +10,7 @@ import { VisitDateCard } from "./visit-date-card";
 
 export function ImportantDates({ visit }: { visit: IVisitModel }) {
   const colors = useThemeColor();
-  const visitChipColor = useGetDateStatusColor(visit.next_visit);
+  const visitChipColor = useGetDateStatusColor(visit.nextVisit);
 
   return (
     <Card
@@ -47,7 +47,7 @@ export function ImportantDates({ visit }: { visit: IVisitModel }) {
           }
           color={colors.elevation.level1}
           label={"Ültima visita"}
-          date={formatDate(visit.last_visit)}
+          date={formatDate(visit.lastVisit)}
         />
         <VisitDateCard
           icon={
@@ -55,7 +55,7 @@ export function ImportantDates({ visit }: { visit: IVisitModel }) {
           }
           color={visitChipColor}
           label={"Próxima visita"}
-          date={formatDate(visit.next_visit)}
+          date={formatDate(visit.nextVisit)}
         />
       </View>
     </Card>

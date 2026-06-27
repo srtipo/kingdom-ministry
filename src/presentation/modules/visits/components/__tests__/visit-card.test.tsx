@@ -58,10 +58,10 @@ describe("VisitCard", () => {
     phone: "555-0100",
     notes: "Some notes",
     type: VisitTypeEnum.visit,
-    next_visit: new Date(),
-    last_visit: undefined,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    nextVisit: new Date(),
+    lastVisit: undefined,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   };
 
   it("renders visit name and address", async () => {

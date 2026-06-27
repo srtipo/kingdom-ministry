@@ -13,10 +13,10 @@ export default function useCreateVisit({
   const { mutate: createVisit, ...rest } = useMutation<
     void,
     Error,
-    Omit<ICreateVisit, "created_at" | "updated_at">
+    Omit<ICreateVisit, "createdAt" | "updatedAt">
   >({
     mutationFn: async (
-      visit: Omit<ICreateVisit, "created_at" | "updated_at">,
+      visit: Omit<ICreateVisit, "createdAt" | "updatedAt">,
     ) => {
       return await createVisitsHandler.execute(visit);
     },

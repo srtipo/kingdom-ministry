@@ -14,6 +14,7 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import NativeDateTime from "@/src/presentation/ui/input/date-hour-picker";
 import TextInput from "@/src/presentation/ui/input/text-input";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
+import { Text } from "@/src/presentation/ui/texts/text";
 import useCreateVisit from "../hooks/use-create-visit";
 
 const visitSchema = z.object({
@@ -78,12 +79,13 @@ export default function CreateVisitForm({
   const { validate, errors, validateField } = useZodValidator(visitSchema);
   const handleSave = () => {
     const result = validate(form);
-    const last_visit = new Date();
     if (result.success && result.data) {
+      const { next_visit, ...rest } = result.data as Record<string, unknown>;
       createVisit({
-        ...result.data,
-        last_visit,
-      } as Omit<ICreateVisit, "created_at" | "updated_at">);
+        ...rest,
+        nextVisit: next_visit,
+        lastVisit: new Date(),
+      } as Omit<ICreateVisit, "createdAt" | "updatedAt">);
     }
   };
 
@@ -155,7 +157,7 @@ export default function CreateVisitForm({
         style={{ marginTop: 10 }}
         isloanding={isPending}
       >
-        Crear
+        <Text>Crear </Text>
       </Button>
     </>
   );

@@ -51,7 +51,7 @@ describe("VisitsRepository integration", () => {
         name: "John Doe",
         address: "123 Main St",
         phone: "555-0100",
-        next_visit: new Date("2024-12-25T10:00:00"),
+        nextVisit: new Date("2024-12-25T10:00:00"),
         type: VisitTypeEnum.visit,
       });
 
@@ -71,7 +71,7 @@ describe("VisitsRepository integration", () => {
       await createHandler.execute({
         name: "Jane Doe",
         address: "456 Oak Ave",
-        next_visit: new Date("2024-12-30T14:00:00"),
+        nextVisit: new Date("2024-12-30T14:00:00"),
         type: VisitTypeEnum.course,
       });
 
@@ -85,16 +85,16 @@ describe("VisitsRepository integration", () => {
   describe("getAllOrderedByNextVisit", () => {
     async function seed(createHandler: CreateVisitsHandler) {
       const visits = [
-        { name: "Alice", address: "Addr A", type: VisitTypeEnum.visit, next_visit: new Date("2024-12-20T10:00:00") },
-        { name: "Bob", address: "Addr B", type: VisitTypeEnum.course, next_visit: new Date("2024-12-25T10:00:00") },
-        { name: "Charlie", address: "Addr C", type: VisitTypeEnum.visit, next_visit: new Date("2024-12-30T10:00:00") },
+        { name: "Alice", address: "Addr A", type: VisitTypeEnum.visit, nextVisit: new Date("2024-12-20T10:00:00") },
+        { name: "Bob", address: "Addr B", type: VisitTypeEnum.course, nextVisit: new Date("2024-12-25T10:00:00") },
+        { name: "Charlie", address: "Addr C", type: VisitTypeEnum.visit, nextVisit: new Date("2024-12-30T10:00:00") },
       ];
       for (const v of visits) {
         await createHandler.execute(v);
       }
     }
 
-    it("should return all visits ordered by next_visit when no filters", async () => {
+    it("should return all visits ordered by nextVisit when no filters", async () => {
       const { createHandler, searchHandler } = await createRepo();
       await seed(createHandler);
 
@@ -137,7 +137,7 @@ describe("VisitsRepository integration", () => {
         name: "John Doe",
         address: "123 Main St",
         phone: "555-0100",
-        next_visit: new Date("2024-12-25T10:00:00"),
+        nextVisit: new Date("2024-12-25T10:00:00"),
         type: VisitTypeEnum.visit,
       });
 
