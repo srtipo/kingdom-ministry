@@ -1,6 +1,6 @@
 import { Button } from "@/src/presentation/ui/buttons/ui-button";
 import { visitTypeTranslation } from "../constants/visit-type-translation";
-import { VisitTypeEnum } from "../type/visit-type.enum";
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interface";
 
 export function RegisterVisitButton({
   type = VisitTypeEnum.visit,

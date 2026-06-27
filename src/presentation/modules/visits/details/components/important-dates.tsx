@@ -5,12 +5,12 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import { Title } from "@/src/presentation/ui/texts/title";
 import { View } from "react-native";
 import { useGetDateStatusColor } from "../../helpers/get-date-color";
-import { IVisitDetail } from "../types/visit-detail.interface";
+import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { VisitDateCard } from "./visit-date-card";
 
-export function ImportantDates({ visit }: { visit: IVisitDetail }) {
+export function ImportantDates({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
-  const visitChipColor = useGetDateStatusColor(visit.next_visit);
+  const visitChipColor = useGetDateStatusColor(visit.nextVisit);
 
   return (
     <Card
@@ -47,7 +47,7 @@ export function ImportantDates({ visit }: { visit: IVisitDetail }) {
           }
           color={colors.elevation.level1}
           label={"Ültima visita"}
-          date={formatDate(visit.last_visit)}
+          date={formatDate(visit.lastVisit)}
         />
         <VisitDateCard
           icon={
@@ -55,7 +55,7 @@ export function ImportantDates({ visit }: { visit: IVisitDetail }) {
           }
           color={visitChipColor}
           label={"Próxima visita"}
-          date={formatDate(visit.next_visit)}
+          date={formatDate(visit.nextVisit)}
         />
       </View>
     </Card>

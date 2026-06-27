@@ -1,5 +1,5 @@
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
-import { VisitTypeEnum } from "../type/visit-type.enum";
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interface";
 
 export function useGetVisitColor(visitType: VisitTypeEnum) {
   const colors = useThemeColor();

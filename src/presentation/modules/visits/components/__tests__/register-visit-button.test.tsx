@@ -13,7 +13,7 @@ jest.mock("@/src/presentation/ui/buttons/ui-button", () => ({
 }));
 
 import { RegisterVisitButton } from "../register-visit-button";
-import { VisitTypeEnum } from "../../type/visit-type.enum";
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interface";
 
 describe("RegisterVisitButton", () => {
   it("renders with visit text by default", async () => {

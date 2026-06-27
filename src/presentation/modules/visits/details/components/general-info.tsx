@@ -9,9 +9,9 @@ import { Text } from "@/src/presentation/ui/texts/text";
 import { View } from "react-native";
 import { visitTypeTranslation } from "../../constants/visit-type-translation";
 import { useGetVisitColor } from "../../hooks/use-get-visit-colors";
-import { IVisitDetail } from "../types/visit-detail.interface";
+import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 
-export function GeneralInfo({ visit }: { visit: IVisitDetail }) {
+export function GeneralInfo({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
   const { backgroundColor: backgroundTypeColor, textColor: textTypeColor } =
     useGetVisitColor(visit.type);

@@ -18,8 +18,7 @@ import {
   useGetDateStatusColor,
 } from "../helpers/get-date-color";
 import { useGetVisitColor } from "../hooks/use-get-visit-colors";
-import { VisitTypeEnum } from "../type/visit-type.enum";
-import { IVisit } from "../type/visit.interface";
+import { VisitTypeEnum, IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { RegisterVisitButton } from "./register-visit-button";
 
 const visitTypeTranslation = {
@@ -36,12 +35,12 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
     });
   };
 
-  const { name, address, phone, next_visit, type, notes } = visit;
+  const { name, address, phone, nextVisit, type, notes } = visit;
   const { backgroundColor: backgroundTypeColor, textColor: textTypeColor } =
     useGetVisitColor(type);
   const colors = useThemeColor();
   const { showSnackbar } = useContext(SnackBarContext);
-  const visitChipColor = useGetDateStatusColor(next_visit);
+  const visitChipColor = useGetDateStatusColor(nextVisit);
 
   const { backgroundColor, textColor } = getContextColors(visitChipColor);
   const adaptiveDateFormat = (date?: Date | string) => {
@@ -68,7 +67,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
       borderRadius={10}
       style={{
         borderColor: "#ff5d48",
-        borderWidth: getDateStatus(next_visit) === DateStatus.bad ? 1 : 0,
+        borderWidth: getDateStatus(nextVisit) === DateStatus.bad ? 1 : 0,
       }}
     >
       <View
@@ -129,7 +128,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
             >
               <Icon type={"clock-outline"} size={20} color={textColor} />
               <Text fontWeight={"bold"} color={textColor}>
-                {adaptiveDateFormat(next_visit)}
+                {adaptiveDateFormat(nextVisit)}
               </Text>
             </View>
           </Chip>

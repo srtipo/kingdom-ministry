@@ -1,7 +1,7 @@
 import {
   ICreateVisit,
   IVisitsRepository,
-} from "../interfaces/visit-model.interface";
+} from "../interfaces/visit.interface";
 
 export class CreateVisitsHandler {
   private repository: IVisitsRepository;
@@ -9,9 +9,9 @@ export class CreateVisitsHandler {
     this.repository = db;
   }
 
-  async execute(visit: Omit<ICreateVisit, "created_at" | "updated_at">) {
-    const created_at = new Date().toISOString();
-    const updated_at = new Date().toISOString();
-    return this.repository.create({ ...visit, created_at, updated_at });
+  async execute(visit: Omit<ICreateVisit, "createdAt" | "updatedAt">) {
+    const createdAt = new Date().toISOString();
+    const updatedAt = new Date().toISOString();
+    return this.repository.create({ ...visit, createdAt, updatedAt });
   }
 }

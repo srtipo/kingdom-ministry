@@ -1,6 +1,6 @@
 import { getVisitsHandler } from "@/src/di/visits/container";
+import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { useQuery } from "@tanstack/react-query";
-import { IVisit } from "../type/visit.interface";
 export function useGetVisits(
   searchTerm: string | undefined,
   {

@@ -2,6 +2,7 @@ import { SegmentedButton } from "@/src/presentation/ui/buttons/segmented-button"
 import { Button } from "@/src/presentation/ui/buttons/ui-button";
 import { useContext, useState } from "react";
 
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { PHONE_REGEX } from "@/src/presentation/constants/phoneRegex";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import useZodValidator from "@/src/presentation/hooks/use-zod-validator";
@@ -10,8 +11,8 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import NativeDateTime from "@/src/presentation/ui/input/date-hour-picker";
 import TextInput from "@/src/presentation/ui/input/text-input";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
-import useCreateVisit, { ICreateVisit } from "../hooks/use-create-visit";
-import { VisitTypeEnum } from "../type/visit-type.enum";
+import { Text } from "@/src/presentation/ui/texts/text";
+import useCreateVisit from "../hooks/use-create-visit";
 
 const visitSchema = z.object({
   name: z
@@ -31,7 +32,7 @@ const visitSchema = z.object({
     .optional(),
   notes: z.string().optional().nullable(),
   type: z.enum([VisitTypeEnum.visit, VisitTypeEnum.course]),
-  next_visit: z
+  nextVisit: z
     .date("Indica la fecha de la próxima visita")
     .min(1, "Indica la fecha de la próxima visita"),
 });
@@ -62,22 +63,30 @@ export default function CreateVisitForm({
     type: VisitTypeEnum;
     address: string | null;
     phone: string | null;
-    next_visit: string | null;
+    nextVisit: string | null;
     notes: string | null;
   }>({
     name: null,
     type: VisitTypeEnum.visit,
     address: null,
     phone: null,
-    next_visit: null,
+    nextVisit: null,
     notes: null,
   });
-  const { validate, errors, validateField } = useZodValidator(visitSchema);
+  const { validate, errors, validateField } = useZodValidator<{
+    name: string;
+    address: string;
+    phone: string | undefined;
+    nextVisit: Date;
+    type: VisitTypeEnum;
+  }>(visitSchema);
   const handleSave = () => {
     const result = validate(form);
-    const last_visit = new Date();
     if (result.success && result.data) {
-      createVisit({ ...result.data, last_visit } as ICreateVisit);
+      createVisit({
+        ...result.data,
+        lastVisit: new Date(),
+      });
     }
   };
 
@@ -131,9 +140,9 @@ export default function CreateVisitForm({
       />
       <NativeDateTime
         label="Próxima visita"
-        value={form.next_visit ? new Date(form.next_visit) : undefined}
-        error={errors?.next_visit?.at(0)}
-        onChange={(val) => handleChangeText("next_visit", val)}
+        value={form.nextVisit ? new Date(form.nextVisit) : undefined}
+        error={errors?.nextVisit?.at(0)}
+        onChange={(val) => handleChangeText("nextVisit", val)}
       />
       <TextInput
         label="Notas"
@@ -149,7 +158,7 @@ export default function CreateVisitForm({
         style={{ marginTop: 10 }}
         isloanding={isPending}
       >
-        Crear
+        <Text>Crear </Text>
       </Button>
     </>
   );
