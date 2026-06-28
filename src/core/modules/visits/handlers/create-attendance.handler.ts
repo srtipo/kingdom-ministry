@@ -2,14 +2,24 @@ import {
   IAttendanceRepository,
   ICreateAttendance,
 } from "../interfaces/attendance.interface";
+import { IVisitsRepository } from "../interfaces/visit.interface";
 
 export class CreateAttendanceHandler {
-  private repository: IAttendanceRepository;
-  constructor(repository: IAttendanceRepository) {
-    this.repository = repository;
+  private attendanceRepository: IAttendanceRepository;
+  private visitRepository: IVisitsRepository;
+  constructor(
+    attendanceRepository: IAttendanceRepository,
+    visitRepository: IVisitsRepository,
+  ) {
+    this.attendanceRepository = attendanceRepository;
+    this.visitRepository = visitRepository;
   }
 
   async execute(data: ICreateAttendance) {
-    return this.repository.create(data);
+    const visit = await this.visitRepository.getById(data.visitId);
+    if (!visit) {
+      throw new Error("Visit not found");
+    }
+    return this.attendanceRepository.create(data);
   }
 }

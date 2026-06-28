@@ -1,4 +1,5 @@
 import { CreateAttendanceHandler } from "@/src/core/modules/visits/handlers/create-attendance.handler";
+import { GetAttendanceByVisitHandler } from "@/src/core/modules/visits/handlers/get-attendance-by-visit.handler";
 import { CreateVisitsHandler } from "@/src/core/modules/visits/handlers/create-visits.handler";
 import { GetVisitDetailsHandler } from "@/src/core/modules/visits/handlers/get-visit-details.handler";
 import { SearchVisitsHandler } from "@/src/core/modules/visits/handlers/search-visits.handler";
@@ -20,5 +21,10 @@ export const getVisitDetailsHandler = new GetVisitDetailsHandler(
 );
 
 export const createAttendanceHandler = new CreateAttendanceHandler(
+  attendanceRepository,
+  visitRepository,
+);
+
+export const getAttendanceByVisitHandler = new GetAttendanceByVisitHandler(
   attendanceRepository,
 );
