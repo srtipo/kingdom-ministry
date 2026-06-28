@@ -20,6 +20,10 @@ export class CreateAttendanceHandler {
     if (!visit) {
       throw new Error("Visit not found");
     }
-    return this.attendanceRepository.create(data);
+    await this.attendanceRepository.create(data);
+    await this.visitRepository.update(data.visitId, {
+      nextVisit: data.nextVisitDate,
+      lastVisit: data.date,
+    });
   }
 }

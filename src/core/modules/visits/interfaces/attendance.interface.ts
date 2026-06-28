@@ -9,6 +9,7 @@ export interface ICreateAttendance {
   visitId: string;
   date: string;
   notes?: string;
+  nextVisitDate: string;
 }
 
 export interface IAttendanceRepository {
