@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "test": "jest",
-    "test:visits": "jest --testPathPattern='modules/visits'"
+    "test:visits": "jest --testPathPattern='modules/visits'",
+    "test:attendance": "jest --testPathPattern='attendance'"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
