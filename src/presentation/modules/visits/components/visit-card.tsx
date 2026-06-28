@@ -1,3 +1,7 @@
+import {
+  IVisit,
+  VisitTypeEnum,
+} from "@/src/core/modules/visits/interfaces/visit.interface";
 import { formatDate } from "@/src/presentation/helpers/format-date";
 import { getContextColors } from "@/src/presentation/helpers/get-context-color";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
@@ -18,7 +22,6 @@ import {
   useGetDateStatusColor,
 } from "../helpers/get-date-color";
 import { useGetVisitColor } from "../hooks/use-get-visit-colors";
-import { VisitTypeEnum, IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { RegisterVisitButton } from "./register-visit-button";
 
 const visitTypeTranslation = {
@@ -192,12 +195,12 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
               numberOfLines={2}
               ellipsizeMode="tail"
             >
-              {notes}
+              d{notes}
             </Text>
           </View>
         )}
       </View>
-      <RegisterVisitButton type={type} />
+      <RegisterVisitButton type={type} visitId={visit.id} />
     </Card>
   );
 }

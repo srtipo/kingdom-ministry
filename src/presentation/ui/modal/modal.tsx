@@ -14,7 +14,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useThemeColor } from "../../hooks/use-theme-color";
 import { Divider } from "../dividers/divider";
-import { Text } from "../texts/text";
+import { Title } from "../texts/title";
 
 export function Modal({
   children,
@@ -93,12 +93,14 @@ export function Modal({
                   </View>
                   {title && (
                     <View style={{ paddingBottom: 5 }}>
-                      <Text
+                      <Title
                         color={colors.onSecondaryContainer}
                         fontWeight={900}
+                        textAlign={"center"}
+                        pb={2}
                       >
                         {title}
-                      </Text>
+                      </Title>
                     </View>
                   )}
                 </View>

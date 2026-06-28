@@ -17,20 +17,20 @@ import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interf
 
 describe("RegisterVisitButton", () => {
   it("renders with visit text by default", async () => {
-    const { getByText } = await render(<RegisterVisitButton />);
+    const { getByText } = await render(<RegisterVisitButton visitId="test-id" />);
     expect(getByText("Registrar Revisita")).toBeTruthy();
   });
 
   it("renders with course text for course type", async () => {
     const { getByText } = await render(
-      <RegisterVisitButton type={VisitTypeEnum.course} />,
+      <RegisterVisitButton type={VisitTypeEnum.course} visitId="test-id" />,
     );
     expect(getByText("Registrar Curso")).toBeTruthy();
   });
 
   it("renders with visit text for visit type", async () => {
     const { getByText } = await render(
-      <RegisterVisitButton type={VisitTypeEnum.visit} />,
+      <RegisterVisitButton type={VisitTypeEnum.visit} visitId="test-id" />,
     );
     expect(getByText("Registrar Revisita")).toBeTruthy();
   });

@@ -1,3 +1,4 @@
+import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { Card } from "@/src/presentation/ui/cards/card";
 import { Chip } from "@/src/presentation/ui/chips/chip";
@@ -6,7 +7,6 @@ import { Text } from "@/src/presentation/ui/texts/text";
 import { Title } from "@/src/presentation/ui/texts/title";
 import { View } from "react-native";
 import { RegisterVisitButton } from "../../components/register-visit-button";
-import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { VisitHistory } from "./visit-history";
 
 export function VisitHistoryCard({ visit }: { visit: IVisit }) {
@@ -54,7 +54,7 @@ export function VisitHistoryCard({ visit }: { visit: IVisit }) {
       </View>
       <View>
         <VisitHistory history={visitHistory} />
-        <RegisterVisitButton type={visit.type} />
+        <RegisterVisitButton type={visit.type} visitId={visit.id} />
       </View>
     </Card>
   );
