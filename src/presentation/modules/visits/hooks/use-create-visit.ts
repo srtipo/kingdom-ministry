@@ -22,7 +22,6 @@ export default function useCreateVisit({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["visits"] });
-      queryClient.invalidateQueries({ queryKey: ["visit-detail"] });
       onSuccess?.();
     },
     onError: () => {
