@@ -3,9 +3,9 @@ import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { Loading } from "@/src/presentation/ui/loaders/loading";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { ScrollView, View } from "react-native";
+import { AttendanceHistoryCard } from "../details/components/attendance-history-card";
 import { GeneralInfo } from "../details/components/general-info";
 import { ImportantDates } from "../details/components/important-dates";
-import { VisitHistoryCard } from "../details/components/visit-history-card";
 import { useGetVisitDetail } from "../details/hooks/get-visit-datail";
 
 export default function VisitDetailScene({ id }: { id: string }) {
@@ -22,7 +22,7 @@ export default function VisitDetailScene({ id }: { id: string }) {
       <View style={{ padding: 10, display: "flex", gap: 10 }}>
         <GeneralInfo visit={data} />
         <ImportantDates visit={data} />
-        <VisitHistoryCard visit={data} />
+        <AttendanceHistoryCard visit={data} />
       </View>
     </ScrollView>
   );

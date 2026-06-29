@@ -16,7 +16,12 @@ export const migrations = {
     );
   `,
   3: `
-    -- Ejemplo de una futura actualización:
-    -- ALTER TABLE products ADD COLUMN category TEXT;
+    CREATE TABLE IF NOT EXISTS attendance (
+      id TEXT PRIMARY KEY NOT NULL,
+      visit_id TEXT NOT NULL,
+      date DATETIME NOT NULL,
+      notes TEXT,
+      FOREIGN KEY (visit_id) REFERENCES visits(id)
+    );
   `,
 };

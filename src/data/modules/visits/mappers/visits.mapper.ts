@@ -17,9 +17,7 @@ export interface VisitSqlRow {
   notes: string | null;
 }
 
-export function visitSqlRowToDomain(
-  row: VisitSqlRow | null,
-): IVisit | null {
+export function visitSqlRowToDomain(row: VisitSqlRow | null): IVisit | null {
   if (!row) {
     return null;
   }
@@ -37,9 +35,7 @@ export function visitSqlRowToDomain(
   };
 }
 
-export function visitSqlRowsToDomain(
-  rows: (VisitSqlRow | null)[],
-): IVisit[] {
+export function visitSqlRowsToDomain(rows: (VisitSqlRow | null)[]): IVisit[] {
   return rows
     .map(visitSqlRowToDomain)
     .filter((row): row is IVisit => row !== null);
@@ -56,6 +52,33 @@ export interface CreateVisitSqlParams {
   created_at: string;
   updated_at: string;
   notes: string | null;
+}
+
+export function visitDomainToSqlParams(
+  data: Partial<IVisit>,
+): Partial<VisitSqlRow> {
+  const params: Partial<VisitSqlRow> = {};
+  if (data.nextVisit !== undefined) {
+    params.next_visit =
+      typeof data.nextVisit === "string"
+        ? data.nextVisit
+        : data.nextVisit.toISOString();
+  }
+  if (data.lastVisit !== undefined) {
+    params.last_visit = data.lastVisit
+      ? typeof data.lastVisit === "string"
+        ? data.lastVisit
+        : data.lastVisit.toISOString()
+      : null;
+  }
+  if (data.name !== undefined) params.name = data.name;
+  if (data.address !== undefined) params.address = data.address;
+  if (data.phone !== undefined) params.phone = data.phone ?? null;
+  if (data.type !== undefined) params.type = data.type;
+  if (data.notes !== undefined) params.notes = data.notes ?? null;
+  if (data.createdAt !== undefined) params.created_at = data.createdAt;
+  if (data.updatedAt !== undefined) params.updated_at = data.updatedAt;
+  return params;
 }
 
 export function createVisitToSqlParams(

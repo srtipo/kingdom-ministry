@@ -36,6 +36,10 @@ jest.mock("@/src/presentation/ui/buttons/whats-app-button", () => ({
   WhatsAppButton: () => null,
 }));
 
+jest.mock("@/src/di/visits/container", () => ({
+  createAttendanceHandler: { execute: jest.fn() },
+}));
+
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
 import VisitCardFixture from "../visit-card";
 import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interface";
@@ -92,7 +96,7 @@ describe("VisitCard", () => {
     expect(queryByText("Some notes")).toBeNull();
   });
 
-  it("renders RegisterVisitButton", async () => {
+  it("renders RegisterAttendanceButton", async () => {
     const { getByText } = await render(<VisitCardFixture visit={visit} />, { wrapper: Wrapper });
     expect(getByText("Registrar Revisita")).toBeTruthy();
   });

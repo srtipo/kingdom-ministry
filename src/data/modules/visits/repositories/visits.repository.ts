@@ -2,13 +2,15 @@ import { generateUUID } from "@/src/presentation/libraries/crypto";
 import { SQLiteDatabase } from "expo-sqlite";
 import {
   ICreateVisit,
+  IVisit,
   IVisitsRepository,
 } from "../../../../core/modules/visits/interfaces/visit.interface";
 import {
   createVisitToSqlParams,
+  visitDomainToSqlParams,
   VisitSqlRow,
-  visitSqlRowToDomain,
   visitSqlRowsToDomain,
+  visitSqlRowToDomain,
 } from "../mappers/visits.mapper";
 
 export class VisitsRepository implements IVisitsRepository {
@@ -76,5 +78,21 @@ export class VisitsRepository implements IVisitsRepository {
     );
 
     return visitSqlRowToDomain(query);
+  }
+
+  async update(id: string, data: Partial<IVisit>) {
+    const { created_at, updated_at, ...sqlParams } =
+      visitDomainToSqlParams(data);
+    const fields = Object.keys(sqlParams).map((key) => `${key} = ?`);
+    const values = Object.values(sqlParams);
+
+    fields.push("updated_at = ?");
+    values.push(new Date().toISOString());
+    values.push(id);
+
+    await this.db.runAsync(
+      `UPDATE visits SET ${fields.join(", ")} WHERE id = ?`,
+      values,
+    );
   }
 }

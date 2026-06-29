@@ -1,3 +1,7 @@
+import {
+  IVisit,
+  VisitTypeEnum,
+} from "@/src/core/modules/visits/interfaces/visit.interface";
 import { formatDate } from "@/src/presentation/helpers/format-date";
 import { getContextColors } from "@/src/presentation/helpers/get-context-color";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
@@ -12,14 +16,13 @@ import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { View } from "react-native";
+import { RegisterAttendanceButton } from "../attendances/components/register-attendance-button";
 import {
   DateStatus,
   getDateStatus,
   useGetDateStatusColor,
 } from "../helpers/get-date-color";
 import { useGetVisitColor } from "../hooks/use-get-visit-colors";
-import { VisitTypeEnum, IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
-import { RegisterVisitButton } from "./register-visit-button";
 
 const visitTypeTranslation = {
   [VisitTypeEnum.visit]: "Revisita",
@@ -197,7 +200,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
           </View>
         )}
       </View>
-      <RegisterVisitButton type={type} />
+      <RegisterAttendanceButton type={type} visitId={visit.id} />
     </Card>
   );
 }
