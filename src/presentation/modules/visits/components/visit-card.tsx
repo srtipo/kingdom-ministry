@@ -195,7 +195,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
               numberOfLines={2}
               ellipsizeMode="tail"
             >
-              d{notes}
+              {notes}
             </Text>
           </View>
         )}
