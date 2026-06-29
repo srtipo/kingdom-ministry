@@ -6,10 +6,10 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { Title } from "@/src/presentation/ui/texts/title";
 import { View } from "react-native";
-import { RegisterVisitButton } from "../../components/register-visit-button";
+import { RegisterAttendanceButton } from "../../attendances/components/register-attendance-button";
 import { VisitHistory } from "./visit-history";
 
-export function VisitHistoryCard({ visit }: { visit: IVisit }) {
+export function AttendanceHistoryCard({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
   const visitHistory = [];
   return (
@@ -54,7 +54,7 @@ export function VisitHistoryCard({ visit }: { visit: IVisit }) {
       </View>
       <View>
         <VisitHistory history={visitHistory} />
-        <RegisterVisitButton type={visit.type} visitId={visit.id} />
+        <RegisterAttendanceButton type={visit.type} visitId={visit.id} />
       </View>
     </Card>
   );

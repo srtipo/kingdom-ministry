@@ -1,9 +1,9 @@
 import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { Modal } from "@/src/presentation/ui/modal/modal";
-import { visitTypeTranslation } from "../constants/visit-type-translation";
+import { visitTypeTranslation } from "../../constants/visit-type-translation";
 import RegisterAttendanceForm from "./register-attendance.form";
 
-export default function RegisterVisitModal({
+export default function RegisterAttendanceModal({
   visitId,
   type = VisitTypeEnum.visit,
   isVisible,

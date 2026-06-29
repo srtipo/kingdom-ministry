@@ -16,13 +16,13 @@ import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { View } from "react-native";
+import { RegisterAttendanceButton } from "../attendances/components/register-attendance-button";
 import {
   DateStatus,
   getDateStatus,
   useGetDateStatusColor,
 } from "../helpers/get-date-color";
 import { useGetVisitColor } from "../hooks/use-get-visit-colors";
-import { RegisterVisitButton } from "./register-visit-button";
 
 const visitTypeTranslation = {
   [VisitTypeEnum.visit]: "Revisita",
@@ -200,7 +200,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
           </View>
         )}
       </View>
-      <RegisterVisitButton type={type} visitId={visit.id} />
+      <RegisterAttendanceButton type={type} visitId={visit.id} />
     </Card>
   );
 }
