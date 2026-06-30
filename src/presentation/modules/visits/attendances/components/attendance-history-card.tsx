@@ -7,11 +7,11 @@ import { Text } from "@/src/presentation/ui/texts/text";
 import { Title } from "@/src/presentation/ui/texts/title";
 import { View } from "react-native";
 import { RegisterAttendanceButton } from "../../attendances/components/register-attendance-button";
-import { VisitHistory } from "./visit-history";
+import { AttendanceHistory } from "./attendance-history";
 
 export function AttendanceHistoryCard({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
-  const visitHistory = [];
+  const attendanceHistory = [];
   return (
     <Card
       type="elevated"
@@ -48,12 +48,12 @@ export function AttendanceHistoryCard({ visit }: { visit: IVisit }) {
         </View>
         <Chip>
           <Text type={"small"} fontWeight={"bold"} color={colors.primary}>
-            {`${visitHistory.length} Visitas`}
+            {`${attendanceHistory.length} Visitas`}
           </Text>
         </Chip>
       </View>
       <View>
-        <VisitHistory history={visitHistory} />
+        <AttendanceHistory history={attendanceHistory} />
         <RegisterAttendanceButton type={visit.type} visitId={visit.id} />
       </View>
     </Card>

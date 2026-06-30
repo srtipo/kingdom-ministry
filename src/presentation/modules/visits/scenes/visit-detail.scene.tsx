@@ -3,7 +3,7 @@ import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { Loading } from "@/src/presentation/ui/loaders/loading";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { ScrollView, View } from "react-native";
-import { AttendanceHistoryCard } from "../details/components/attendance-history-card";
+import { AttendanceHistoryCard } from "../attendances/components/attendance-history-card";
 import { GeneralInfo } from "../details/components/general-info";
 import { ImportantDates } from "../details/components/important-dates";
 import { useGetVisitDetail } from "../details/hooks/get-visit-datail";
