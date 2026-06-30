@@ -1,12 +1,9 @@
 import { IAttendance } from "@/src/core/modules/visits/interfaces/attendance.interface";
+import { formatDate } from "@/src/presentation/helpers/format-date";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { Chip } from "@/src/presentation/ui/chips/chip";
 import { Text } from "@/src/presentation/ui/texts/text";
-import dayjs from "dayjs";
-import "dayjs/locale/es";
 import { View } from "react-native";
-
-dayjs.locale("es");
 
 interface AttendanceTimelineItemProps {
   attendance: IAttendance;
@@ -21,7 +18,8 @@ export function AttendanceTimelineItem({
 }: AttendanceTimelineItemProps) {
   const colors = useThemeColor();
   const dotColor = isFirst ? colors.primary : colors.outline;
-  const formattedDate = dayjs(attendance.date).format(
+  const formattedDate = formatDate(
+    attendance.date,
     "DD [de] MMMM, YYYY - hh:mm A",
   );
 
