@@ -4,6 +4,7 @@ dayjs.locale("es");
 
 export const formatDate = (
   date: Date | undefined | number | string,
+  format = "dddd, DD/MM/YY, hh:mm A",
 ): string => {
-  return dayjs(date).format("dddd, DD/MM/YY, hh:mm A");
+  return dayjs(date).format(format);
 };

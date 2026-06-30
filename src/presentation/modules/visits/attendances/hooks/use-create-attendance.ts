@@ -23,6 +23,9 @@ export default function useCreateAttendance({
       queryClient.invalidateQueries({
         queryKey: ["visit-detail"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["attendance-history"],
+      });
       onSuccess?.();
     },
     onError: () => {

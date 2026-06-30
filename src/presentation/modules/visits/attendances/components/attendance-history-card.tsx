@@ -2,29 +2,32 @@ import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { Card } from "@/src/presentation/ui/cards/card";
 import { Chip } from "@/src/presentation/ui/chips/chip";
+import { Divider } from "@/src/presentation/ui/dividers/divider";
 import { Icon } from "@/src/presentation/ui/icons/icon";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { Title } from "@/src/presentation/ui/texts/title";
 import { View } from "react-native";
 import { RegisterAttendanceButton } from "../../attendances/components/register-attendance-button";
-import { VisitHistory } from "./visit-history";
+import { useGetAttendanceHistory } from "../hooks/use-get-attendance-history";
+import { AttendanceHistory } from "./attendance-history";
 
 export function AttendanceHistoryCard({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
-  const visitHistory = [];
+  const { data: attendanceHistory = [] } = useGetAttendanceHistory(visit.id);
   return (
     <Card
       type="elevated"
       borderRadius={20}
       overflow="hidden"
       backgroundColor={colors.surface}
-      padding={20}
+      paddingBlock={20}
     >
       <View
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          paddingInline: 20,
         }}
       >
         <View
@@ -48,13 +51,16 @@ export function AttendanceHistoryCard({ visit }: { visit: IVisit }) {
         </View>
         <Chip>
           <Text type={"small"} fontWeight={"bold"} color={colors.primary}>
-            {`${visitHistory.length} Visitas`}
+            {`${attendanceHistory.length} Visitas`}
           </Text>
         </Chip>
       </View>
-      <View>
-        <VisitHistory history={visitHistory} />
-        <RegisterAttendanceButton type={visit.type} visitId={visit.id} />
+      <Divider marginTop={18} />
+      <View style={{ gap: 20 }}>
+        <AttendanceHistory history={attendanceHistory} />
+        <View style={{ paddingInline: 20 }}>
+          <RegisterAttendanceButton type={visit.type} visitId={visit.id} />
+        </View>
       </View>
     </Card>
   );

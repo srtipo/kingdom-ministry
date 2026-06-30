@@ -21,4 +21,12 @@ describe("formatDate", () => {
     const result = formatDate(undefined);
     expect(typeof result).toBe("string");
   });
+
+  it("should accept a custom format string", () => {
+    const result = formatDate(
+      new Date("2024-01-15T10:30:00"),
+      "DD [de] MMMM, YYYY",
+    );
+    expect(result).toBe("15 de enero, 2024");
+  });
 });
