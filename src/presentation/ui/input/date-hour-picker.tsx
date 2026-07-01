@@ -2,7 +2,8 @@ import { formatDate } from "@/src/presentation/helpers/format-date";
 import DateTimePicker, {
   DateTimePickerChangeEvent,
 } from "@react-native-community/datetimepicker";
-import React, { useMemo, useState } from "react";
+import React, { ComponentProps, useMemo, useState } from "react";
+import { TextInput as TI } from "react-native-paper";
 import TextInput from "./text-input";
 
 import dayjs from "dayjs";
@@ -17,11 +18,13 @@ export default function NativeDateTime({
   value,
   onChange,
   error,
+  leftIconProps,
 }: {
   label: string;
   value?: Date | undefined | null;
   onChange?: (value: Date) => void;
   error?: string;
+  leftIconProps?: ComponentProps<typeof TI.Icon>;
 }) {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [mode, setMode] = useState<Mode>("date");
@@ -78,7 +81,7 @@ export default function NativeDateTime({
         label={label}
         onChangeText={() => {}}
         value={dateValueString}
-        leftIconProps={{ icon: "calendar" }}
+        leftIconProps={leftIconProps ?? { icon: "calendar" }}
         onTouchStart={openDatePicker}
         error={error}
       />

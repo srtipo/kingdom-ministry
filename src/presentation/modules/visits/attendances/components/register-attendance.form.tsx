@@ -1,3 +1,5 @@
+import { VisitTypeEnum } from "@/src/core/modules/visits/interfaces/visit.interface";
+import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import useZodValidator from "@/src/presentation/hooks/use-zod-validator";
 import { z } from "@/src/presentation/libraries/zod";
 import { Button } from "@/src/presentation/ui/buttons/ui-button";
@@ -15,12 +17,15 @@ const attendanceSchema = z.object({
 
 export default function RegisterAttendanceForm({
   visitId,
+  type = VisitTypeEnum.visit,
   onSuccess,
 }: {
   visitId: string;
+  type?: VisitTypeEnum;
   onSuccess?: () => void;
 }) {
   const { showSnackbar } = useContext(SnackBarContext);
+  const colors = useThemeColor();
   const [form, setForm] = useState<{
     date: Date | null;
     nextVisitDate: Date | null;
@@ -66,25 +71,34 @@ export default function RegisterAttendanceForm({
     });
   };
 
+  const nextVisitIconColor =
+    type === VisitTypeEnum.visit
+      ? colors.visitType.onVisit
+      : colors.visitType.onCourse;
+
   return (
     <>
       <NativeDateTime
-        label="Fecha"
+        label="Fecha de esta visita"
         value={form.date}
-        onChange={(value) => handleChangeText("date", value)}
+        onChange={(value) => handleChangeText("date", value ?? null)}
         error={errors?.date?.at(0)}
+        leftIconProps={{ icon: "calendar", color: colors.primary }}
+      />
+      <TextInput
+        label="Notas (opcional)"
+        value={form.notes ?? ""}
+        onChangeText={(value) => handleChangeText("notes", value)}
+        placeholder="¿Qué temas se trataron? ¿Cómo respondió la persona?"
+        multiline
+        leftIconProps={{ icon: "note", color: colors.primary }}
       />
       <NativeDateTime
-        label="Fecha de la próxima visita"
+        label="Próxima visita"
         value={form.nextVisitDate}
         onChange={(value) => handleChangeText("nextVisitDate", value)}
         error={errors?.nextVisitDate?.at(0)}
-      />
-      <TextInput
-        label="Notas"
-        onChangeText={(value) => handleChangeText("notes", value)}
-        multiline
-        leftIconProps={{ icon: "note" }}
+        leftIconProps={{ icon: "calendar-clock", color: nextVisitIconColor }}
       />
       <Button
         mode="contained"

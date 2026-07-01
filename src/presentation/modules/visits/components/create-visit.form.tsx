@@ -101,16 +101,30 @@ export default function CreateVisitForm({
           {
             value: VisitTypeEnum.visit,
             label: "Revisita",
-            icon: () => <Icon type="book-open" size={25} />,
+            icon: () => (
+              <Icon
+                type="book-open"
+                size={25}
+                color={color.visitType.onVisit}
+              />
+            ),
             style: { borderTopLeftRadius: 10, borderBottomLeftRadius: 10 },
             uncheckedColor: color.onSurfaceVariant,
+            checkedColor: color.visitType.onVisit,
           },
           {
             value: VisitTypeEnum.course,
             label: "Curso",
-            icon: () => <Icon type="home-map-marker" size={25} />,
+            icon: () => (
+              <Icon
+                type="home-map-marker"
+                size={25}
+                color={color.visitType.onCourse}
+              />
+            ),
             style: { borderTopRightRadius: 10, borderBottomRightRadius: 10 },
             uncheckedColor: color.onSurfaceVariant,
+            checkedColor: color.visitType.onCourse,
           },
         ]}
         value={form.type}
@@ -121,7 +135,7 @@ export default function CreateVisitForm({
         label="Nombre"
         onChangeText={(name) => handleChangeText("name", name)}
         error={errors?.name?.at(0)}
-        leftIconProps={{ icon: "account-circle" }}
+        leftIconProps={{ icon: "account-circle", color: color.primary }}
         borderRadius={10}
         keyboardType="name-phone-pad"
       />
@@ -129,27 +143,28 @@ export default function CreateVisitForm({
         label="Dirección"
         onChangeText={(address) => handleChangeText("address", address)}
         error={errors?.address?.at(0)}
-        leftIconProps={{ icon: "map-marker" }}
+        leftIconProps={{ icon: "map-marker", color: color.primary }}
       />
       <TextInput
         label="Teléfono"
         onChangeText={(phone) => handleChangeText("phone", phone)}
         error={errors?.phone?.at(0)}
         keyboardType="phone-pad"
-        leftIconProps={{ icon: "phone" }}
+        leftIconProps={{ icon: "phone", color: color.primary }}
       />
       <NativeDateTime
         label="Próxima visita"
         value={form.nextVisit ? new Date(form.nextVisit) : undefined}
         error={errors?.nextVisit?.at(0)}
         onChange={(val) => handleChangeText("nextVisit", val)}
+        leftIconProps={{ icon: "calendar-clock", color: color.primary }}
       />
       <TextInput
         label="Notas"
         onChangeText={(notes) => handleChangeText("notes", notes)}
         error={errors?.notes?.at(0)}
         multiline
-        leftIconProps={{ icon: "note" }}
+        leftIconProps={{ icon: "note", color: color.primary }}
       />
 
       <Button
