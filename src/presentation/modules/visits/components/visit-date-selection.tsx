@@ -1,6 +1,6 @@
 import SegmentedButton from "@/src/presentation/ui/buttons/segmented-button";
 import { Icon } from "@/src/presentation/ui/icons/icon";
-import { DatePicker } from "@/src/presentation/ui/input/date-picker";
+import { DateRangePicker } from "@/src/presentation/ui/input/date-range-picker";
 import { ScrollMask } from "@/src/presentation/ui/mask";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -128,7 +128,7 @@ export function VisitDateSelection({
         </ScrollView>
       </ScrollMask>
 
-      <DatePicker
+      <DateRangePicker
         onChange={(data) => {
           onChange?.({
             ...data,

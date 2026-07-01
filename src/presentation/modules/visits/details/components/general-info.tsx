@@ -6,6 +6,7 @@ import { Chip } from "@/src/presentation/ui/chips/chip";
 import { Icon } from "@/src/presentation/ui/icons/icon";
 import { HeadLine } from "@/src/presentation/ui/texts/head-line";
 import { Text } from "@/src/presentation/ui/texts/text";
+import { LinearGradient } from "expo-linear-gradient";
 import { View } from "react-native";
 import { visitTypeTranslation } from "../../constants/visit-type-translation";
 import { useGetVisitColor } from "../../hooks/use-get-visit-colors";
@@ -13,8 +14,11 @@ import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 
 export function GeneralInfo({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
-  const { backgroundColor: backgroundTypeColor, textColor: textTypeColor } =
-    useGetVisitColor(visit.type);
+  const {
+    backgroundColor: backgroundTypeColor,
+    gradientColor: gradientTypeColor,
+    textColor: textTypeColor,
+  } = useGetVisitColor(visit.type);
 
   return (
     <Card
@@ -23,11 +27,11 @@ export function GeneralInfo({ visit }: { visit: IVisit }) {
       overflow="hidden"
       backgroundColor={colors.surface}
     >
-      <View
-        style={{
-          backgroundColor: backgroundTypeColor,
-          padding: 20,
-        }}
+      <LinearGradient
+        colors={[backgroundTypeColor, gradientTypeColor]}
+        start={{ x: 0.0, y: 0.0 }}
+        end={{ x: 1.0, y: 0.0 }}
+        style={{ padding: 20 }}
       >
         <HeadLine color={textTypeColor}>{visit.name}</HeadLine>
         <View
@@ -50,7 +54,7 @@ export function GeneralInfo({ visit }: { visit: IVisit }) {
             </View>
           </Chip>
         </View>
-      </View>
+      </LinearGradient>
       <View style={{ padding: 20, display: "flex", gap: 10 }}>
         <View
           style={{

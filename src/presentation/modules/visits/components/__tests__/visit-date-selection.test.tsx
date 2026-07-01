@@ -7,8 +7,8 @@ jest.mock("@/src/presentation/hooks/use-theme-color", () => ({
   }),
 }));
 
-jest.mock("@/src/presentation/ui/input/date-picker", () => ({
-  DatePicker: () => null,
+jest.mock("@/src/presentation/ui/input/date-range-picker", () => ({
+  DateRangePicker: () => null,
 }));
 
 jest.mock("expo-linear-gradient", () => ({

@@ -1,6 +1,8 @@
-import React, { useCallback, useState } from "react";
+import { formatDate } from "@/src/presentation/helpers/format-date";
+import React, { ComponentProps, useState } from "react";
+import { TextInput as TI } from "react-native-paper";
 import { DatePickerModal, registerTranslation } from "react-native-paper-dates";
-import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
+import TextInput from "./text-input";
 
 registerTranslation("es", {
   selectSingle: "Seleccionar fecha",
@@ -24,50 +26,48 @@ registerTranslation("es", {
 });
 
 type Props = {
-  onChange: ({
-    startDate,
-    endDate,
-  }: {
-    startDate: Date | undefined;
-    endDate: Date | undefined;
-  }) => void;
-  isVisible: boolean;
-
-  onDismiss?: () => void;
+  label: string;
+  value?: Date | null | undefined;
+  onChange?: (date: Date | undefined) => void;
+  error?: string;
+  leftIconProps?: ComponentProps<typeof TI.Icon>;
+  placeholder?: string;
 };
 
-export function DatePicker({ onChange, isVisible, onDismiss }: Props) {
-  const [range, setRange] = useState<{
-    startDate: Date | undefined;
-    endDate: Date | undefined;
-  }>({
-    startDate: undefined,
-    endDate: undefined,
-  });
-
-  const onConfirm = useCallback(
-    ({
-      startDate,
-      endDate,
-    }: {
-      startDate: CalendarDate;
-      endDate: CalendarDate;
-    }) => {
-      setRange({ startDate, endDate });
-      onChange({ startDate, endDate });
-    },
-    [setRange, onChange],
-  );
+export default function DatePicker({
+  label,
+  value,
+  onChange,
+  error,
+  leftIconProps,
+  placeholder = "dd/mm/aaaa",
+}: Props) {
+  const [visible, setVisible] = useState(false);
+  const open = () => setVisible(true);
+  const close = () => setVisible(false);
 
   return (
-    <DatePickerModal
-      locale="es"
-      mode="range"
-      visible={isVisible}
-      onDismiss={() => onDismiss?.()}
-      startDate={range.startDate}
-      endDate={range.endDate}
-      onConfirm={onConfirm}
-    />
+    <>
+      <TextInput
+        label={label}
+        value={value ? formatDate(value, "DD/MM/YYYY") : ""}
+        onChangeText={() => {}}
+        placeholder={placeholder}
+        leftIconProps={leftIconProps ?? { icon: "calendar" }}
+        onTouchStart={open}
+        error={error}
+      />
+      <DatePickerModal
+        locale="es"
+        mode="single"
+        visible={visible}
+        onDismiss={close}
+        date={value ?? undefined}
+        onConfirm={({ date }) => {
+          onChange?.(date);
+          close();
+        }}
+      />
+    </>
   );
 }

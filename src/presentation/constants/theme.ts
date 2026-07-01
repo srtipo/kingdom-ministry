@@ -55,10 +55,14 @@ export const Colors = {
     },
 
     visitType: {
-      visit: "#0596691a",
+      visit: "rgba(5, 150, 105, 0.1)",
+      visitGradient: "rgba(5, 150, 105, 0.25)",
       onVisit: "#065f46",
-      course: "#7c3aed1a",
+      onVisitSoft: "#10b981",
+      course: "rgba(124, 58, 237, 0.1)",
+      courseGradient: "rgba(124, 58, 237, 0.25)",
       onCourse: "#6d28d9",
+      onCourseSoft: "#a78bfa",
     },
     // review colors
     card: "rgb(255, 255, 255)",
@@ -115,10 +119,14 @@ export const Colors = {
       warning: "#ffffcf",
     },
     visitType: {
-      visit: "#34d3991f",
+      visit: "rgba(52, 211, 153, 0.12)",
+      visitGradient: "rgba(52, 211, 153, 0.25)",
       onVisit: "#34d399",
-      course: "#a78bfa1f",
+      onVisitSoft: "#6ee7b7",
+      course: "rgba(167, 139, 250, 0.12)",
+      courseGradient: "rgba(167, 139, 250, 0.25)",
       onCourse: "#a78bfa",
+      onCourseSoft: "#c4b5fd",
     },
 
     // review colors

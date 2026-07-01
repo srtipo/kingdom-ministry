@@ -95,7 +95,7 @@ export default function TextInput({
         error={!!error}
         leftIconProps={leftIconProps}
         mode="outlined"
-        height={!multiline && 40}
+        minHeight={multiline ? 80 : undefined}
         multiline={multiline}
         {...props}
       />

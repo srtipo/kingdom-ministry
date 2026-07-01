@@ -21,7 +21,11 @@ export default function RegisterAttendanceModal({
         onClose={onCloseModal}
         title={`Registrar ${visitTypeTranslation[type]}`}
       >
-        <RegisterAttendanceForm visitId={visitId} onSuccess={onCloseModal} />
+        <RegisterAttendanceForm
+          visitId={visitId}
+          type={type}
+          onSuccess={onCloseModal}
+        />
       </Modal>
     </>
   );
