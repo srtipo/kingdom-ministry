@@ -3,14 +3,17 @@ import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { Text } from "@/src/presentation/ui/texts/text";
 import React from "react";
 import { View } from "react-native";
+import { TouchableRipple } from "react-native-paper";
 
 export function VisitDateCard({
   icon,
+  onPress,
   color,
   label,
   date,
 }: {
   icon: React.ReactElement<{ color: string }>;
+  onPress?: () => void;
   color: string;
   label: string;
   date: string;
@@ -25,8 +28,11 @@ export function VisitDateCard({
   const clonedIcon = React.cloneElement(icon, {
     color: textColor,
   });
+
   return (
-    <View
+    <TouchableRipple
+      onPress={onPress}
+      borderless={false}
       style={{
         display: "flex",
         flexDirection: "row",
@@ -38,22 +44,25 @@ export function VisitDateCard({
         justifyContent: "space-between",
         borderWidth: 1,
         borderColor: borderColor,
+        overflow: "hidden",
       }}
     >
-      <View style={{ flexShrink: 1, flex: 1 }}>
-        <Text type={"small"} color={textColor} fontWeight={"bold"}>
-          {label}
-        </Text>
-        <Text
-          ellipsizeMode="tail"
-          type={"large"}
-          color={textColor}
-          fontWeight={"bold"}
-        >
-          {date}
-        </Text>
-      </View>
-      {clonedIcon}
-    </View>
+      <>
+        <View style={{ flexShrink: 1, flex: 1 }}>
+          <Text type={"small"} color={textColor} fontWeight={"bold"}>
+            {label}
+          </Text>
+          <Text
+            ellipsizeMode="tail"
+            type={"large"}
+            color={textColor}
+            fontWeight={"bold"}
+          >
+            {date}
+          </Text>
+        </View>
+        {clonedIcon}
+      </>
+    </TouchableRipple>
   );
 }

@@ -1,16 +1,19 @@
+import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { formatDate } from "@/src/presentation/helpers/format-date";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import { Card } from "@/src/presentation/ui/cards/card";
 import { Icon } from "@/src/presentation/ui/icons/icon";
 import { Title } from "@/src/presentation/ui/texts/title";
+import { useState } from "react";
 import { View } from "react-native";
 import { useGetDateStatusColor } from "../../helpers/get-date-color";
-import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
+import EditNextVisitModal from "./edit-next-visit.modal";
 import { VisitDateCard } from "./visit-date-card";
 
 export function ImportantDates({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
   const visitChipColor = useGetDateStatusColor(visit.nextVisit);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   return (
     <Card
@@ -51,13 +54,20 @@ export function ImportantDates({ visit }: { visit: IVisit }) {
         />
         <VisitDateCard
           icon={
-            <Icon type={"calendar-outline"} size={20} color={colors.primary} />
+            <Icon type={"pencil-outline"} size={20} color={colors.primary} />
           }
+          onPress={() => setIsEditModalVisible(true)}
           color={visitChipColor}
           label={"Próxima visita"}
           date={formatDate(visit.nextVisit)}
         />
       </View>
+      <EditNextVisitModal
+        visitId={visit.id}
+        currentDate={visit.nextVisit}
+        isVisible={isEditModalVisible}
+        onCloseModal={() => setIsEditModalVisible(false)}
+      />
     </Card>
   );
 }
