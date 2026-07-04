@@ -1,9 +1,9 @@
 import { getContextColors } from "@/src/presentation/helpers/get-context-color";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
+import { TouchableRipple } from "@/src/presentation/ui/buttons/touchable-ripple";
 import { Text } from "@/src/presentation/ui/texts/text";
 import React from "react";
 import { View } from "react-native";
-import { TouchableRipple } from "react-native-paper";
 
 export function VisitDateCard({
   icon,
