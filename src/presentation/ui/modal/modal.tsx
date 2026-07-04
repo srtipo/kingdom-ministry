@@ -63,6 +63,12 @@ export function Modal({
         onDismiss={onClose}
       >
         <GestureHandlerRootView style={{ flex: 1 }}>
+          <View
+            style={[
+              styles.backdrop,
+              { backgroundColor: colors.backdrop },
+            ]}
+          />
           <GestureDetector gesture={panGesture}>
             <Animated.View style={[styles.modalContent, animatedStyle]}>
               <Surface
@@ -119,6 +125,13 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 18,
     borderTopLeftRadius: 18,
     position: "absolute",
+    bottom: 0,
+  },
+  backdrop: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
     bottom: 0,
   },
   titleContainer: {

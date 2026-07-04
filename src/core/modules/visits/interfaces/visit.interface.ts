@@ -6,11 +6,11 @@ export interface IVisit {
   id: string;
   name: string;
   address: string;
-  phone?: string | undefined;
+  phone?: string | undefined | null;
   type: VisitTypeEnum;
   createdAt: string;
   updatedAt: string;
-  notes?: string | undefined;
+  notes?: string | undefined | null;
   lastVisit: Date | string | undefined;
   nextVisit: Date | string;
 }
