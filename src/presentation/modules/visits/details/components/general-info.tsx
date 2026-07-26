@@ -62,21 +62,15 @@ export function GeneralInfo({ visit }: { visit: IVisit }) {
         <View
           style={{ display: "flex", flexDirection: "row", marginBlock: 10 }}
         >
-          <Chip borderRadius={20} color={"rgba(128, 128, 128, 0.1)"}>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 10,
-                width: 100,
-              }}
-            >
+          <Chip
+            borderRadius={20}
+            color={"rgba(128, 128, 128, 0.1)"}
+            icon={() => (
               <Icon type={"tag-outline"} size={16} color={textTypeColor} />
-              <Text color={textTypeColor}>
-                {visitTypeTranslation[visit.type]}
-              </Text>
-            </View>
+            )}
+            textStyle={{ color: textTypeColor }}
+          >
+            {visitTypeTranslation[visit.type]}
           </Chip>
         </View>
       </LinearGradient>

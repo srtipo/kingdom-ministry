@@ -97,8 +97,11 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
               {name}
             </Text>
           </View>
-          <Chip color={backgroundTypeColor}>
-            <Text color={textTypeColor}>{visitTypeTranslation[type]}</Text>
+          <Chip
+            color={backgroundTypeColor}
+            textStyle={{ color: textTypeColor, fontWeight: "bold" }}
+          >
+            {visitTypeTranslation[type]}
           </Chip>
         </View>
         <View
@@ -113,27 +116,15 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
         </View>
       </View>
       <View style={{ display: "flex", gap: 5, paddingBlock: 10 }}>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Chip color={backgroundColor}>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                gap: 5,
-                alignItems: "center",
-              }}
-            >
+        <View style={{ display: "flex", flexDirection: "row" }}>
+          <Chip
+            color={backgroundColor}
+            icon={() => (
               <Icon type={"clock-outline"} size={20} color={textColor} />
-              <Text fontWeight={"bold"} color={textColor}>
-                {adaptiveDateFormat(nextVisit)}
-              </Text>
-            </View>
+            )}
+            textStyle={{ color: textColor, fontWeight: "bold" }}
+          >
+            {adaptiveDateFormat(nextVisit)}
           </Chip>
         </View>
         <View
