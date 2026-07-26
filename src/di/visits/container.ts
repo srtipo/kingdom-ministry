@@ -1,6 +1,7 @@
 import { CreateAttendanceHandler } from "@/src/core/modules/visits/handlers/create-attendance.handler";
 import { GetAttendanceByVisitHandler } from "@/src/core/modules/visits/handlers/get-attendance-by-visit.handler";
 import { CreateVisitsHandler } from "@/src/core/modules/visits/handlers/create-visits.handler";
+import { DeleteVisitHandler } from "@/src/core/modules/visits/handlers/delete-visit.handler";
 import { GetVisitDetailsHandler } from "@/src/core/modules/visits/handlers/get-visit-details.handler";
 import { SearchVisitsHandler } from "@/src/core/modules/visits/handlers/search-visits.handler";
 import { UpdateVisitHandler } from "@/src/core/modules/visits/handlers/update-visit.handler";
@@ -18,6 +19,8 @@ export const getVisitsHandler = new SearchVisitsHandler(visitRepository);
 export const createVisitsHandler = new CreateVisitsHandler(visitRepository);
 
 export const updateVisitHandler = new UpdateVisitHandler(visitRepository);
+
+export const deleteVisitHandler = new DeleteVisitHandler(visitRepository);
 
 export const getVisitDetailsHandler = new GetVisitDetailsHandler(
   visitRepository,

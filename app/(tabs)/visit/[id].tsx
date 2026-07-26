@@ -1,7 +1,6 @@
 import { SafeArea } from "@/src/presentation/libraries/safe-area";
 import SafeAreaProvider from "@/src/presentation/libraries/safe-area-provider";
 import VisitDetailScene from "@/src/presentation/modules/visits/scenes/visit-detail.scene";
-import { SnackBarProvider } from "@/src/presentation/ui/snackbars/snackbar";
 import { useLocalSearchParams } from "expo-router";
 
 export default function VisitDetailScreen() {
@@ -10,9 +9,7 @@ export default function VisitDetailScreen() {
   return (
     <SafeAreaProvider>
       <SafeArea>
-        <SnackBarProvider>
-          <VisitDetailScene id={id} />
-        </SnackBarProvider>
+        <VisitDetailScene id={id} />
       </SafeArea>
     </SafeAreaProvider>
   );

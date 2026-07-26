@@ -50,5 +50,9 @@ export async function createTestDb() {
       if (Array.isArray(result)) return result[0] as T ?? null;
       return null;
     },
+
+    withTransactionAsync: async (fn: () => Promise<void>) => {
+      await fn();
+    },
   };
 }

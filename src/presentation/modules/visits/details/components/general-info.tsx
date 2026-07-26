@@ -1,6 +1,5 @@
 import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
-import { IconButton } from "@/src/presentation/ui/buttons/icon-button";
 import { PhoneNumberButton } from "@/src/presentation/ui/buttons/phone-number-button";
 import { WhatsAppButton } from "@/src/presentation/ui/buttons/whats-app-button";
 import { Card } from "@/src/presentation/ui/cards/card";
@@ -9,11 +8,9 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import { HeadLine } from "@/src/presentation/ui/texts/head-line";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
 import { View } from "react-native";
 import { visitTypeTranslation } from "../../constants/visit-type-translation";
 import { useGetVisitColor } from "../../hooks/use-get-visit-colors";
-import EditGeneralInfoModal from "./edit-general-info.modal";
 
 export function GeneralInfo({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
@@ -22,7 +19,6 @@ export function GeneralInfo({ visit }: { visit: IVisit }) {
     gradientColor: gradientTypeColor,
     textColor: textTypeColor,
   } = useGetVisitColor(visit.type);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   return (
     <Card
@@ -49,15 +45,6 @@ export function GeneralInfo({ visit }: { visit: IVisit }) {
           <View style={{ flex: 1 }}>
             <HeadLine color={textTypeColor}>{visit.name}</HeadLine>
           </View>
-          <IconButton
-            type="outlined"
-            icon="pencil-outline"
-            iconSize={20}
-            border={0}
-            color={textTypeColor}
-            onPress={() => setIsEditModalVisible(true)}
-            style={{ margin: 0 }}
-          />
         </View>
         <View
           style={{ display: "flex", flexDirection: "row", marginBlock: 10 }}
@@ -197,11 +184,6 @@ export function GeneralInfo({ visit }: { visit: IVisit }) {
           </View>
         )}
       </View>
-      <EditGeneralInfoModal
-        visit={visit}
-        isVisible={isEditModalVisible}
-        onCloseModal={() => setIsEditModalVisible(false)}
-      />
     </Card>
   );
 }
