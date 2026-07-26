@@ -67,11 +67,11 @@ export default function EditGeneralInfoForm({
 
   const { updateVisit, isPending } = useUpdateVisit({
     onSuccess: () => {
-      showSnackbar.success("Información actualizada");
+      showSnackbar.success("Visita actualizada correctamente");
       onSuccess?.();
     },
     onError: () => {
-      showSnackbar.error("Error al actualizar la información");
+      showSnackbar.error("Error al actualizar");
     },
   });
 
@@ -105,30 +105,24 @@ export default function EditGeneralInfoForm({
           {
             value: VisitTypeEnum.visit,
             label: "Revisita",
-            icon: () => (
-              <Icon
-                type="book-open"
-                size={25}
-                color={color.visitType.onVisit}
-              />
-            ),
+            icon: () => <Icon type="door" size={25} color={color.secondary} />,
             style: { borderTopLeftRadius: 10, borderBottomLeftRadius: 10 },
             uncheckedColor: color.onSurfaceVariant,
-            checkedColor: color.visitType.onVisit,
+            checkedColor: color.secondary,
           },
           {
             value: VisitTypeEnum.course,
             label: "Curso",
             icon: () => (
               <Icon
-                type="home-map-marker"
+                type="book-open-blank-variant-outline"
                 size={25}
-                color={color.visitType.onCourse}
+                color={color.secondary}
               />
             ),
             style: { borderTopRightRadius: 10, borderBottomRightRadius: 10 },
             uncheckedColor: color.onSurfaceVariant,
-            checkedColor: color.visitType.onCourse,
+            checkedColor: color.secondary,
           },
         ]}
         value={form.type}

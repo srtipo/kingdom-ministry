@@ -12,11 +12,7 @@ export default function EditGeneralInfoModal({
   onCloseModal: () => void;
 }) {
   return (
-    <Modal
-      isVisible={isVisible}
-      onClose={onCloseModal}
-      title="Editar información"
-    >
+    <Modal isVisible={isVisible} onClose={onCloseModal} title="Editar visita">
       <EditGeneralInfoForm visit={visit} onSuccess={onCloseModal} />
     </Modal>
   );
