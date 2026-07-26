@@ -19,8 +19,6 @@ export default function useDeleteVisit({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["visits"] });
-      queryClient.invalidateQueries({ queryKey: ["visit-detail"] });
-      queryClient.invalidateQueries({ queryKey: ["attendance-history"] });
       onSuccess?.();
     },
     onError: () => {
