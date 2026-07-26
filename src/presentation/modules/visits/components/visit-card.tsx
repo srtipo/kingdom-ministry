@@ -97,8 +97,11 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
               {name}
             </Text>
           </View>
-          <Chip color={backgroundTypeColor}>
-            <Text color={textTypeColor}>{visitTypeTranslation[type]}</Text>
+          <Chip
+            color={backgroundTypeColor}
+            textStyle={{ color: textTypeColor, fontWeight: "bold" }}
+          >
+            {visitTypeTranslation[type]}
           </Chip>
         </View>
         <View
