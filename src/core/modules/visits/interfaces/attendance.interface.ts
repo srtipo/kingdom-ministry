@@ -14,5 +14,14 @@ export interface ICreateAttendance {
 
 export interface IAttendanceRepository {
   create: (attendance: ICreateAttendance) => Promise<void>;
-  getByVisitId: (visitId: string) => Promise<IAttendance[]>;
+  getByVisitId: (
+    visitId: string,
+    limit: number,
+    offset: number,
+  ) => Promise<IAttendance[]>;
+}
+
+export interface AttendancePage {
+  items: IAttendance[];
+  hasMore: boolean;
 }

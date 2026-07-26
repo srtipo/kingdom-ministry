@@ -1,10 +1,25 @@
-import { IAttendance } from "@/src/core/modules/visits/interfaces/attendance.interface";
+import {
+  AttendancePage,
+} from "@/src/core/modules/visits/interfaces/attendance.interface";
 import { getAttendanceByVisitHandler } from "@/src/di/visits/container";
-import { useQuery } from "@tanstack/react-query";
+import {
+  InfiniteData,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 
 export function useGetAttendanceHistory(visitId: string) {
-  return useQuery<IAttendance[], Error>({
+  return useInfiniteQuery<
+    AttendancePage,
+    Error,
+    InfiniteData<AttendancePage>,
+    readonly unknown[],
+    number
+  >({
     queryKey: ["attendance-history", visitId],
-    queryFn: async () => await getAttendanceByVisitHandler.execute(visitId),
+    initialPageParam: 0,
+    queryFn: async ({ pageParam }) =>
+      await getAttendanceByVisitHandler.execute(visitId, pageParam),
+    getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+      lastPage.hasMore ? lastPageParam + 1 : undefined,
   });
 }
