@@ -4,7 +4,10 @@ export default function VisitLayout() {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="[id]" options={{ title: "Detalle" }} />
+      <Stack.Screen
+        name="[id]"
+        options={{ title: "Detalle", headerTitleAlign: "center" }}
+      />
     </Stack>
   );
 }

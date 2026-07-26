@@ -95,4 +95,11 @@ export class VisitsRepository implements IVisitsRepository {
       values,
     );
   }
+
+  async delete(id: string) {
+    await this.db.withTransactionAsync(async () => {
+      await this.db.runAsync("DELETE FROM attendance WHERE visit_id = ?", [id]);
+      await this.db.runAsync("DELETE FROM visits WHERE id = ?", [id]);
+    });
+  }
 }

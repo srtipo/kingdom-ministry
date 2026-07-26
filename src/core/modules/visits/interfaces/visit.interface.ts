@@ -37,4 +37,5 @@ export interface IVisitsRepository {
   ) => Promise<IVisit[]>;
   getById: (id: string) => Promise<IVisit | null>;
   update: (id: string, data: Partial<IVisit>) => Promise<void>;
+  delete: (id: string) => Promise<void>;
 }
