@@ -1,7 +1,6 @@
 import { IAttendance } from "@/src/core/modules/visits/interfaces/attendance.interface";
 import { formatDate } from "@/src/presentation/helpers/format-date";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
-import { Chip } from "@/src/presentation/ui/chips/chip";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { View } from "react-native";
 
@@ -80,13 +79,6 @@ export function AttendanceTimelineItem({
           <Text type="small" color={colors.onSurfaceVariant}>
             {formattedDate}
           </Text>
-          {isFirst && (
-            <Chip compact opacity={0.6}>
-              <Text type="small" fontWeight="bold" color={colors.primary}>
-                Más reciente
-              </Text>
-            </Chip>
-          )}
         </View>
         {attendance.notes && (
           <Text type="medium" color={colors.onSurface}>
