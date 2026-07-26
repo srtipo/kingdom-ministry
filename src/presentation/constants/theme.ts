@@ -55,13 +55,13 @@ export const Colors = {
     },
 
     visitType: {
-      visit: "rgba(5, 150, 105, 0.1)",
-      visitGradient: "rgba(5, 150, 105, 0.25)",
+      visit: "hsl(155, 55%, 80%)",
+      visitGradient: "hsl(155, 55%, 68%)",
       onVisit: "#065f46",
       onVisitSoft: "#10b981",
-      course: "rgba(124, 58, 237, 0.1)",
-      courseGradient: "rgba(124, 58, 237, 0.25)",
-      onCourse: "#6d28d9",
+      course: "hsl(265, 65%, 82%)",
+      courseGradient: "hsl(265, 65%, 70%)",
+      onCourse: "#5b21b6",
       onCourseSoft: "#a78bfa",
     },
     // review colors
@@ -119,14 +119,14 @@ export const Colors = {
       warning: "#ffffcf",
     },
     visitType: {
-      visit: "rgba(52, 211, 153, 0.12)",
-      visitGradient: "rgba(52, 211, 153, 0.25)",
-      onVisit: "#34d399",
-      onVisitSoft: "#6ee7b7",
-      course: "rgba(167, 139, 250, 0.12)",
-      courseGradient: "rgba(167, 139, 250, 0.25)",
-      onCourse: "#a78bfa",
-      onCourseSoft: "#c4b5fd",
+      visit: "hsl(155, 55%, 80%)",
+      visitGradient: "hsl(155, 55%, 68%)",
+      onVisit: "#065f46",
+      onVisitSoft: "#10b981",
+      course: "hsl(265, 65%, 82%)",
+      courseGradient: "hsl(265, 65%, 70%)",
+      onCourse: "#5b21b6",
+      onCourseSoft: "#a78bfa",
     },
 
     // review colors
