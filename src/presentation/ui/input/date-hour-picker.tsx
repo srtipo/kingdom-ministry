@@ -91,6 +91,7 @@ export default function NativeDateTime({
           locale="es"
           value={getPickerDate()}
           mode={mode}
+          is24Hour={false}
           onDismiss={closeDatePicker}
           onValueChange={onValueChange}
           design="material"

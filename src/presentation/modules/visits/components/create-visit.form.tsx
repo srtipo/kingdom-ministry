@@ -11,7 +11,6 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import NativeDateTime from "@/src/presentation/ui/input/date-hour-picker";
 import TextInput from "@/src/presentation/ui/input/text-input";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
-import { Text } from "@/src/presentation/ui/texts/text";
 import useCreateVisit from "../hooks/use-create-visit";
 
 const visitSchema = z.object({
@@ -101,30 +100,24 @@ export default function CreateVisitForm({
           {
             value: VisitTypeEnum.visit,
             label: "Revisita",
-            icon: () => (
-              <Icon
-                type="book-open"
-                size={25}
-                color={color.visitType.onVisit}
-              />
-            ),
+            icon: () => <Icon type="door" size={25} color={color.secondary} />,
             style: { borderTopLeftRadius: 10, borderBottomLeftRadius: 10 },
             uncheckedColor: color.onSurfaceVariant,
-            checkedColor: color.visitType.onVisit,
+            checkedColor: color.secondary,
           },
           {
             value: VisitTypeEnum.course,
             label: "Curso",
             icon: () => (
               <Icon
-                type="home-map-marker"
+                type="book-open-blank-variant-outline"
                 size={25}
-                color={color.visitType.onCourse}
+                color={color.secondary}
               />
             ),
             style: { borderTopRightRadius: 10, borderBottomRightRadius: 10 },
             uncheckedColor: color.onSurfaceVariant,
-            checkedColor: color.visitType.onCourse,
+            checkedColor: color.secondary,
           },
         ]}
         value={form.type}
@@ -173,7 +166,7 @@ export default function CreateVisitForm({
         style={{ marginTop: 10 }}
         isloanding={isPending}
       >
-        <Text>Crear </Text>
+        Crear
       </Button>
     </>
   );

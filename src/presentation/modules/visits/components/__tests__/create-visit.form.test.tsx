@@ -4,10 +4,7 @@ import React from "react";
 jest.mock("@/src/presentation/hooks/use-theme-color", () => ({
   useThemeColor: () => ({
     onSurfaceVariant: "#666",
-    visitType: {
-      onVisit: "#FFF",
-      onCourse: "#FFF",
-    },
+    secondary: "#FFF",
   }),
 }));
 
