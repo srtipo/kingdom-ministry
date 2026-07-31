@@ -25,10 +25,10 @@ export class AttendanceRepository implements IAttendanceRepository {
     );
   }
 
-  async getByVisitId(visitId: string) {
+  async getByVisitId(visitId: string, limit: number, offset: number) {
     const rows = await this.db.getAllAsync<AttendanceSqlRow>(
-      "SELECT id, visit_id, date, notes FROM attendance WHERE visit_id = ? ORDER BY date DESC",
-      [visitId],
+      "SELECT id, visit_id, date, notes FROM attendance WHERE visit_id = ? ORDER BY date DESC LIMIT ? OFFSET ?",
+      [visitId, limit, offset],
     );
     return attendanceSqlRowsToDomain(rows);
   }

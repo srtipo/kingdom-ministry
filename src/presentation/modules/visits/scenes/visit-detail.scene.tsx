@@ -1,6 +1,7 @@
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 
 import { Loading } from "@/src/presentation/ui/loaders/loading";
+import { ScrollMask } from "@/src/presentation/ui/mask";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { useNavigation, useRouter } from "expo-router";
@@ -12,6 +13,7 @@ import { VisitHeaderActions } from "../components/visit-header-actions";
 import EditGeneralInfoModal from "../details/components/edit-general-info.modal";
 import { GeneralInfo } from "../details/components/general-info";
 import { ImportantDates } from "../details/components/important-dates";
+import { VisitDetailFooter } from "../details/components/visit-detail-footer";
 import { useGetVisitDetail } from "../details/hooks/get-visit-datail";
 import useDeleteVisit from "../hooks/use-delete-visit";
 
@@ -58,15 +60,18 @@ export default function VisitDetailScene({ id }: { id: string }) {
   }
   return (
     <>
-      <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
-        <View
-          style={{ padding: 10, display: "flex", gap: 10, marginBottom: 30 }}
-        >
-          <GeneralInfo visit={data} />
-          <ImportantDates visit={data} />
-          <AttendanceHistoryCard visit={data} />
-        </View>
-      </ScrollView>
+      <ScrollMask top bottom edgeHeight={15}>
+        <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
+          <View
+            style={{ padding: 10, display: "flex", gap: 10, marginBottom: 100 }}
+          >
+            <GeneralInfo visit={data} />
+            <ImportantDates visit={data} />
+            <AttendanceHistoryCard visit={data} />
+          </View>
+        </ScrollView>
+      </ScrollMask>
+      <VisitDetailFooter visit={data} />
       <EditGeneralInfoModal
         visit={data}
         isVisible={isEditModalVisible}
