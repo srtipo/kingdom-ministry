@@ -1,4 +1,7 @@
-import { ICreateVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
+import {
+  ICreateVisit,
+  IVisit,
+} from "@/src/core/modules/visits/interfaces/visit.interface";
 import { createVisitsHandler } from "@/src/di/visits/container";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -6,12 +9,12 @@ export default function useCreateVisit({
   onSuccess,
   onError,
 }: {
-  onSuccess?: () => void;
+  onSuccess?: (visit: IVisit) => void;
   onError?: () => void;
 }) {
   const queryClient = useQueryClient();
   const { mutate: createVisit, ...rest } = useMutation<
-    void,
+    IVisit,
     Error,
     Omit<ICreateVisit, "createdAt" | "updatedAt">
   >({
@@ -20,9 +23,9 @@ export default function useCreateVisit({
     ) => {
       return await createVisitsHandler.execute(visit);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["visits"] });
-      onSuccess?.();
+      onSuccess?.(data);
     },
     onError: () => {
       onError?.();

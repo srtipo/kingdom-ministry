@@ -29,7 +29,7 @@ export interface ICreateVisit {
 
 export interface IVisitsRepository {
   getAll: () => Promise<IVisit[]>;
-  create: (visit: ICreateVisit) => Promise<void>;
+  create: (visit: ICreateVisit) => Promise<IVisit>;
   getAllOrderedByNextVisit: (
     term?: string,
     startDate?: Date,
