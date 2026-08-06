@@ -11,7 +11,7 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import NativeDateTime from "@/src/presentation/ui/input/date-hour-picker";
 import TextInput from "@/src/presentation/ui/input/text-input";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
-import { scheduleVisitNotification } from "../../notifications/schedules/visist.notification";
+import { scheduleVisitNotification } from "../../notifications/schedules/visit.notification";
 import useCreateVisit from "../hooks/use-create-visit";
 
 const visitSchema = z.object({
