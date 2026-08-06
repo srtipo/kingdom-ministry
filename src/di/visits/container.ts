@@ -2,17 +2,21 @@ import { CreateAttendanceHandler } from "@/src/core/modules/visits/handlers/crea
 import { GetAttendanceByVisitHandler } from "@/src/core/modules/visits/handlers/get-attendance-by-visit.handler";
 import { CreateVisitsHandler } from "@/src/core/modules/visits/handlers/create-visits.handler";
 import { DeleteVisitHandler } from "@/src/core/modules/visits/handlers/delete-visit.handler";
+import { GetNotificationConfigsHandler } from "@/src/core/modules/visits/handlers/get-notification-configs.handler";
 import { GetVisitDetailsHandler } from "@/src/core/modules/visits/handlers/get-visit-details.handler";
 import { SearchVisitsHandler } from "@/src/core/modules/visits/handlers/search-visits.handler";
 import { UpdateVisitHandler } from "@/src/core/modules/visits/handlers/update-visit.handler";
+import { UpsertNotificationConfigsHandler } from "@/src/core/modules/visits/handlers/upsert-notification-configs.handler";
 import { getDatabase } from "@/src/data/database/SqliteConnection";
 import { AttendanceRepository } from "@/src/data/modules/visits/repositories/attendance.repository";
 import { VisitsRepository } from "@/src/data/modules/visits/repositories/visits.repository";
+import { NotificationConfigRepository } from "@/src/data/modules/visits/repositories/visit-notification-config.repository";
 
 const db = getDatabase();
 
 const visitRepository = new VisitsRepository(db);
 const attendanceRepository = new AttendanceRepository(db);
+const notificationConfigRepository = new NotificationConfigRepository(db);
 
 export const getVisitsHandler = new SearchVisitsHandler(visitRepository);
 
@@ -33,4 +37,12 @@ export const createAttendanceHandler = new CreateAttendanceHandler(
 
 export const getAttendanceByVisitHandler = new GetAttendanceByVisitHandler(
   attendanceRepository,
+);
+
+export const upsertNotificationConfigsHandler = new UpsertNotificationConfigsHandler(
+  notificationConfigRepository,
+);
+
+export const getNotificationConfigsHandler = new GetNotificationConfigsHandler(
+  notificationConfigRepository,
 );

@@ -24,4 +24,10 @@ export const migrations = {
       FOREIGN KEY (visit_id) REFERENCES visits(id)
     );
   `,
+  4: `
+    CREATE TABLE IF NOT EXISTS visit_notification_config (
+      id TEXT PRIMARY KEY NOT NULL,
+      time INTEGER NOT NULL
+    );
+  `,
 };
