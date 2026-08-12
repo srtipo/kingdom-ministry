@@ -28,9 +28,10 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="explore"
+          name="configs"
           options={{
-            title: "Explore",
+            title: "Ajustes",
+            headerShown: false,
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="cog" color={color} size={26} />
             ),
