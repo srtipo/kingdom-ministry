@@ -138,4 +138,56 @@ describe("UpsertNotificationConfigsHandler", () => {
     expect(repo.create).toHaveBeenNthCalledWith(1, { time: 30 });
     expect(repo.create).toHaveBeenNthCalledWith(2, { time: 60 });
   });
+
+  it("should delete the ids in previousIds that are not present in items", async () => {
+    const repo = makeRepo();
+    const handler = new UpsertNotificationConfigsHandler(repo);
+    const items: INotificationConfigInput[] = [
+      { id: "keep-1", time: 60 },
+      { time: 1440 },
+    ];
+
+    await handler.execute(items, { previousIds: ["keep-1", "drop-1", "drop-2"] });
+
+    expect(repo.update).toHaveBeenCalledTimes(1);
+    expect(repo.update).toHaveBeenCalledWith("keep-1", { time: 60 });
+    expect(repo.create).toHaveBeenCalledTimes(1);
+    expect(repo.create).toHaveBeenCalledWith({ time: 1440 });
+    expect(repo.delete).toHaveBeenCalledTimes(2);
+    expect(repo.delete).toHaveBeenCalledWith("drop-1");
+    expect(repo.delete).toHaveBeenCalledWith("drop-2");
+  });
+
+  it("should not delete any id when previousIds is omitted", async () => {
+    const repo = makeRepo();
+    const handler = new UpsertNotificationConfigsHandler(repo);
+
+    await handler.execute([{ id: "a", time: 30 }]);
+
+    expect(repo.delete).not.toHaveBeenCalled();
+  });
+
+  it("should skip the delete when a previousId is also present in items", async () => {
+    const repo = makeRepo();
+    const handler = new UpsertNotificationConfigsHandler(repo);
+
+    await handler.execute(
+      [{ id: "shared", time: 60 }],
+      { previousIds: ["shared"] },
+    );
+
+    expect(repo.update).toHaveBeenCalledTimes(1);
+    expect(repo.delete).not.toHaveBeenCalled();
+  });
+
+  it("should propagate the error when the repository throws on delete", async () => {
+    const repo = makeRepo({
+      delete: jest.fn().mockRejectedValue(new Error("db down")),
+    });
+    const handler = new UpsertNotificationConfigsHandler(repo);
+
+    await expect(
+      handler.execute([], { previousIds: ["drop-1"] }),
+    ).rejects.toThrow("db down");
+  });
 });

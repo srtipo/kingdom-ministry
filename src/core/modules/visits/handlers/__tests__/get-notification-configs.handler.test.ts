@@ -19,8 +19,8 @@ function makeRepo(
 describe("GetNotificationConfigsHandler", () => {
   it("should return the rows produced by repository.getAll()", async () => {
     const rows: INotificationConfig[] = [
-      { id: "a", time: 30 },
       { id: "b", time: 60 },
+      { id: "a", time: 30 },
     ];
     const repo = makeRepo({
       getAll: jest.fn().mockResolvedValue(rows),
@@ -51,5 +51,21 @@ describe("GetNotificationConfigsHandler", () => {
     const handler = new GetNotificationConfigsHandler(repo);
 
     await expect(handler.execute()).rejects.toThrow("db down");
+  });
+
+  it("should sort the results by time descending", async () => {
+    const rows: INotificationConfig[] = [
+      { id: "b", time: 10080 },
+      { id: "c", time: 60 },
+      { id: "a", time: 1440 },
+    ];
+    const repo = makeRepo({
+      getAll: jest.fn().mockResolvedValue(rows),
+    });
+    const handler = new GetNotificationConfigsHandler(repo);
+
+    const result = await handler.execute();
+
+    expect(result.map((r) => r.time)).toEqual([10080, 1440, 60]);
   });
 });

@@ -12,6 +12,10 @@ export interface INotificationConfigInput {
   time: number;
 }
 
+export interface INotificationConfigUpsertOptions {
+  previousIds?: string[];
+}
+
 export interface INotificationConfigRepository {
   create: (data: ICreateNotificationConfig) => Promise<INotificationConfig>;
   getAll: () => Promise<INotificationConfig[]>;

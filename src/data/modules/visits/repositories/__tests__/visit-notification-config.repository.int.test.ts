@@ -56,7 +56,7 @@ describe("NotificationConfigRepository integration", () => {
   });
 
   describe("getAll", () => {
-    it("should return rows ordered by time ASC", async () => {
+    it("should return rows without applying ordering (sort handled by handler)", async () => {
       const { repository } = await createRepo();
       await repository.create({ time: 1440 });
       await repository.create({ time: 60 });
@@ -64,7 +64,7 @@ describe("NotificationConfigRepository integration", () => {
 
       const result = await repository.getAll();
 
-      expect(result.map((r) => r.time)).toEqual([60, 1440, 10080]);
+      expect(result.map((r) => r.time)).toEqual([1440, 60, 10080]);
     });
 
     it("should return an empty array when no rows exist", async () => {

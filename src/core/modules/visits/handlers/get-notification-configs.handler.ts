@@ -10,6 +10,7 @@ export class GetNotificationConfigsHandler {
   }
 
   async execute(): Promise<INotificationConfig[]> {
-    return this.repository.getAll();
+    const rows = await this.repository.getAll();
+    return rows.sort((a, b) => b.time - a.time);
   }
 }

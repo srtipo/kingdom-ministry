@@ -31,7 +31,7 @@ export class NotificationConfigRepository
 
   async getAll(): Promise<INotificationConfig[]> {
     const rows = await this.db.getAllAsync<NotificationConfigSqlRow>(
-      "SELECT id, time FROM visit_notification_config ORDER BY time ASC",
+      "SELECT id, time FROM visit_notification_config",
     );
     return notificationConfigSqlRowsToDomain(rows);
   }
