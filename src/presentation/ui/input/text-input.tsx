@@ -72,7 +72,7 @@ type Props = Omit<
   value?: string;
   onChangeText: (text: string) => void;
   error?: string;
-  leftIconProps: ComponentProps<typeof TI.Icon>;
+  leftIconProps?: ComponentProps<typeof TI.Icon>;
 
   [key: string]: any;
 };
