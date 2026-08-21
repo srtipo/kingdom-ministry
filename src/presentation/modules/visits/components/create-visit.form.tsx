@@ -11,6 +11,8 @@ import { Icon } from "@/src/presentation/ui/icons/icon";
 import NativeDateTime from "@/src/presentation/ui/input/date-hour-picker";
 import TextInput from "@/src/presentation/ui/input/text-input";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
+import { useFetchNotificationConfigs } from "@/src/presentation/modules/visits/hooks/use-fetch-notification-configs";
+import { scheduleVisitReminders } from "../../notifications/schedules/visit.notification";
 import useCreateVisit from "../hooks/use-create-visit";
 
 const visitSchema = z.object({
@@ -42,11 +44,29 @@ export default function CreateVisitForm({
   onSuccess?: () => void;
 }) {
   const { showSnackbar } = useContext(SnackBarContext);
+  const fetchNotificationConfigs = useFetchNotificationConfigs();
   const { createVisit, isPending } = useCreateVisit({
-    onSuccess: () => {
+    onSuccess: async (visit) => {
       showSnackbar.success(
         `${form.type === VisitTypeEnum.visit ? "Revisita creada" : "Curso creado"} correctamente`,
       );
+      try {
+        const configs = await fetchNotificationConfigs();
+        await scheduleVisitReminders({
+          visitId: visit.id,
+          name: visit.name,
+          type: visit.type,
+          nextVisit: new Date(visit.nextVisit),
+          configs,
+        });
+      } catch (error) {
+        if (__DEV__) {
+          console.warn(
+            "[notifications] failed to schedule visit reminders",
+            error,
+          );
+        }
+      }
       onSuccess?.();
     },
     onError: () => {

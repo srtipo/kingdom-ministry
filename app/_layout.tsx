@@ -12,10 +12,11 @@ import {
   customLightTheme,
 } from "@/src/presentation/constants/theme";
 import { useColorScheme } from "@/src/presentation/hooks/use-color-scheme.web";
+import { setupNotifications } from "@/src/presentation/libraries/notifications/setup-notifications";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SQLiteProvider } from "expo-sqlite";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PaperProvider } from "react-native-paper";
 
@@ -26,6 +27,10 @@ export const unstable_settings = {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const queryClient = new QueryClient();
+
+  useEffect(() => {
+    setupNotifications();
+  }, []);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Suspense fallback={<Text>Cargando Base de Datos...</Text>}>

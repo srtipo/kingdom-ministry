@@ -26,6 +26,16 @@ jest.mock("@/src/presentation/modules/visits/hooks/use-create-visit", () => ({
   }),
 }));
 
+jest.mock("@/src/presentation/modules/visits/hooks/use-fetch-notification-configs", () => ({
+  __esModule: true,
+  useFetchNotificationConfigs: () => jest.fn().mockResolvedValue([]),
+}));
+
+jest.mock("@/src/presentation/modules/notifications/schedules/visit.notification", () => ({
+  __esModule: true,
+  scheduleVisitReminders: jest.fn().mockResolvedValue([]),
+}));
+
 jest.mock("@/src/presentation/ui/input/text-input", () => ({
   __esModule: true,
   default: ({ label, onChangeText, error }: any) => {

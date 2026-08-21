@@ -54,6 +54,15 @@ export const Colors = {
       warning: "#ffffcf",
     },
 
+    notice: {
+      warning: {
+        bg: "#fffbeb",
+        border: "#fde68a",
+        icon: "#f59e0b",
+        text: "#92400e",
+      },
+    },
+
     visitType: {
       visit: "hsl(155, 55%, 80%)",
       visitGradient: "hsl(155, 55%, 68%)",
@@ -118,6 +127,16 @@ export const Colors = {
       bad: "#ffdbcf",
       warning: "#ffffcf",
     },
+
+    notice: {
+      warning: {
+        bg: "#451a03",
+        border: "#92400e",
+        icon: "#fbbf24",
+        text: "#fde68a",
+      },
+    },
+
     visitType: {
       visit: "hsl(155, 55%, 80%)",
       visitGradient: "hsl(155, 55%, 68%)",
@@ -140,24 +159,12 @@ export const Colors = {
 export const customDarkTheme = {
   dark: true,
   roundness: 1,
-  DarkTheme: {
-    colors: Colors.dark,
-  },
-  LighTheme: {
-    colors: Colors.light,
-  },
   colors: Colors.dark,
 };
 
 export const customLightTheme = {
   dark: false,
   roundness: 1,
-  DarkTheme: {
-    colors: Colors.dark,
-  },
-  LighTheme: {
-    colors: Colors.light,
-  },
   colors: Colors.light,
 };
 export const Fonts = Platform.select({

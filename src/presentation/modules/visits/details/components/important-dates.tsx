@@ -63,8 +63,7 @@ export function ImportantDates({ visit }: { visit: IVisit }) {
         />
       </View>
       <EditNextVisitModal
-        visitId={visit.id}
-        currentDate={visit.nextVisit}
+        visit={visit}
         isVisible={isEditModalVisible}
         onCloseModal={() => setIsEditModalVisible(false)}
       />

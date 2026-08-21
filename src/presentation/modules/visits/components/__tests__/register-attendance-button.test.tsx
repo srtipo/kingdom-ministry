@@ -61,7 +61,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 describe("RegisterAttendanceButton", () => {
   it("renders with visit text by default", async () => {
     const { getByText } = await render(
-      <RegisterAttendanceButton visitId="test-id" />,
+      <RegisterAttendanceButton visitId="test-id" name="Test Name" />,
       { wrapper: Wrapper },
     );
     expect(getByText("Registrar Revisita")).toBeTruthy();
@@ -69,7 +69,11 @@ describe("RegisterAttendanceButton", () => {
 
   it("renders with course text for course type", async () => {
     const { getByText } = await render(
-      <RegisterAttendanceButton type={VisitTypeEnum.course} visitId="test-id" />,
+      <RegisterAttendanceButton
+        type={VisitTypeEnum.course}
+        visitId="test-id"
+        name="Test Name"
+      />,
       { wrapper: Wrapper },
     );
     expect(getByText("Registrar Curso")).toBeTruthy();
@@ -77,7 +81,11 @@ describe("RegisterAttendanceButton", () => {
 
   it("renders with visit text for visit type", async () => {
     const { getByText } = await render(
-      <RegisterAttendanceButton type={VisitTypeEnum.visit} visitId="test-id" />,
+      <RegisterAttendanceButton
+        type={VisitTypeEnum.visit}
+        visitId="test-id"
+        name="Test Name"
+      />,
       { wrapper: Wrapper },
     );
     expect(getByText("Registrar Revisita")).toBeTruthy();

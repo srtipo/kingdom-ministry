@@ -4,3 +4,8 @@ export const visitTypeTranslation = {
   [VisitTypeEnum.visit]: "Revisita",
   [VisitTypeEnum.course]: "Curso",
 };
+
+export const visitArticlesTranslation = {
+  [VisitTypeEnum.visit]: "una",
+  [VisitTypeEnum.course]: "un",
+};

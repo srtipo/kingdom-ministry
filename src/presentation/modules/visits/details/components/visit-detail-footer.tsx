@@ -18,6 +18,7 @@ export function VisitDetailFooter({ visit }: { visit: IVisit }) {
       <RegisterAttendanceButton
         type={visit.type}
         visitId={visit.id}
+        name={visit.name}
         style={styles.button}
       />
     </View>

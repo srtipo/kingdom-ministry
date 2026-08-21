@@ -69,6 +69,7 @@ export class VisitsRepository implements IVisitsRepository {
         visit.notes ?? null,
       ],
     );
+    return visitSqlRowToDomain({ ...visit, id: uuid }) as IVisit;
   }
 
   async getById(id: string) {

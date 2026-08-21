@@ -16,6 +16,7 @@ import { ImportantDates } from "../details/components/important-dates";
 import { VisitDetailFooter } from "../details/components/visit-detail-footer";
 import { useGetVisitDetail } from "../details/hooks/get-visit-datail";
 import useDeleteVisit from "../hooks/use-delete-visit";
+import { cancelVisitReminders } from "../../notifications/schedules/visit.notification";
 
 export default function VisitDetailScene({ id }: { id: string }) {
   const colors = useThemeColor();
@@ -27,7 +28,17 @@ export default function VisitDetailScene({ id }: { id: string }) {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
   const { deleteVisit, isPending: isDeletingVisit } = useDeleteVisit({
-    onSuccess: () => {
+    onSuccess: async () => {
+      try {
+        await cancelVisitReminders({ visitId: id });
+      } catch (error) {
+        if (__DEV__) {
+          console.warn(
+            "[notifications] failed to cancel visit reminders",
+            error,
+          );
+        }
+      }
       setIsDeleteModalVisible(false);
       router.back();
       showSnackbar.success("Visita eliminada");
