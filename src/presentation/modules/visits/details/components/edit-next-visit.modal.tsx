@@ -1,14 +1,13 @@
+import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { Modal } from "@/src/presentation/ui/modal/modal";
 import EditNextVisitForm from "./edit-next-visit.form";
 
 export default function EditNextVisitModal({
-  visitId,
-  currentDate,
+  visit,
   isVisible,
   onCloseModal,
 }: {
-  visitId: string;
-  currentDate: Date | string;
+  visit: IVisit;
   isVisible: boolean;
   onCloseModal: () => void;
 }) {
@@ -18,11 +17,7 @@ export default function EditNextVisitModal({
       onClose={onCloseModal}
       title="Editar próxima visita"
     >
-      <EditNextVisitForm
-        visitId={visitId}
-        currentDate={currentDate}
-        onSuccess={onCloseModal}
-      />
+      <EditNextVisitForm visit={visit} onSuccess={onCloseModal} />
     </Modal>
   );
 }

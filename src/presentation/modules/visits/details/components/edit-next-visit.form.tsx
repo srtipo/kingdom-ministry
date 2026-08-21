@@ -1,3 +1,4 @@
+import { IVisit } from "@/src/core/modules/visits/interfaces/visit.interface";
 import { useThemeColor } from "@/src/presentation/hooks/use-theme-color";
 import useZodValidator from "@/src/presentation/hooks/use-zod-validator";
 import { z } from "@/src/presentation/libraries/zod";
@@ -5,24 +6,25 @@ import { Button } from "@/src/presentation/ui/buttons/ui-button";
 import NativeDateTime from "@/src/presentation/ui/input/date-hour-picker";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
 import { useContext, useState } from "react";
+import { useFetchNotificationConfigs } from "../../hooks/use-fetch-notification-configs";
 import useUpdateVisit from "../../hooks/use-update-visit";
+import { reScheduleVisitReminders } from "../../../notifications/schedules/visit.notification";
 
 const nextVisitSchema = z.object({
   nextVisit: z.date("Indica la fecha de la próxima visita"),
 });
 
 export default function EditNextVisitForm({
-  visitId,
-  currentDate,
+  visit,
   onSuccess,
 }: {
-  visitId: string;
-  currentDate: Date | string;
+  visit: IVisit;
   onSuccess?: () => void;
 }) {
   const { showSnackbar } = useContext(SnackBarContext);
   const colors = useThemeColor();
-  const initialDate = new Date(currentDate);
+  const fetchNotificationConfigs = useFetchNotificationConfigs();
+  const initialDate = new Date(visit.nextVisit);
   const [nextVisit, setNextVisit] = useState<Date | null>(initialDate);
 
   const { validate, errors, validateField } = useZodValidator<{
@@ -30,8 +32,25 @@ export default function EditNextVisitForm({
   }>(nextVisitSchema);
 
   const { updateVisit, isPending } = useUpdateVisit({
-    onSuccess: () => {
+    onSuccess: async () => {
       showSnackbar.success("Próxima visita actualizada");
+      try {
+        const configs = await fetchNotificationConfigs();
+        await reScheduleVisitReminders({
+          visitId: visit.id,
+          name: visit.name,
+          type: visit.type,
+          nextVisit: new Date(nextVisit ?? visit.nextVisit),
+          configs,
+        });
+      } catch (error) {
+        if (__DEV__) {
+          console.warn(
+            "[notifications] failed to reschedule visit reminders",
+            error,
+          );
+        }
+      }
       onSuccess?.();
     },
     onError: () => {
@@ -51,7 +70,7 @@ export default function EditNextVisitForm({
       return;
     }
     updateVisit({
-      id: visitId,
+      id: visit.id,
       data: { nextVisit: result.data.nextVisit.toISOString() },
     });
   };

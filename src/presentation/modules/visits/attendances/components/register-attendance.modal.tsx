@@ -5,11 +5,13 @@ import RegisterAttendanceForm from "./register-attendance.form";
 
 export default function RegisterAttendanceModal({
   visitId,
+  name,
   type = VisitTypeEnum.visit,
   isVisible,
   onCloseModal,
 }: {
   visitId: string;
+  name: string;
   type?: VisitTypeEnum;
   isVisible: boolean;
   onCloseModal: () => void;
@@ -23,6 +25,7 @@ export default function RegisterAttendanceModal({
       >
         <RegisterAttendanceForm
           visitId={visitId}
+          name={name}
           type={type}
           onSuccess={onCloseModal}
         />

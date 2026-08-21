@@ -191,7 +191,7 @@ export default function VisitCard({ visit }: { visit: IVisit }) {
           </View>
         )}
       </View>
-      <RegisterAttendanceButton type={type} visitId={visit.id} />
+      <RegisterAttendanceButton type={type} visitId={visit.id} name={name} />
     </Card>
   );
 }

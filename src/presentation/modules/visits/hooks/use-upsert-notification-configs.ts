@@ -1,9 +1,15 @@
 import {
   INotificationConfig,
   INotificationConfigInput,
+  INotificationConfigUpsertOptions,
 } from "@/src/core/modules/visits/interfaces/notification-config.interface";
 import { upsertNotificationConfigsHandler } from "@/src/di/visits/container";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+export interface UpsertNotificationConfigsVariables {
+  items: INotificationConfigInput[];
+  options?: INotificationConfigUpsertOptions;
+}
 
 export default function useUpsertNotificationConfigs({
   onSuccess,
@@ -16,10 +22,10 @@ export default function useUpsertNotificationConfigs({
   const { mutate: upsertNotificationConfigs, ...rest } = useMutation<
     INotificationConfig[],
     Error,
-    INotificationConfigInput[]
+    UpsertNotificationConfigsVariables
   >({
-    mutationFn: async (items) => {
-      return await upsertNotificationConfigsHandler.execute(items);
+    mutationFn: async ({ items, options }) => {
+      return await upsertNotificationConfigsHandler.execute(items, options);
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["notification-configs"] });

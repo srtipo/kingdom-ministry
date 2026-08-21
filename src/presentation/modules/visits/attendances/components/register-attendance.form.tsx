@@ -7,6 +7,8 @@ import NativeDateTime from "@/src/presentation/ui/input/date-hour-picker";
 import TextInput from "@/src/presentation/ui/input/text-input";
 import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
 import { useContext, useState } from "react";
+import { useFetchNotificationConfigs } from "../../hooks/use-fetch-notification-configs";
+import { reScheduleVisitReminders } from "../../../notifications/schedules/visit.notification";
 import useCreateAttendance from "../hooks/use-create-attendance";
 
 const attendanceSchema = z.object({
@@ -17,15 +19,18 @@ const attendanceSchema = z.object({
 
 export default function RegisterAttendanceForm({
   visitId,
+  name,
   type = VisitTypeEnum.visit,
   onSuccess,
 }: {
   visitId: string;
+  name: string;
   type?: VisitTypeEnum;
   onSuccess?: () => void;
 }) {
   const { showSnackbar } = useContext(SnackBarContext);
   const colors = useThemeColor();
+  const fetchNotificationConfigs = useFetchNotificationConfigs();
   const [form, setForm] = useState<{
     date: Date | null;
     nextVisitDate: Date | null;
@@ -43,8 +48,25 @@ export default function RegisterAttendanceForm({
   }>(attendanceSchema);
 
   const { createAttendance, isPending } = useCreateAttendance({
-    onSuccess: () => {
+    onSuccess: async () => {
       showSnackbar.success("Visita registrada correctamente");
+      try {
+        const configs = await fetchNotificationConfigs();
+        await reScheduleVisitReminders({
+          visitId,
+          name,
+          type,
+          nextVisit: new Date(form.nextVisitDate as Date),
+          configs,
+        });
+      } catch (error) {
+        if (__DEV__) {
+          console.warn(
+            "[notifications] failed to reschedule visit reminders after attendance",
+            error,
+          );
+        }
+      }
       onSuccess?.();
     },
     onError: () => {

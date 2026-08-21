@@ -7,10 +7,12 @@ import RegisterAttendanceModal from "./register-attendance.modal";
 export function RegisterAttendanceButton({
   type = VisitTypeEnum.visit,
   visitId,
+  name,
   style,
 }: {
   type?: VisitTypeEnum;
   visitId: string;
+  name: string;
   style?: any;
 }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -29,6 +31,7 @@ export function RegisterAttendanceButton({
       </Button>
       <RegisterAttendanceModal
         visitId={visitId}
+        name={name}
         type={type}
         isVisible={isVisible}
         onCloseModal={closeModal}
