@@ -17,11 +17,13 @@ export default function QuickAddButtons({
 }) {
   const color = useThemeColor();
   const isSelected = (preset: QuickPreset) =>
-    value.some((r) => compareByMinutes(r, preset));
+    value.some((reminder) => compareByMinutes(reminder, preset));
 
   const handleToggle = (preset: QuickPreset) => {
     if (isSelected(preset)) {
-      onChange(value.filter((r) => !compareByMinutes(r, preset)));
+      onChange(
+        value.filter((reminder) => !compareByMinutes(reminder, preset)),
+      );
     } else if (value.length < max) {
       onChange([...value, { value: preset.value, unit: preset.unit }]);
     }

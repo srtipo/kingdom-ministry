@@ -33,7 +33,7 @@ export default function ConfigsScene() {
     },
   );
 
-  const mapped = storedConfigs.map((reminder) => ({
+  const formattedReminders = storedConfigs.map((reminder) => ({
     id: reminder.id,
     ...converReminderfromMinutes(reminder.time),
   }));
@@ -67,10 +67,10 @@ export default function ConfigsScene() {
         />
         <Divider style={{ marginBottom: 12 }} />
         {mode === "view" ? (
-          <VisitRemindersView value={mapped} />
+          <VisitRemindersView value={formattedReminders} />
         ) : (
           <EditVisitReminders
-            value={mapped}
+            value={formattedReminders}
             onSave={handleSave}
             isSaving={isPending}
           />
