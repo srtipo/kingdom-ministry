@@ -24,8 +24,8 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
       const sql = migrations[i as keyof typeof migrations];
       await db.execAsync(sql);
 
-      // Actualizar la versión interna
-      if (i === 1) {
+      if (currentVersion === 0 && i === 1) {
+        // primer arranque: db_versions está vacía, hay que sembrar la primera fila
         await db.runAsync("INSERT INTO db_versions (version) VALUES (?)", [i]);
       } else {
         await db.runAsync("UPDATE db_versions SET version = ?", [i]);

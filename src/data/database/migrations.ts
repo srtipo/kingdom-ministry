@@ -1,6 +1,5 @@
 export const migrations = {
-  1: `DROP TABLE IF EXISTS visits;`,
-  2: `
+  1: `
     CREATE TABLE IF NOT EXISTS visits (
       id TEXT PRIMARY KEY NOT NULL,
       name TEXT NOT NULL,
@@ -12,10 +11,9 @@ export const migrations = {
       last_visit DATETIME,
       notes TEXT,
       updated_at TEXT NOT NULL
-
     );
   `,
-  3: `
+  2: `
     CREATE TABLE IF NOT EXISTS attendance (
       id TEXT PRIMARY KEY NOT NULL,
       visit_id TEXT NOT NULL,
@@ -24,10 +22,15 @@ export const migrations = {
       FOREIGN KEY (visit_id) REFERENCES visits(id)
     );
   `,
-  4: `
+  3: `
     CREATE TABLE IF NOT EXISTS visit_notification_config (
       id TEXT PRIMARY KEY NOT NULL,
       time INTEGER NOT NULL
     );
+  `,
+  4: `
+    INSERT OR IGNORE INTO visit_notification_config (id, time) VALUES
+      ('default-1d', 1440),
+      ('default-1h', 60);
   `,
 };
