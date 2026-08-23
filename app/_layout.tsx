@@ -19,6 +19,10 @@ import { SQLiteProvider } from "expo-sqlite";
 import { Suspense, useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PaperProvider } from "react-native-paper";
+import {
+  initialWindowMetrics,
+  SafeAreaProvider,
+} from "react-native-safe-area-context";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -34,31 +38,33 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Suspense fallback={<Text>Cargando Base de Datos...</Text>}>
-        <QueryClientProvider client={queryClient} key={colorScheme}>
-          <SQLiteProvider
-            databaseName={process.env.EXPO_PUBLIC_DB_NAME}
-            onInit={migrateDbIfNeeded}
-            useSuspense
-          >
-            <PaperProvider
-              theme={
-                colorScheme === "dark" ? customDarkTheme : customLightTheme
-              }
+        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+          <QueryClientProvider client={queryClient} key={colorScheme}>
+            <SQLiteProvider
+              databaseName={process.env.EXPO_PUBLIC_DB_NAME}
+              onInit={migrateDbIfNeeded}
+              useSuspense
             >
-              <ThemeProvider
-                value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+              <PaperProvider
+                theme={
+                  colorScheme === "dark" ? customDarkTheme : customLightTheme
+                }
               >
-                <Stack>
-                  <Stack.Screen
-                    name="(tabs)"
-                    options={{ headerShown: false }}
-                  />
-                </Stack>
-                <StatusBar style="auto" />
-              </ThemeProvider>
-            </PaperProvider>
-          </SQLiteProvider>
-        </QueryClientProvider>
+                <ThemeProvider
+                  value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+                >
+                  <Stack>
+                    <Stack.Screen
+                      name="(tabs)"
+                      options={{ headerShown: false }}
+                    />
+                  </Stack>
+                  <StatusBar style="auto" />
+                </ThemeProvider>
+              </PaperProvider>
+            </SQLiteProvider>
+          </QueryClientProvider>
+        </SafeAreaProvider>
       </Suspense>
     </GestureHandlerRootView>
   );

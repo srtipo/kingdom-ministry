@@ -43,9 +43,20 @@ jest.mock("@/src/presentation/ui/modal/modal", () => ({
 
 jest.mock("react-native-safe-area-context", () => {
   const { View } = require("react-native");
+  const insets = { top: 0, bottom: 0, left: 0, right: 0 };
   return {
     SafeAreaProvider: ({ children }: any) => <View>{children}</View>,
     SafeAreaView: ({ children }: any) => <View>{children}</View>,
+    SafeAreaInsetsContext: {
+      addListener: (_event: string, cb: any) => ({
+        remove: () => {
+          cb({ insets });
+        },
+      }),
+      removeListener: () => {},
+    },
+    useSafeAreaInsets: () => insets,
+    initialWindowMetrics: null,
   };
 });
 
