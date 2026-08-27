@@ -5,7 +5,9 @@
     "jsxImportSource": "react",
     "module": "preserve",
     "moduleResolution": "bundler",
-    "customConditions": ["react-native"],
+    "customConditions": [
+      "react-native"
+    ],
     "esModuleInterop": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -13,7 +15,10 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "target": "ESNext",
-    "lib": ["DOM", "ESNext"],
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
     "paths": {
       "@/*": [
         "./*"
@@ -22,8 +27,6 @@
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "**/*.tsx"
   ]
 }

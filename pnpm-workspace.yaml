@@ -1,2 +1,5 @@
 allowBuilds:
+  dtrace-provider: set this to true or false
   unrs-resolver: false
+autoInstallPeers: true
+shamefullyHoist: true

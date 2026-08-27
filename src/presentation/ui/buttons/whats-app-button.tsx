@@ -24,18 +24,11 @@ export function WhatsAppButton({
     const url = `https://wa.me/${phone}`;
     setIsLoading(true);
     try {
-      const supported = await Linking.canOpenURL(url);
-
-      if (supported) {
-        await Linking.openURL(url);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-        onFail?.("WhatsApp no está instalado en este dispositivo");
-      }
+      await Linking.openURL(url);
     } catch (_) {
-      setIsLoading(false);
       onFail?.("No se pudo abrir WhatsApp");
+    } finally {
+      setIsLoading(false);
     }
   };
   return (

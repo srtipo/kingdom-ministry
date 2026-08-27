@@ -9,7 +9,10 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": ["tel", "sms", "whatsapp"]
+      }
     },
     "android": {
       "package": "com.srtipo.kingdomministry",
