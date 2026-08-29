@@ -60,6 +60,9 @@ Run with `pnpm` (lockfile is `pnpm-lock.yaml`; not npm or yarn).
 ## Database
 
 - Migrations live in `src/data/database/migrations.ts` as a plain object keyed by integer (`1`, `2`, `3`, …). To add a schema change, append the next integer key; `migrateDbIfNeeded` in `db.ts` runs them in order and tracks progress in a `db_versions` table it creates on first run.
+- Migrations are **append-only**: never edit a migration that has been shipped. To change schema, add a new key with the next integer.
+- Migration SQL must be **idempotent**: `CREATE TABLE IF NOT EXISTS`, `INSERT OR IGNORE`, `WHERE NOT EXISTS`. Never `DROP TABLE` in a shipped migration — it destroys user data.
+- Default seed rows (e.g. notification configs) use **stable string IDs** (`'default-1d'`, `'default-1h'`) so the UI can find them by ID and edit/remove them without losing the reference. `time` is stored in **minutes** (1d = `1440`, 1h = `60`).
 - The runtime DB name comes from `process.env.EXPO_PUBLIC_DB_NAME` (see `app/_layout.tsx`'s `SQLiteProvider` and `SqliteConnection.ts`).
 - SQL values cross the boundary via mappers (`src/data/modules/visits/mappers/`) — keep domain types in camelCase (`nextVisit`) and SQL columns snake_case (`next_visit`).
 

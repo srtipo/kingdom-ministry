@@ -1,17 +1,21 @@
 {
   "expo": {
-    "name": "revisitas",
-    "slug": "revisitas",
+    "name": "kingdom ministry",
+    "slug": "kingdom-ministry",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "revisitas",
+    "scheme": "kingdom-ministry",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": ["tel", "sms", "whatsapp"]
+      }
     },
     "android": {
+      "package": "com.srtipo.kingdomministry",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -50,8 +54,15 @@
       ]
     ],
     "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
-    }
+      "typedRoutes": false,
+      "reactCompiler": false
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "56054384-37d1-4867-97bc-ad29c85ade74"
+      }
+    },
+    "owner": "srtipos-team"
   }
 }

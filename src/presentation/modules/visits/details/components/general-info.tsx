@@ -5,15 +5,21 @@ import { WhatsAppButton } from "@/src/presentation/ui/buttons/whats-app-button";
 import { Card } from "@/src/presentation/ui/cards/card";
 import { Chip } from "@/src/presentation/ui/chips/chip";
 import { Icon } from "@/src/presentation/ui/icons/icon";
+import { SnackBarContext } from "@/src/presentation/ui/snackbars/snackbar";
 import { HeadLine } from "@/src/presentation/ui/texts/head-line";
 import { Text } from "@/src/presentation/ui/texts/text";
 import { LinearGradient } from "expo-linear-gradient";
+import { useContext } from "react";
 import { View } from "react-native";
 import { visitTypeTranslation } from "../../constants/visit-type-translation";
 import { useGetVisitColor } from "../../hooks/use-get-visit-colors";
 
 export function GeneralInfo({ visit }: { visit: IVisit }) {
   const colors = useThemeColor();
+  const { showSnackbar } = useContext(SnackBarContext);
+  const onFail = (message: string) => {
+    showSnackbar.error(message);
+  };
   const {
     backgroundColor: backgroundTypeColor,
     gradientColor: gradientTypeColor,
@@ -172,11 +178,13 @@ export function GeneralInfo({ visit }: { visit: IVisit }) {
             >
               <PhoneNumberButton
                 phone={visit.phone}
+                onfail={onFail}
                 type={"large"}
                 style={{ flex: 1 }}
               />
               <WhatsAppButton
                 phone={visit.phone}
+                onFail={onFail}
                 type={"large"}
                 style={{ flex: 1 }}
               />

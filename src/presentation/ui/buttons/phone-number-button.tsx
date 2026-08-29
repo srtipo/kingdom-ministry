@@ -23,17 +23,11 @@ export function PhoneNumberButton({
     setIsLoading(true);
     const url = `tel:${phone}`;
     try {
-      const supported = await Linking.canOpenURL(url);
-      if (supported) {
-        await Linking.openURL(url);
-        setIsLoading(false);
-      } else {
-        onfail?.("Este dispositivo no admite llamadas telefónicas");
-        setIsLoading(false);
-      }
+      await Linking.openURL(url);
     } catch (_) {
-      setIsLoading(false);
       onfail?.("No se pudo iniciar la llamada");
+    } finally {
+      setIsLoading(false);
     }
   };
 
