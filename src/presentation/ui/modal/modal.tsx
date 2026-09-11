@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
-  Keyboard,
   LayoutChangeEvent,
   Modal as M,
-  Platform,
   ScrollView,
   StyleSheet,
   View,
@@ -13,6 +11,7 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
+import { useKeyboardHandler } from "react-native-keyboard-controller";
 import { Surface } from "react-native-paper";
 import Animated, {
   runOnJS,
@@ -41,27 +40,25 @@ export function Modal({
   title?: string;
 }) {
   const colors = useThemeColor();
-  const [totalHeight, setTotalHeight] = useState(0);
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const totalHeight = useSharedValue(0);
   const translateY = useSharedValue(0);
+  const keyboardHeight = useSharedValue(0);
+  useKeyboardHandler(
+    {
+      onMove: (e) => {
+        "worklet";
+        keyboardHeight.value = e.height;
+      },
+      onEnd: (e) => {
+        "worklet";
+        keyboardHeight.value = e.height;
+      },
+    },
+    [],
+  );
   const getTotalHeight = (event: LayoutChangeEvent) => {
-    const { height } = event.nativeEvent.layout;
-    setTotalHeight(height);
+    totalHeight.value = event.nativeEvent.layout.height;
   };
-  useEffect(() => {
-    const showEvent =
-      Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
-    const hideEvent =
-      Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
-    const showSub = Keyboard.addListener(showEvent, (e) =>
-      setKeyboardHeight(e.endCoordinates.height),
-    );
-    const hideSub = Keyboard.addListener(hideEvent, () => setKeyboardHeight(0));
-    return () => {
-      showSub.remove();
-      hideSub.remove();
-    };
-  }, []);
   const panGesture = Gesture.Pan()
     .onUpdate((event) => {
       if (event.translationY > 0) {
@@ -69,7 +66,7 @@ export function Modal({
       }
     })
     .onEnd((event) => {
-      if (event.translationY > totalHeight / 3) {
+      if (event.translationY > totalHeight.value / 3) {
         runOnJS(onClose)();
       } else {
         translateY.value = withSpring(0);
@@ -103,7 +100,6 @@ export function Modal({
           colors={colors}
           panGesture={panGesture}
           animatedStyle={animatedStyle}
-          totalHeight={totalHeight}
           getTotalHeight={getTotalHeight}
           keyboardHeight={keyboardHeight}
           title={title}
@@ -120,7 +116,6 @@ function ModalBody({
   colors,
   panGesture,
   animatedStyle,
-  totalHeight,
   getTotalHeight,
   keyboardHeight,
   title,
@@ -130,24 +125,22 @@ function ModalBody({
   colors: ReturnType<typeof useThemeColor>;
   panGesture: ReturnType<typeof Gesture.Pan>;
   animatedStyle: ReturnType<typeof useAnimatedStyle>;
-  totalHeight: number;
   getTotalHeight: (e: LayoutChangeEvent) => void;
-  keyboardHeight: number;
+  keyboardHeight: ReturnType<typeof useSharedValue<number>>;
   title?: string;
   onClose: () => void;
   children: React.ReactNode;
 }) {
   const insets = useSafeAreaInsets();
+  const keyboardStyle = useAnimatedStyle(() => ({
+    bottom: Math.max(keyboardHeight.value, insets.bottom),
+  }));
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={[styles.backdrop, { backgroundColor: colors.backdrop }]} />
       <GestureDetector gesture={panGesture}>
         <Animated.View
-          style={[
-            styles.modalContent,
-            { bottom: Math.max(keyboardHeight, insets.bottom) },
-            animatedStyle,
-          ]}
+          style={[styles.modalContent, keyboardStyle, animatedStyle]}
         >
           <Surface
             style={{

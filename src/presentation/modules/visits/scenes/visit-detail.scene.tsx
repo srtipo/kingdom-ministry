@@ -7,6 +7,7 @@ import { Text } from "@/src/presentation/ui/texts/text";
 import { useNavigation, useRouter } from "expo-router";
 import { useContext, useLayoutEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
+import { cancelVisitReminders } from "../../notifications/schedules/visit.notification";
 import { AttendanceHistoryCard } from "../attendances/components/attendance-history-card";
 import { DeleteVisitWarningModal } from "../components/delete-visit-warning.modal";
 import { VisitHeaderActions } from "../components/visit-header-actions";
@@ -16,7 +17,6 @@ import { ImportantDates } from "../details/components/important-dates";
 import { VisitDetailFooter } from "../details/components/visit-detail-footer";
 import { useGetVisitDetail } from "../details/hooks/get-visit-datail";
 import useDeleteVisit from "../hooks/use-delete-visit";
-import { cancelVisitReminders } from "../../notifications/schedules/visit.notification";
 
 export default function VisitDetailScene({ id }: { id: string }) {
   const colors = useThemeColor();
@@ -70,7 +70,7 @@ export default function VisitDetailScene({ id }: { id: string }) {
     return <Text>Visit not found</Text>;
   }
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollMask top bottom edgeHeight={15}>
         <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
           <View
@@ -94,6 +94,6 @@ export default function VisitDetailScene({ id }: { id: string }) {
         onConfirm={() => deleteVisit({ id: data.id })}
         isLoading={isDeletingVisit}
       />
-    </>
+    </View>
   );
 }
