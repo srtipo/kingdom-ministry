@@ -1,6 +1,4 @@
 import { SearchBar } from "@/src/presentation/ui/search-bar/search-bar";
-import { HeadLine } from "@/src/presentation/ui/texts/head-line";
-import { Text } from "@/src/presentation/ui/texts/text";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { View } from "react-native";
@@ -80,10 +78,6 @@ export default function VisitOrganizerScene() {
 
   return (
     <View style={{ padding: 10, flex: 1 }}>
-      <HeadLine type={"medium"} fontWeight={"bold"}>
-        Organizador de Revisitas
-      </HeadLine>
-      <Text>Gestiona tus revisitas de forma sencilla</Text>
       <View style={{ marginBlock: 5 }}>
         <CreateVisitModal />
       </View>

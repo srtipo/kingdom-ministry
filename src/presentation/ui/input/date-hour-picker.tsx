@@ -1,8 +1,10 @@
 import { formatDate } from "@/src/presentation/helpers/format-date";
 import DateTimePicker, {
-  DateTimePickerChangeEvent,
+  DateTimePickerAndroid,
+  DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import React, { ComponentProps, useMemo, useState } from "react";
+import { Platform } from "react-native";
 import { TextInput as TI } from "react-native-paper";
 import TextInput from "./text-input";
 
@@ -12,6 +14,8 @@ import utc from "dayjs/plugin/utc";
 type Mode = "date" | "time";
 
 dayjs.extend(utc);
+
+const IS_ANDROID = Platform.OS === "android";
 
 export default function NativeDateTime({
   label,
@@ -36,9 +40,19 @@ export default function NativeDateTime({
     return dateUtc.add(offsetInMinutes, "minute").toDate();
   };
 
+  const updatePickedDate = (selectedDate: Date) => {
+    const offsetInMinutes = dayjs().utcOffset();
+    const realUtcDate = dayjs(selectedDate)
+      .subtract(offsetInMinutes, "minute")
+      .utc();
+    setDateUtc(realUtcDate);
+    setDate(selectedDate);
+    onChange?.(selectedDate);
+  };
+
   const onValueChange = (
-    event: DateTimePickerChangeEvent,
-    selectedDate: Date,
+    event: DateTimePickerEvent,
+    selectedDate?: Date,
   ) => {
     if (mode === "date") {
       setMode("time");
@@ -47,24 +61,42 @@ export default function NativeDateTime({
       setMode("date");
     }
     if (selectedDate) {
-      const offsetInMinutes = dayjs().utcOffset();
-      const realUtcDate = dayjs(selectedDate)
-        .subtract(offsetInMinutes, "minute")
-        .utc();
-      setDateUtc(realUtcDate);
-      setDate(selectedDate);
-      onChange?.(selectedDate);
+      updatePickedDate(selectedDate);
     }
   };
 
   const openDatePicker = () => {
+    if (IS_ANDROID) {
+      DateTimePickerAndroid.open({
+        mode: "date",
+        value: getPickerDate(),
+        is24Hour: false,
+        timeZoneName: "UTC",
+        onChange: (event, selectedDate) => {
+          if (event.type !== "set" || !selectedDate) {
+            return;
+          }
+          updatePickedDate(selectedDate);
+          DateTimePickerAndroid.open({
+            mode: "time",
+            value: selectedDate,
+            is24Hour: false,
+            timeZoneName: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            onChange: (event2, selectedTime) => {
+              if (event2.type !== "set" || !selectedTime) {
+                return;
+              }
+              updatePickedDate(selectedTime);
+            },
+          });
+        },
+      });
+      return;
+    }
     setMode("date");
     setShow(true);
   };
 
-  const closeDatePicker = () => {
-    setShow(false);
-  };
   const dateValueString = useMemo(() => {
     if (value) {
       return formatDate(value);
@@ -86,13 +118,12 @@ export default function NativeDateTime({
         error={error}
       />
 
-      {show && (
+      {!IS_ANDROID && show && (
         <DateTimePicker
           value={getPickerDate()}
           mode={mode}
           is24Hour={false}
-          onValueChange={onValueChange}
-          onDismiss={closeDatePicker}
+          onChange={onValueChange}
           timeZoneName={
             mode === "date"
               ? "UTC"

@@ -18,6 +18,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SQLiteProvider } from "expo-sqlite";
 import { Suspense, useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import { PaperProvider } from "react-native-paper";
 import {
   initialWindowMetrics,
@@ -37,35 +38,41 @@ export default function RootLayout() {
   }, []);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Suspense fallback={<Text>Cargando Base de Datos...</Text>}>
-        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <QueryClientProvider client={queryClient} key={colorScheme}>
-            <SQLiteProvider
-              databaseName={process.env.EXPO_PUBLIC_DB_NAME}
-              onInit={migrateDbIfNeeded}
-              useSuspense
-            >
-              <PaperProvider
-                theme={
-                  colorScheme === "dark" ? customDarkTheme : customLightTheme
-                }
+      <KeyboardProvider
+        statusBarTranslucent={false}
+        navigationBarTranslucent={false}
+        preserveEdgeToEdge={true}
+      >
+        <Suspense fallback={<Text>Cargando Base de Datos...</Text>}>
+          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+            <QueryClientProvider client={queryClient} key={colorScheme}>
+              <SQLiteProvider
+                databaseName={process.env.EXPO_PUBLIC_DB_NAME}
+                onInit={migrateDbIfNeeded}
+                useSuspense
               >
-                <ThemeProvider
-                  value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+                <PaperProvider
+                  theme={
+                    colorScheme === "dark" ? customDarkTheme : customLightTheme
+                  }
                 >
-                  <Stack>
-                    <Stack.Screen
-                      name="(tabs)"
-                      options={{ headerShown: false }}
-                    />
-                  </Stack>
-                  <StatusBar style="auto" />
-                </ThemeProvider>
-              </PaperProvider>
-            </SQLiteProvider>
-          </QueryClientProvider>
-        </SafeAreaProvider>
-      </Suspense>
+                  <ThemeProvider
+                    value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+                  >
+                    <Stack>
+                      <Stack.Screen
+                        name="(tabs)"
+                        options={{ headerShown: false }}
+                      />
+                    </Stack>
+                    <StatusBar style="auto" />
+                  </ThemeProvider>
+                </PaperProvider>
+              </SQLiteProvider>
+            </QueryClientProvider>
+          </SafeAreaProvider>
+        </Suspense>
+      </KeyboardProvider>
     </GestureHandlerRootView>
   );
 }

@@ -1,0 +1,5 @@
+{
+  "boardId": "6a995d9c2011be7477ceb43c",
+  "name": "kindom ministry app",
+  "notes": "Trello board para el proyecto revisitas (Expo SDK 54, React Native 0.81, expo-router 6). Listas: v0.1 MVP, v0.2 Hour register, v1.0, Backlog. Labels: Pendientes (red), En curso (yellow), En revisión (orange), Hecho (lime)."
+}
